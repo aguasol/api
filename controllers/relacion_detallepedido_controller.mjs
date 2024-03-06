@@ -29,6 +29,16 @@ export const getDetallePedidoXPedidos =  async (req,res) => {
         res.status(500).json({error:error.message})
     }
 }
+export const getDetallePedidosXRuta =  async (req,res) => {
+    try {
+        const{rutaID}=req.params;
+        const id=parseInt(rutaID,10)
+        const allDetalles = await modelDetallePedido.getDetallePedidoXRuta(id);
+        res.json(allDetalles)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 export const getDetallePedidosClientes =  async (req,res) => {
     try {
         const{pedidoID}=req.params;
