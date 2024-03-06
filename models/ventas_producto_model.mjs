@@ -31,6 +31,9 @@ const modelProduct = {
             throw new Error(`Error query create:${e}`);
         }
     },
+
+ 
+   
 }
 
 export default modelProduct;

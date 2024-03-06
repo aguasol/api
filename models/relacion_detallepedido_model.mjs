@@ -64,7 +64,7 @@ const modelDetallePedido = {
     },
     getDetallePedidoXRuta: async (rutaID) => {
         try {
-            const pedidos = await db_pool.any('select rdp.id, producto_id, pedido_id, promocion_id, cantidad from ventas.pedido as vp inner join relaciones.detalle_pedido as rdp on vp.id=rdp.pedido_id where ruta_id=$1', [rutaID])
+            const pedidos = await db_pool.any('select rdp.id, producto_id, vprod.nombre as nombre_prod, pedido_id, promocion_id, vprom.nombre as nombre_prom, cantidad from ventas.pedido as vp inner join relaciones.detalle_pedido as rdp on vp.id=rdp.pedido_id inner join ventas.producto as vprod on vprod.id=rdp.producto_id full join ventas.promocion as vprom on vprom.id=rdp.promocion_id  where ruta_id=$1', [rutaID])
             return pedidos
         } catch (error) {
             throw new Error(`Error query get: ${error}`);

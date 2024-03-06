@@ -7,7 +7,7 @@ const routerDetallePedido = express.Router();
 routerDetallePedido.post('/detallepedido',createDetalle)
 routerDetallePedido.get('/detallepedido',getDetalles)
 routerDetallePedido.get('/detallepedido/:pedidoID',getDetallePedidoXPedidos)
-routerDetallePedido.get('/detallepedidoRuta/:pedidoID',getDetallePedidosXRuta)
+routerDetallePedido.get('/detallepedidoRuta/:rutaID',getDetallePedidosXRuta)
 routerDetallePedido.get('/productosPedido/:pedidoID',getDetallePedidosClientes)
 
 

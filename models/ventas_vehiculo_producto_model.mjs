@@ -18,6 +18,21 @@ const modelVehiculoProduct = {
         try {
             const getVehiculoProductos = await db_pool.any(`
             SELECT * FROM ventas.vehiculo_producto;`)
+            //select vvp.id, producto_id,stock_movil from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=1
+            console.log("----vehiculo...prod")
+            console.log(getVehiculoProductos)
+            return getVehiculoProductos
+
+        } catch (error) {
+            throw new Error(`error query ${error}`)
+        }
+    },
+    getProductoVehiculo: async (vehiculoID) => {
+        console.log("---dentro de get ---")
+        try {
+            const getVehiculoProductos = await db_pool.any(`
+            select vvp.id, producto_id,stock_movil from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=$1`,[vehiculoID])
+            
             console.log("----vehiculo...prod")
             console.log(getVehiculoProductos)
             return getVehiculoProductos
