@@ -83,6 +83,17 @@ const modelRuta = {
         } catch (error) {
             throw new Error(`Error query create:${error}`)
         }
+    },
+    getLastRutaConductor:async (conductor_id) => {
+        try {
+            const lastRuta =  await db_pool.one('SELECT id FROM ventas.ruta WHERE conductor_id = $1 ORDER BY id  DESC LIMIT 1',
+            [conductor_id])
+          //  console.log("ultima ruta")
+           // console.log(lastRuta)
+            return lastRuta
+        } catch (error) {
+            throw new Error(`Error query create:${error}`)
+        }
     }
     
 }

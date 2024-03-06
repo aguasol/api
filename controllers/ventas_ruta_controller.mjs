@@ -30,3 +30,13 @@ export const getPedidosByrutas = async (req,res) => {
         
     }
 }
+export const getLastRutasConductor =  async (req,res) => {
+    try {
+        const { conductorId} = req.params;
+        const conductor_id = parseInt(conductorId,10);
+        const getLast =  await modelRuta.getLastRutaConductor(conductor_id)
+        res.json(getLast);
+    } catch (error) {
+        res.status(500).json({"message":"NO DATA"})
+    }
+}
