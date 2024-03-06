@@ -21,6 +21,17 @@ export const getVehiculosProductos = async (req,res)=> {
         res.status(500).json({error:error.message})
     }
 }
+export const getProductosVehiculo =  async (req,res) => {
+    console.log("id llego")
+    try {
+        const { vehiculoID } = req.params;
+        const id = parseInt(vehiculoID, 10);
+        const productos = await modelVehiculoProduct.getProductoVehiculo();
+        res.json(productos)
+    } catch (error) {
+        res.status(500).json({erro:error.message})
+    }
+}
 export const updateVehiculoProductos = async (req,res) => {
     try {
         // EXTRAYENDO EL ID DE LA RUTA
