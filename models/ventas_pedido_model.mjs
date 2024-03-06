@@ -244,6 +244,38 @@ const modelPedido = {
             throw new Error(`Error en la actualización del pedido: ${error.message}`)
         }
     },
+    getPedidosNew: async (id) => {
+        try {
+            const pedidosEmpleado = await db_pool.any(`
+            select vp.id,
+            vp.ruta_id,
+            vp.subtotal,
+            vp.descuento,
+            vp.total,
+            vp.fecha,
+            vp.tipo,
+            vp.estado,
+            ru.latitud,
+            ru.longitud,
+            ru.distrito,
+            pe.id as empleado,
+            COALESCE (vc.nombre,vcnr.nombre) as nombre,
+            COALESCE (vc.apellidos,vcnr.apellidos) as apellidos,
+            COALESCE (vc.telefono,vcnr.telefono) as telefono
+            from ventas.pedido as vp
+            left join relaciones.ubicacion as ru on vp.ubicacion_id=ru.id
+            left join ventas.cliente as vc on vp.cliente_id=vc.id
+            left join ventas.cliente_noregistrado as vcnr on vp.cliente_nr_id=vcnr.id
+            left join personal.administrador as pa on pa.zona_trabajo_id=ru.zona_trabajo_id
+            left join personal.empleado as pe on pe.administrador_id=pa.id where pe.id=$1;
+            `,[id])
+            console.log("---pedidos new---")
+            return pedidosEmpleado
+        } catch (error) {
+            throw new Error(`Error query getPedidosNew ${error}`)
+        }
+    },
+
 
 }
 

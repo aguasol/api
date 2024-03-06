@@ -131,4 +131,14 @@ export const updateRutaPedidos = async(req,res)=>{
     }
 }
 
+export const getPedidosNews = async(req,res) => {
+    try {
+        const {empleadoID} = req.params
+        const idEmpleado = parseInt(empleadoID,10)
+        const newpedidos = await modelPedido.getPedidosNew(idEmpleado)
+        res.status(200).json(newpedidos)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 
