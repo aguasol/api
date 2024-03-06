@@ -246,6 +246,8 @@ const modelPedido = {
     },
     getPedidosNew: async (id) => {
         try {
+            console.log("id---")
+            console.log(id)
             const pedidosEmpleado = await db_pool.any(`
             select vp.id,
             vp.ruta_id,
