@@ -26,7 +26,7 @@ export const getProductosVehiculo =  async (req,res) => {
     try {
         const { vehiculoID } = req.params;
         const id = parseInt(vehiculoID, 10);
-        const productos = await modelVehiculoProduct.getProductoVehiculo();
+        const productos = await modelVehiculoProduct.getProductoVehiculo(id);
         res.json(productos)
     } catch (error) {
         res.status(500).json({erro:error.message})
