@@ -13,7 +13,12 @@ export const createVehiculos = async (req,res) => {
 }
 export const getVehiculos = async (req,res)=> {
     try {
-        const getvehiculos = await modelVehiculo.getVehiculo();
+        console.log("dntro de controller vehiculo");
+
+        const {empleadoID} = req.params
+        console.log(empleadoID);
+        const id = parseInt(empleadoID,10)
+        const getvehiculos = await modelVehiculo.getVehiculo(id);
         res.status(200).json(getvehiculos)
     } catch (error) {
         res.status(500).json({error:error.message})

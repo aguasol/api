@@ -3,6 +3,6 @@ import express from 'express';
 
 const routerVehiculo= express.Router();
 routerVehiculo.post('/vehiculo',createVehiculos)
-routerVehiculo.get('/vehiculo',getVehiculos)
+routerVehiculo.get('/vehiculo/:empleadoID',getVehiculos)
 
 export default routerVehiculo;

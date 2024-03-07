@@ -5,6 +5,7 @@ const modelVehiculo = {
 
     createVehiculo: async (vehiculo) => {
         try {
+
             const vehiculo = await db_pool.one(`
             INSERT INTO ventas.vehiculo 
             (nombre_modelo,placa,administrador_id)
@@ -16,11 +17,21 @@ const modelVehiculo = {
             throw new Error(`error query ${error}`)
         }
     },
-    getVehiculo: async () => {
+    getVehiculo: async (id) => {
         try {
+            console.log(id)
+            // PRIMERO DEBEMOS TRAER EL ADMIN DEL EMPLEADO QUE SE ESTÁ REGISTRANDO
+            const adminEmpleado = await db_pool.one(`
+            SELECT administrador_id FROM personal.empleado WHERE id = $1`,[id])
+            console.log("-----admin Empleado ")
+            console.log(adminEmpleado)
+
             const getvehiculos = await db_pool.any(`
-            SELECT * FROM ventas.vehiculo;
-            `)
+            SELECT * FROM ventas.vehiculo WHERE administrador_id = $1;
+            `,[adminEmpleado.administrador_id])
+            
+            console.log("getvehiculos")
+            console.log(getvehiculos)
             return getvehiculos
         } catch (error) {
             throw new Error(`error query ${error}`)
