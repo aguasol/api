@@ -28,7 +28,7 @@ const modelVehiculo = {
 
             const getvehiculos = await db_pool.any(`
             SELECT * FROM ventas.vehiculo WHERE administrador_id = $1;
-            `,[adminEmpleado])
+            `,[adminEmpleado.administrador_id])
             
             console.log("getvehiculos")
             console.log(getvehiculos)
