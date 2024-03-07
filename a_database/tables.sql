@@ -184,7 +184,9 @@ create table ventas.vehiculo_producto(
 	id serial primary key,
 	producto_id int,
 	vehiculo_id int,
-	stock_movil int
+	stock int,
+	stock_movil_conductor int,
+	stock_movil_empleado int
 );
 ---------------------------------------------------------------------------------------------------
 
