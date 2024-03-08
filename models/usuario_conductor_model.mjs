@@ -111,14 +111,16 @@ const modelUserConductor = {
             console.log(conductorID)
 
             const adminID= await db_pool.one(`
-            SELECT administrador_id FROM personal.empleado WHERE id = $1`,[empleadoID])
+            SELECT id,administrador_id FROM personal.empleado WHERE id = $1`,[empleadoID])
 
 
 
 
             const lastRuta = await db_pool.oneOrNone(`select vr.id from personal.conductor 
             as pc inner join ventas.ruta as vr on pc.id = vr.conductor_id  
-            where pc.id= $1 and pc.administrador_id = $2 order by vr.id desc limit 1`,[conductorID,adminID.administrador_id])
+            where pc.id= $1 and pc.administrador_id = $2 
+            
+            and vr.empleado_id = $3 order by vr.id desc limit 1`,[conductorID,adminID.administrador_id,adminID.id])
 
             console.log("esta es su ultima ruta")
             console.log(lastRuta)
