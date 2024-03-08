@@ -105,13 +105,20 @@ const modelUserConductor = {
             throw new Error(`Error query drivers: ${err}`);
         }
     },
-    getPedidosPorConductor:async (conductorID) => {
+    getPedidosPorConductor:async (conductorID,empleadoID) => {
         try{
             console.log("este es el conductor recibido")
             console.log(conductorID)
+
+            const adminID= await db_pool.one(`
+            SELECT administrador_id FROM personal.empleado WHERE id = $1`,[empleadoID])
+
+
+
+
             const lastRuta = await db_pool.oneOrNone(`select vr.id from personal.conductor 
             as pc inner join ventas.ruta as vr on pc.id = vr.conductor_id  
-            where pc.id= $1 order by vr.id desc limit 1`,[conductorID])
+            where pc.id= $1 and pc.administrador_id = $2 order by vr.id desc limit 1`,[conductorID,adminID.administrador_id])
 
             console.log("esta es su ultima ruta")
             console.log(lastRuta)

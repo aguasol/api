@@ -6,7 +6,7 @@ const routerUserConductor = express.Router();
 routerUserConductor.post('/user_conductor',createUserConductores)
 routerUserConductor.delete('/user_conductor/:userConductorId',deleteUserConductores)
 routerUserConductor.get('/user_conductor',getAllUserConductores)
-routerUserConductor.get('/conductorPedidos/:conductorID',getPedidosPorConductores)
+routerUserConductor.get('/conductorPedidos/:conductorID/:empleadoID',getPedidosPorConductores)
 routerUserConductor.put('/user_conductor/:userConductorId',updateUserConductores)
 routerUserConductor.get('/conductor_ruta',getconductorrutas)
 

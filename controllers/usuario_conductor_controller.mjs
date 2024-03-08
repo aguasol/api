@@ -70,10 +70,11 @@ export const deleteUserConductores = async (req,res) => {
 
 export const getPedidosPorConductores = async (req,res) => {
     try {
-        const {conductorID}=req.params
-        const id = parseInt(conductorID, 10); 
-        const pedidosConductor= await modelUserConductor.getPedidosPorConductor(id);
-        res.json(pedidosConductor);
+        const {conductorID,empleadoID}=req.params
+        const empleadoid = parseInt(empleadoID,10);
+        const conductorid = parseInt(conductorID, 10); 
+        const pedidosConductor= await modelUserConductor.getPedidosPorConductor(conductorid,empleadoid);
+        res.status(200).json(pedidosConductor);
     } catch (error) {
         res.status(500).json({error:error.message});
 
