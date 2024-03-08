@@ -69,6 +69,7 @@ const modelVehiculoProduct = {
             const updateVehiculoProduct = await db_pool.manyOrNone(`
             UPDATE ventas.vehiculo_producto SET stock_movil_conductor = $1  where  producto_id=$2 and vehiculo_id=$3 returning *`,
          [stock.stock_movil_conductor, stock.producto_id, id])
+         //fer
          console.log(".....")
          console.log(updateVehiculoProduct)
             return updateVehiculoProduct
