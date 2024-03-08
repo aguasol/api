@@ -73,7 +73,7 @@ const modelDetallePedido = {
 
     getDetallePedidoXPedido: async (pedidoID) => {
         try {
-            const pedidos = await db_pool.any('SELECT pedido_id,producto_id,nombre,cantidad FROM relaciones.detalle_pedido as rdp inner join ventas.producto as vp ON rdp.producto_id=vp.id WHERE pedido_id=$1', [pedidoID])
+            const pedidos = await db_pool.any('SELECT pedido_id,producto_id, nombre as  nombre_prod ,cantidad FROM relaciones.detalle_pedido as rdp inner join ventas.producto as vp ON rdp.producto_id=vp.id WHERE pedido_id=$1', [pedidoID])
             return pedidos
         } catch (error) {
             throw new Error(`Error query get: ${error}`);
