@@ -2,7 +2,7 @@ import { createRutas, getLastRutas,getLastRutasConductor,getPedidosByrutas } fro
 import express from 'express';
 const routerVentasRuta = express.Router();
 routerVentasRuta.post('/ruta',createRutas)
-routerVentasRuta.get('/ruta/:empleadoId',getPedidosByrutas)
+routerVentasRuta.get('/ruta/:rutaId',getPedidosByrutas)
 routerVentasRuta.get('/rutalast/:empleadoId',getLastRutas)
 routerVentasRuta.get('/rutakastcond/:conductorId',getLastRutasConductor)
 

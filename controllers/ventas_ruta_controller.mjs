@@ -24,8 +24,10 @@ export const getLastRutas =  async (req,res) => {
 
 export const getPedidosByrutas = async (req,res) => {
     try {
-        const {rutaId} = req.params;
-        const idRuta  = parseInt
+        const { rutaId} = req.params;
+        const id = parseInt(rutaId,10);
+        const getPedidos =  await modelRuta.getPedidosByruta(id)
+        res.json(getPedidos);
     } catch (error) {
         
     }
