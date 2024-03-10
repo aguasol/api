@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+console.log("--------# 16.0 vehiculo producto")
 
 const modelVehiculoProduct = {
     createVehiculoProduct: async (vehiculoproducto) => {

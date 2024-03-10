@@ -1,20 +1,14 @@
 import { json } from "express";
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
+console.log("--------# 1.0 login")
 
 const modelLogin = {
     Login: async (credenciales) => {
-        console.log("credenciales")
+        
         console.log(credenciales)
         try {
-            const tiposUsuarios = [
-                { tipo: 'cliente', consulta: 'ventas.cliente' },
-                { tipo: 'conductor', consulta: 'personal.conductor' },
-                { tipo: 'empleado', consulta: 'personal.empleado' },
-                { tipo: 'gerente', consulta: 'personal.gerente' },
-                { tipo: 'administrador', consulta: 'personal.administrador' },
-            ];
-            
+                      
             
             const existUser = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname = $1`,
             [credenciales.nickname])

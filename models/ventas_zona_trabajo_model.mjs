@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+console.log("--------# 18.0 zona trabajo")
 
 const modelZonaTrabajo = { 
     createZona :async(zona) => {

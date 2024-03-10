@@ -1,6 +1,7 @@
 import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
+console.log("--------# 14.0 ruta")
 
 
 const modelRuta = {

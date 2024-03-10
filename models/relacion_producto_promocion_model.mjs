@@ -2,9 +2,11 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
 
-
+console.log("--------# 3.0 producto promocion")
 const modelProductoPromocion = {
     createProductoPromocion:async (relacion) => {
+        console.log("---- 3.- model promocion")
+        
         try{
             // const io = await app_sol.get('io');
             const relaciones = await db_pool.one('INSERT INTO relaciones.producto_promocion (promocion_id,producto_id,cantidad) VALUES ($1,$2,$3) RETURNING *',

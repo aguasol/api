@@ -1,6 +1,7 @@
 import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
+console.log("--------# 9.0 cliente nr")
 
 
 const modelClientenr = {

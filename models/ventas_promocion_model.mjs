@@ -2,6 +2,7 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
 
+console.log("--------# 13.0 promocion")
 
 const modelPromocion = {
     createPromocion:async (promocion) => {

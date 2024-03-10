@@ -1,5 +1,5 @@
 import { db_pool } from "../config.mjs";
-
+console.log("--------# 4.0 ubicacion")
 const modelUbicacion = { 
     createUbicacion :async(ubicacion) => {
         

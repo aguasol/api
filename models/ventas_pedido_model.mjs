@@ -2,6 +2,7 @@ import { Socket } from "socket.io";
 import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
+console.log("--------# 10.0 pedido")
 
 
 const modelPedido = {

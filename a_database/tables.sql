@@ -205,7 +205,7 @@ create table ventas.promocion(
 create table ventas.vehiculo(
 	id serial primary key,
 	nombre_modelo varchar(200),  -- NO LLAVE CONDUCTOR 
-	placa varchar(100) not null,
+	placa varchar(100),
 	administrador_id int -- NUEVA
 );
 

@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+console.log("--------# 15.0 vehiculo")
 
 
 const modelVehiculo = {

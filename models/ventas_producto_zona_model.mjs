@@ -1,5 +1,6 @@
 import { db_pool } from "../config.mjs";
 
+console.log("--------# 12.0 producto zona")
 
 const modelProductoZona = {
     createProductoZona:async (productozona) => {

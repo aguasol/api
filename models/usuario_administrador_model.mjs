@@ -1,6 +1,6 @@
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
-
+console.log("--------# 5.0 admin")
 const modelUserAdmin = {
     createUserAdmin:async (admin) => {
         const adminer =  await db_pool.connect();

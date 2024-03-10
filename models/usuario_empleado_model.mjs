@@ -1,6 +1,7 @@
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
 
+console.log("--------# 8.0 empleado")
 const modelUserEmpleado = {
     createUserEmpleado: async (empleado) => {
         const employer =  await db_pool.connect();

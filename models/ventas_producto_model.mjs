@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+console.log("--------# 11.0 producto")
 
 const modelProduct = {
     geAlltProduct:async () => {
