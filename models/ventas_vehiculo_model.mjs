@@ -11,7 +11,7 @@ const modelVehiculo = {
             INSERT INTO ventas.vehiculo 
             (nombre_modelo,placa,administrador_id)
              VALUES($1,$2,$3) RETURNING *`,
-                [vehiculo.nombre_modelo, vehiculo.placa,])
+                [vehiculo.nombre_modelo, vehiculo.placa,vehiculo.administrador_id])
             return vehiculo
 
         } catch (error) {

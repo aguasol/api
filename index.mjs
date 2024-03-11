@@ -59,6 +59,10 @@ io.on('connection', (socket) => {
     //socket.emit('testy');
     io.emit('testy')
 
+  /*  io.engine.on('upgrade', (request, socket, head) => {
+        console.log('Upgrade request');
+    });*/
+
     
 });
 
