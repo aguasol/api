@@ -40,6 +40,7 @@ const modelVehiculo = {
     },
     getVehiculoAdmin: async (idadmin) => {
         try {
+            console.log("get vehiculos admin",idadmin)
             const vehiculoAdmin = await db_pool.any(`
             SELECT * FROM ventas.vehiculo WHERE administrador_id =$1`,
                 [idadmin])
