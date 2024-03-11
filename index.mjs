@@ -97,9 +97,11 @@ app_sol.use('/api',routerProductoZona);
 app_sol.use('/api',routerZonas);
 
 app_sol.use('/api', (req, res) => {
+    console.log("---no esta esa ruta")
     res.status(404).json({ error: 'Ruta no encontrada' });
+
   });
-  
+
 server.listen(port, ()=>{
     console.log(`Servidor en: http://127.0.0.1:${port}`);
 })
