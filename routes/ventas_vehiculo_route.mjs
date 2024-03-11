@@ -4,5 +4,5 @@ import express from 'express';
 const routerVehiculo= express.Router();
 routerVehiculo.post('/vehiculo',createVehiculos)
 routerVehiculo.get('/vehiculo/:empleadoID',getVehiculos)
-routerVehiculo.get('/vehiculo/:adminID',getVhehiculoAadmins)
+routerVehiculo.get('/vehiculoadmin/:adminID',getVhehiculoAadmins)
 export default routerVehiculo;
