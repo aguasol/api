@@ -34,3 +34,19 @@ export const getVhehiculoAadmins = async (req,res)=>{
         res.status(500).json({error:error.message})
     }
 }
+export const deleteVehiculosAdmins = async (req,res) => {
+    try {
+        const {vehiculoID} = req.params
+        const id = parseInt(vehiculoID,10)
+        const deleteResult = await modelVehiculo.deleteVehiculoAdmin(id)
+
+        if(deleteResult){
+            res.status(200).json({mensaje:'Vehiculo Eliminado'})
+        }
+        else{
+            res.status(404).json({error:'No se encontró el vehículo con ese ID'})
+        }
+    } catch (error) {
+    res.status(500).json({error:error.message})        
+    }
+}

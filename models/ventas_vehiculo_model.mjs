@@ -48,6 +48,16 @@ const modelVehiculo = {
         } catch (error) {
             throw new Error(`error query ${error}`)
         }
+    },
+    deleteVehiculoAdmin: async (id) => {
+        try {
+            const result = await db_pool.result(`
+            DELETE FROM ventas.vehiculo WHERE ID = $1`,
+            [id])
+            return result.rowCount === 1;
+        } catch (error) {
+            throw new Error (`Error en la eliminación del`)
+        }
     }
 
 }
