@@ -24,3 +24,13 @@ export const getVehiculos = async (req,res)=> {
         res.status(500).json({error:error.message})
     }
 }
+export const getVhehiculoAadmins = async (req,res)=>{
+    try {
+        const {adminID} = req.params
+        const id = parseInt(adminID,10);
+        const getVehiculo_admin = await modelVehiculo.getVehiculoAdmin(id)
+        res.status(200).json(getVehiculo_admin)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
