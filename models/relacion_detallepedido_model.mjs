@@ -2,7 +2,7 @@ import { db_pool } from "../config.mjs";
 console.log("--------# 2.0 detallepedido")
 
 const modelDetallePedido = {
-    createDetallePedido: async (detalle) =>{
+    createDetallePedido: async (detalle) => {
         console.log("---- 2.- model detalle pedido")
         const paquete = await db_pool.connect();
         try {
@@ -10,16 +10,16 @@ const modelDetallePedido = {
                 // Si cliente_id existe, es un cliente registrado
                 const resultado = await paquete.tx(async (t) => {
                     console.log("----------CREADO DE DETALLE PEDIDO-------------");
-            // Obtener el último ID de pedido
-            const lastPedido = await db_pool.one('SELECT id FROM ventas.pedido WHERE cliente_id = $1 ORDER BY id DESC LIMIT 1',
-             [detalle.cliente_id]);
+                    // Obtener el último ID de pedido
+                    const lastPedido = await db_pool.one('SELECT id FROM ventas.pedido WHERE cliente_id = $1 ORDER BY id DESC LIMIT 1',
+                        [detalle.cliente_id]);
 
-            const detallepedido = await db_pool.one('INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad,promocion_id) VALUES($1, $2, $3,$4) RETURNING *',
-                [lastPedido.id, detalle.producto_id, detalle.cantidad,detalle.promocion_id]
-            );
-            console.log("DETALLE PEDIDO INSERTADO")
-            console.log(detallepedido)
-            return detallepedido;
+                    const detallepedido = await db_pool.one('INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad,promocion_id) VALUES($1, $2, $3,$4) RETURNING *',
+                        [lastPedido.id, detalle.producto_id, detalle.cantidad, detalle.promocion_id]
+                    );
+                    console.log("DETALLE PEDIDO INSERTADO")
+                    console.log(detallepedido)
+                    return detallepedido;
 
                 })
                 console.log(resultado)
@@ -28,34 +28,28 @@ const modelDetallePedido = {
 
             } else {
                 const resultado = await paquete.tx(async (t) => {
-                     // Si cliente_id es nulo, es un cliente no registrado
-                     console.log("----------CREADO DE DETALLE PEDIDO-------------");
-                     // Obtener el último ID de pedido
-                     const lastPedido = await db_pool.one('SELECT id FROM ventas.pedido WHERE cliente_nr_id = $1 ORDER BY id DESC LIMIT 1',
-                      [detalle.cliente_nr_id]);
-         
-                     const detallepedido = await db_pool.one('INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad,promocion_id) VALUES($1, $2, $3,$4) RETURNING *',
-                         [lastPedido.id, detalle.producto_id, detalle.cantidad,detalle.promocion_id]
-                     );
-                     console.log("DETALLE PEDIDO INSERTADO")
-                     console.log(detallepedido)
-                     return detallepedido;
+                    // Si cliente_id es nulo, es un cliente no registrado
+                    console.log("----------CREADO DE DETALLE PEDIDO-------------");
+                    // Obtener el último ID de pedido
+                    const lastPedido = await db_pool.one('SELECT id FROM ventas.pedido WHERE cliente_nr_id = $1 ORDER BY id DESC LIMIT 1',
+                        [detalle.cliente_nr_id]);
+
+                    const detallepedido = await db_pool.one('INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad,promocion_id) VALUES($1, $2, $3,$4) RETURNING *',
+                        [lastPedido.id, detalle.producto_id, detalle.cantidad, detalle.promocion_id]
+                    );
+                    console.log("DETALLE PEDIDO INSERTADO")
+                    console.log(detallepedido)
+                    return detallepedido;
                 })
                 return resultado
-               
+
             }
-            
-            
+
+
         } catch (error) {
             throw new Error(`Error query create: ${error}`);
         }
     },
-
-
-
-
-    
-
     getDetallePedido: async () => {
         console.log("---- 2.- model get pedido")
 

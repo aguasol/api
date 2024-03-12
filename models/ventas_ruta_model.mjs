@@ -15,7 +15,7 @@ const modelRuta = {
            // console.log(lastRuta)
             return pedidos
         } catch (error) {
-            
+            throw new Error(`Error al conseguir pedidos ruta ${error}`)
         }
     },
 

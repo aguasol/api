@@ -1,4 +1,4 @@
-import { request } from "express";
+
 import { db_pool } from "../config.mjs";
 
 console.log("--------# 17.0 venta")

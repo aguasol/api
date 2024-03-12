@@ -25,7 +25,7 @@ const modelClientenr = {
 
         }
         catch(e){
-            throw new Error('Error query create:${e}')
+            throw new Error(`Error query create:${e}`)
         }
     },
     getClientenr:async () =>{

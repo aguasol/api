@@ -60,7 +60,7 @@ const modelVehiculo = {
                 [id])
             return result.rowCount === 1;
         } catch (error) {
-            throw new Error(`Error en la eliminación del`)
+            throw new Error(`Error en la eliminación del vehiculo ${error}`)
         }
     }
 
