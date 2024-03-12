@@ -8,14 +8,14 @@ const modelVehiculo = {
         try {
             console.log("vehiculo")
             console.log(vehiculo)
-            const vehiculo = await db_pool.one(`
+            const result = await db_pool.one(`
             INSERT INTO ventas.vehiculo 
             (nombre_modelo,placa,administrador_id)
              VALUES($1,$2,$3) RETURNING *`,
                 [vehiculo.nombre_modelo, vehiculo.placa, vehiculo.administrador_id])
             console.log("salida creacion")
             console.log(vehiculo)
-            return vehiculo
+            return result
 
         } catch (error) {
             throw new Error(`error query ${error}`)
