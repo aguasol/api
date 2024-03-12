@@ -13,6 +13,7 @@ INSERT INTO ventas.zona_trabajo (nombre,poligono,departamento,provincia) VALUES
   -- Insertar registros en la tabla producto
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('recarga',13.00,'und.','RECARGA.png');
+INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
 ('botella 3l',9.00,'pqt. 4 und. (S/.2.25 c/u)','BIDON03.png'),
