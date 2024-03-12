@@ -6,12 +6,15 @@ const modelVehiculo = {
 
     createVehiculo: async (vehiculo) => {
         try {
-
+            console.log("vehiculo")
+            console.log(vehiculo)
             const vehiculo = await db_pool.one(`
             INSERT INTO ventas.vehiculo 
             (nombre_modelo,placa,administrador_id)
              VALUES($1,$2,$3) RETURNING *`,
                 [vehiculo.nombre_modelo, vehiculo.placa, vehiculo.administrador_id])
+            console.log("salida creacion")
+            console.log(vehiculo)
             return vehiculo
 
         } catch (error) {
@@ -40,7 +43,7 @@ const modelVehiculo = {
     },
     getVehiculoAdmin: async (idadmin) => {
         try {
-            console.log("get vehiculos admin",idadmin)
+            console.log("get vehiculos admin", idadmin)
             const vehiculoAdmin = await db_pool.any(`
             SELECT * FROM ventas.vehiculo WHERE administrador_id =$1`,
                 [idadmin])
@@ -54,10 +57,10 @@ const modelVehiculo = {
         try {
             const result = await db_pool.result(`
             DELETE FROM ventas.vehiculo WHERE ID = $1`,
-            [id])
+                [id])
             return result.rowCount === 1;
         } catch (error) {
-            throw new Error (`Error en la eliminación del`)
+            throw new Error(`Error en la eliminación del`)
         }
     }
 
