@@ -13,6 +13,7 @@ INSERT INTO ventas.zona_trabajo (nombre,poligono,departamento,provincia) VALUES
   -- Insertar registros en la tabla producto
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('recarga',13.00,'und.','RECARGA.png');
+INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
 ('botella 3l',9.00,'pqt. 4 und. (S/.2.25 c/u)','BIDON03.png'),
@@ -35,13 +36,13 @@ INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) 
 INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
 (1,1,0),
 (1,2,0),
-(1,3,0);
+(1,3,0),
 (1,4,0),
 (1,5,0),
 (1,6,0),
 (2,1,0),
 (2,2,0),
-(2,3,0);
+(2,3,0),
 (2,4,0),
 (2,5,0),
 (2,6,0);
