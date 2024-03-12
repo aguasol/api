@@ -90,7 +90,7 @@ const modelPedido = {
     },
     getLastPedido: async (id) => {
         try {
-            const lastPedido = await db_pool.one('SELECT id FROM ventas.pedido WHERE cliente_id=$1 ORDER BY id DESC LIMIT 1', [id]);
+            const lastPedido = await db_pool.oneOrNone('SELECT id FROM ventas.pedido WHERE cliente_id=$1 ORDER BY id DESC LIMIT 1', [id]);
             return lastPedido;
         } catch (e) {
             throw new Error(`Error getting last pedido: ${e}`);
