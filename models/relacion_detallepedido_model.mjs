@@ -1,6 +1,6 @@
 import { db_pool } from "../config.mjs";
 console.log("--------# 2.0 detallepedido")
-
+const cuenta = 0 
 const modelDetallePedido = {
     createDetallePedido: async (detalle) => {
         console.log("---- 2.- model detalle pedido")
@@ -19,6 +19,9 @@ const modelDetallePedido = {
                     );
                     console.log("DETALLE PEDIDO INSERTADO")
                     console.log(detallepedido)
+                    cuenta++
+                    console.log("cuenta")
+                    console.log(cuenta)
                     return detallepedido;
 
                 })
