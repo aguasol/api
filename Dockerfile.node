@@ -1,16 +1,15 @@
 # Dockerfile.node
 FROM node:18.18.0-alpine AS build
 
+# Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
 
+# Copiamos el archivo package.json y package-lock.json e instalamos las dependencias regulares
 COPY package*.json ./
+RUN npm install --omit=dev
 
-RUN npm install
-
+# Copiamos el resto de los archivos de la aplicación
 COPY . .
 
-# INSTALAMOS PM2, PARA PRODUCCIÓN DE LA API
-RUN npm install pm2 -g
-
-# COMANDO PARA EJECUTAR
-CMD ["pm2-runtime", "index.mjs"]
+# CMD para ejecutar la aplicación directamente con Node.js
+CMD ["node", "index.mjs"]

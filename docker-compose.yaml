@@ -6,6 +6,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.node
+    restart: always
     ports:
       - "3000:3000"
 
