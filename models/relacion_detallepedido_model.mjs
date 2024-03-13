@@ -7,7 +7,7 @@ const modelDetallePedido = {
         const paquete = await db_pool.connect();
         try {
             if (detalle.cliente_id) {
-                const cuenta = 0 
+                
                 // Si cliente_id existe, es un cliente registrado
                 const resultado = await paquete.tx(async (t) => {
                     console.log("----------CREADO DE DETALLE PEDIDO-------------");
@@ -20,9 +20,9 @@ const modelDetallePedido = {
                     );
                     console.log("DETALLE PEDIDO INSERTADO")
                     console.log(detallepedido)
-                    cuenta++
+                  
                     console.log("cuenta")
-                    console.log(cuenta)
+                   
                     return detallepedido;
 
                 })
