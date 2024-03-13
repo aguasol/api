@@ -42,8 +42,8 @@ const modelPedido = {
 
                 })
                 const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`, [pedido.codigo]);
-               console.log(existCodigo.codigo)
-                if (existCodigo.codigo) {
+               console.log(existCodigo)
+                if (existCodigo) {
                     console.log('si existe')
                     const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`, [
                         existCodigo.codigo
