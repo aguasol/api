@@ -14,19 +14,19 @@ const modelClientenr = {
             console.log(clientenr)
 
 
-            const clientenrs = await db_pool.one('INSERT INTO ventas.cliente_noregistrado (empleado_id,nombre,apellidos,direccion,telefono,email,distrito,RUC) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+            const ClienteNRS = await db_pool.one('INSERT INTO ventas.cliente_noregistrado (empleado_id,nombre,apellidos,direccion,telefono,email,distrito,RUC) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
                 [clientenr.empleado_id, clientenr.nombre, clientenr.apellidos, clientenr.direccion, clientenr.telefono, clientenr.email, clientenr.distrito, clientenr.ruc]);
 
             console.log("cliente nr")
-            console.log(clientenrs)
+            console.log(ClienteNRS)
 
             await db_pool.none(`INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito)
-            VALUES($1,$2,$3,$4,$5)`, [clientenr.latitud, clientenr.longitud, clientenr.direccion, clientenrs.id, clientenr.distrito])
+            VALUES($1,$2,$3,$4,$5)`, [clientenr.latitud, clientenr.longitud, clientenr.direccion, ClienteNRS.id, clientenr.distrito])
 
 
 
 
-            return clientenrs
+            return ClienteNRS
 
         }
         catch (e) {
