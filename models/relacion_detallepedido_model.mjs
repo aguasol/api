@@ -1,12 +1,13 @@
 import { db_pool } from "../config.mjs";
 console.log("--------# 2.0 detallepedido")
-const cuenta = 0 
+
 const modelDetallePedido = {
     createDetallePedido: async (detalle) => {
         console.log("---- 2.- model detalle pedido")
         const paquete = await db_pool.connect();
         try {
             if (detalle.cliente_id) {
+                const cuenta = 0 
                 // Si cliente_id existe, es un cliente registrado
                 const resultado = await paquete.tx(async (t) => {
                     console.log("----------CREADO DE DETALLE PEDIDO-------------");
