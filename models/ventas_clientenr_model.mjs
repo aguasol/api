@@ -20,7 +20,7 @@ const modelClientenr = {
             console.log("cliente nr")
             console.log(clientenrs)
 
-            await db_pool.one(`INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito)
+            await db_pool.none(`INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito)
             VALUES($1,$2,$3,$4,$5)`, [clientenr.latitud, clientenr.longitud, clientenr.direccion, clientenrs.id, clientenr.distrito])
 
 

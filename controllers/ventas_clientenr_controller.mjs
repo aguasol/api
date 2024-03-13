@@ -6,6 +6,7 @@ export const createClientesnr = async (req,res) => {
         const createcliente= await modelClientenr.createClientenr(newcliente);
         res.status(200).json(createcliente);
     } catch (error) {
+        console.log("hola soy error del servidor")
         res.status(500).json({error:error.message});
 
     }
