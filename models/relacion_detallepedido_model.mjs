@@ -20,6 +20,7 @@ const modelDetallePedido = {
                 );
 
                 console.log("DETALLE PEDIDO INSERTADO")
+                console.log(insert1)
                 return insert1
 
 
@@ -35,6 +36,7 @@ const modelDetallePedido = {
                     [lastPedido.id, detalle.producto_id, detalle.cantidad, detalle.promocion_id]
                 );
                 console.log("DETALLE PEDIDO INSERTADO")
+                console.log(insert2)
                 return insert2
 
 
