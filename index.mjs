@@ -69,7 +69,7 @@ io.on('connection', (socket) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const port = 3000;
+const port = 4000;
 //app_sol.use(multer())
 app_sol.use(cors());
 app_sol.use(express.json());

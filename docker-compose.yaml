@@ -2,7 +2,7 @@
 version: '3'
 
 services:
-  node-app:
+  node-api:
     build:
       context: .
       dockerfile: Dockerfile.node
@@ -17,4 +17,4 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - node-app
+      - node-api
