@@ -1,5 +1,5 @@
 # Dockerfile.node
-FROM node:18.18.0-alpine AS build
+FROM node:20.11.1 AS build
 
 # Establecemos el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
