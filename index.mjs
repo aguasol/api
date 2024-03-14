@@ -2,7 +2,7 @@ import express from "express";
 import cors from 'cors';
 import morgan from "morgan";
 import http from "http";
-import {Server} from "socket.io";
+import { Server } from "socket.io";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -31,11 +31,11 @@ import routerZonas from "./routes/ventas_zona_trabajo_route.mjs";
 /** INICIA LA APP Y EL PUERTO */
 const app_sol = express();
 const server = http.createServer(app_sol);
-const io = new Server(server, {                                         
+const io = new Server(server, {
     reconnection: true,
     reconnectionAttempts: 5,  // Número máximo de intentos
     reconnectionDelay: 1000,  // Retardo entre intentos en milisegundos
-  });
+});
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado');
@@ -46,24 +46,24 @@ io.on('connection', (socket) => {
     });
 
     // RECIBIENDO 
-    socket.on('recibiendoMensaje',(data) => {
+    socket.on('recibiendoMensaje', (data) => {
         console.log(data);
-       // io.emit('enviandoCoordenadas',data);
+        // io.emit('enviandoCoordenadas',data);
     });
 
-    socket.on('Termine de Updatear',(data) => {
+    socket.on('Termine de Updatear', (data) => {
         console.log(data);
-        io.emit('Llama tus Pedidos :)',data);
+        io.emit('Llama tus Pedidos :)', data);
     });
 
     //socket.emit('testy');
     io.emit('testy')
 
-  /*  io.engine.on('upgrade', (request, socket, head) => {
-        console.log('Upgrade request');
-    });*/
+    /*  io.engine.on('upgrade', (request, socket, head) => {
+          console.log('Upgrade request');
+      });*/
 
-    
+
 });
 
 const __filename = fileURLToPath(import.meta.url);
@@ -81,33 +81,42 @@ app_sol.use(morgan('combined'))
 app_sol.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 /** CONFIGURAMOS LAS RUTAS */
-app_sol.use('/api',routerUserAdmin);
-app_sol.use('/api',routerUserCliente);
-app_sol.use('/api',routerUserEmpleado);
-app_sol.use('/api',routerUserConductor);
-app_sol.use('/api',routerVentasProduct);
-app_sol.use('/api',routerLogin);
-app_sol.use('/api',routerVentasPedido);
-app_sol.use('/api',routerDetallePedido);
-app_sol.use('/api',routerVentasVenta);
-app_sol.use('/api',routerVentasPromocion);
-app_sol.use('/api',routerProductoPromocion);
-app_sol.use('/api',routerVentasRuta);
-app_sol.use('/api',routerClienteNR);
-app_sol.use('/api',routerUbicacion);
-app_sol.use('/api',routerVehiculoProducto);
-app_sol.use('/api',routerVehiculo);
-app_sol.use('/api',routerProductoZona);
-app_sol.use('/api',routerZonas);
+app_sol.use('/api', routerUserAdmin);
+app_sol.use('/api', routerUserCliente);
+app_sol.use('/api', routerUserEmpleado);
+app_sol.use('/api', routerUserConductor);
+app_sol.use('/api', routerVentasProduct);
+app_sol.use('/api', routerLogin);
+app_sol.use('/api', routerVentasPedido);
+app_sol.use('/api', routerDetallePedido);
+app_sol.use('/api', routerVentasVenta);
+app_sol.use('/api', routerVentasPromocion);
+app_sol.use('/api', routerProductoPromocion);
+app_sol.use('/api', routerVentasRuta);
+app_sol.use('/api', routerClienteNR);
+app_sol.use('/api', routerUbicacion);
+app_sol.use('/api', routerVehiculoProducto);
+app_sol.use('/api', routerVehiculo);
+app_sol.use('/api', routerProductoZona);
+app_sol.use('/api', routerZonas);
 
 app_sol.use('/api', (req, res) => {
     console.log("---no esta esa ruta")
     res.status(404).json({ error: 'Ruta no encontrada' });
 
-  });
+});
+// Manejo de errores
+function errorHandler(err, req, res, next) {
+    if (res.headersSent) {
+        return next(err);
+    }
+    res.status(500).json({ error: 'Error interno del servidor' });
+}
 
-server.listen(port, ()=>{
+// Delega a la función de manejo de errores personalizada
+app_sol.use(errorHandler);
+server.listen(port, () => {
     console.log(`Servidor en: http://127.0.0.1:${port}`);
 })
 
-export {app_sol,io,server};
+export { app_sol, io, server };
