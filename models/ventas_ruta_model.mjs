@@ -94,8 +94,9 @@ const modelRuta = {
                inner join ventas.vehiculo as vv on vr.vehiculo_id=vv.id WHERE conductor_id = $1 ORDER BY vr.id  DESC LIMIT 1`,
                 [conductor_id])
             //  console.log("ultima ruta")
+            return {"message":"as"}
             // console.log(lastRuta)
-            return {message:t}
+            //return {message:t}
          // return {message:true}
         } catch (error) {
             throw new Error(`Error query create:${error}`)
