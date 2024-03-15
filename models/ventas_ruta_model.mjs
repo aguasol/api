@@ -87,12 +87,12 @@ const modelRuta = {
     },
     getLastRutaConductor: async (conductor_id) => {
         try {
-            const lastRuta = await db_pool.one(`SELECT vr.id, vr.conductor_id,
+            /*const lastRuta = await db_pool.one(`SELECT vr.id, vr.conductor_id,
              vr.vehiculo_id, vr.empleado_id, vv.administrador_id,
               vr.fecha_creacion, vv.nombre_modelo, vv.placa
                FROM ventas.ruta as vr 
                inner join ventas.vehiculo as vv on vr.vehiculo_id=vv.id WHERE conductor_id = $1 ORDER BY vr.id  DESC LIMIT 1`,
-                [conductor_id])
+                [conductor_id])*/
             //  console.log("ultima ruta")
             return {"message":"as"}
             // console.log(lastRuta)
