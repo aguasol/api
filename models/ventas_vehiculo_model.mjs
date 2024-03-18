@@ -32,9 +32,11 @@ const modelVehiculo = {
                     4, result.id, 0, 0, 0,
                     5, result.id, 0, 0, 0
                 ]);
+            console.log("-%%%%%%%%%%%%%%%%%%%%%%%%%%%-")
+            console.log("----------salida creacion");
 
-            console.log("salida creacion");
             console.log(vehiculo);
+            console.log("------vehiculos_productos")
             return result;
         } catch (error) {
             throw new Error(`error query ${error}`);
