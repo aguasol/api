@@ -42,10 +42,13 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
-    updateVehiculoProduct: async (id, stock) => {
+    updateVehiculoProductEm: async (id, stock) => {
+        // SUBCONSULTA DEL SELECT HACIA EL UPDATE
+        // DONDE DEVOLVERA EL ULTIMO VEHICULO Q SE LE ASIGNO A ESE
+        // CONDUCTOR
         try {
             const updateVehiculoProduct = await db_pool.manyOrNone(`
-        UPDATE ventas.vehiculo_producto SET stock =
+        UPDATE ventas.vehiculo_producto SET stock_movil_empleado =
          CASE 
          WHEN producto_id = 1 THEN $1
           WHEN producto_id = 2 THEN $2
@@ -55,8 +58,17 @@ const modelVehiculoProduct = {
 
         ELSE stock
         END
-        WHERE vehiculo_id = $6 RETURNING *`,
-         [stock.stock1, stock.stock2, stock.stock3, stock.stock4,stock.stock5, id])
+        WHERE vehiculo_id = (
+            SELECT vehiculo_id FROM ventas.ruta WHERE 
+            conductor_id = $6 ORDER BY id DESC LIMIT 1
+        )`,
+         [
+            stock.stock1,
+             stock.stock2,
+              stock.stock3,
+               stock.stock4,
+               stock.stock5,
+                id])
          console.log(".....")
          console.log(updateVehiculoProduct)
             return updateVehiculoProduct
