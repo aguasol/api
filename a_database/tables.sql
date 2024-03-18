@@ -176,7 +176,7 @@ create table ventas.producto_zona(
 	id serial primary key,
 	zona_trabajo_id int,
 	producto_id int,
-	stock_padre int
+	stock_padre int -- almacen
 
 );
 --NUEVA NUEVA----------------------------------------------------------------------------------
@@ -184,9 +184,9 @@ create table ventas.vehiculo_producto(
 	id serial primary key,
 	producto_id int,
 	vehiculo_id int,
-	stock int,
+	stock int, -- aqui se actua. el stock de venta/residuo del carro
 	stock_movil_conductor int,
-	stock_movil_empleado int
+	stock_movil_empleado int -- si es igual/ recien 
 );
 ---------------------------------------------------------------------------------------------------
 

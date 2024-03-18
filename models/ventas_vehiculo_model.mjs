@@ -13,6 +13,27 @@ const modelVehiculo = {
             (nombre_modelo,placa,administrador_id)
              VALUES($1,$2,$3) RETURNING *`,
                 [vehiculo.nombre_modelo, vehiculo.placa, vehiculo.administrador_id])
+
+            const vehiculo_productos = await db_pool.manyOrNone(`
+            INSERT INTO ventas.vehiculo_producto
+            (producto_id,
+                vehiculo_id,
+                stock,
+                stock_movil_conductor,
+                stock_movil_empleado)
+            VALUES 
+            ($1,$2,$3,$4,$5),
+            ($1,$2,$3,$4,$5),
+            ($1,$2,$3,$4,$5),
+            ($1,$2,$3,$4,$5),
+            ($1,$2,$3,$4,$5)
+            RETURNING *`,
+            [[1,result.id,0,0,0],
+            [2,result.id,0,0,0],
+            [3,result.id,0,0,0],
+            [4,result.id,0,0,0],
+            [5,result.id,0,0,0],
+        ])
             console.log("salida creacion")
             console.log(vehiculo)
             return result
