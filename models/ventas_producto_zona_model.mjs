@@ -30,6 +30,15 @@ const modelProductoZona = {
         } catch (error) {
             throw new Error(`Error query get ${error}`)
         }
+    },
+    getProductoPorZona:async (empleadoID) => {
+        try {
+            const getProductZone = await db_pool.any(`
+            SELECT vpz.id, vpz.zona_trabajo_id, vpz.producto_id, vpz.stock_padre FROM ventas.producto_zona as vpz  inner join personal.administrador as pa on pa.zona_trabajo_id= vpz.zona_trabajo_id inner join personal.empleado as pe on pe.administrador_id=pa.id where pe.id=$1`,[empleadoID])
+            return getProductZone
+        } catch (error) {
+            throw new Error(`Error query get ${error}`)
+        }
     }
 }
 export default modelProductoZona;
