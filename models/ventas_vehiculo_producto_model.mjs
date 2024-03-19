@@ -28,12 +28,29 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
+    getVehiculoProductConductor: async (idconductor) => {
+        console.log("--cond vehiculo producto---")
+
+        try {
+            const getVPconductor = await db_pool.any(
+                `select * from ventas.vehiculo_producto
+                 where vehiculo_id =
+                  (select vehiculo_id from ventas.ruta where conductor_id= $1
+                     order by id desc limit 1
+                    );`, [idconductor]
+            )
+            return getVPconductor
+        } catch (error) {
+            throw new Error(`error query ${error}`)
+        }
+
+    },
     getProductoVehiculo: async (vehiculoID) => {
         console.log("---dentro de get ---")
         try {
             const getVehiculoProductos = await db_pool.any(`
-            select vvp.id, producto_id,stock from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=$1`,[vehiculoID])
-            
+            select vvp.id, producto_id,stock from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=$1`, [vehiculoID])
+
             console.log("----vehiculo...prod")
             console.log(getVehiculoProductos)
             return getVehiculoProductos
@@ -62,15 +79,15 @@ const modelVehiculoProduct = {
             SELECT vehiculo_id FROM ventas.ruta WHERE 
             conductor_id = $6 ORDER BY id DESC LIMIT 1
         )`,
-         [
-            stock.stock1,
-             stock.stock2,
-              stock.stock3,
-               stock.stock4,
-               stock.stock5,
-                id])
-         console.log(".....")
-         console.log(updateVehiculoProduct)
+                [
+                    stock.stock1,
+                    stock.stock2,
+                    stock.stock3,
+                    stock.stock4,
+                    stock.stock5,
+                    id])
+            console.log(".....")
+            console.log(updateVehiculoProduct)
             return updateVehiculoProduct
 
         } catch (error) {
@@ -81,10 +98,10 @@ const modelVehiculoProduct = {
         try {
             const updateVehiculoProduct = await db_pool.manyOrNone(`
             UPDATE ventas.vehiculo_producto SET stock_movil_conductor = $1  where  producto_id=$2 and vehiculo_id=$3 returning *`,
-         [stock.stock_movil_conductor, stock.producto_id, id])
-         //fer
-         console.log(".....")
-         console.log(updateVehiculoProduct)
+                [stock.stock_movil_conductor, stock.producto_id, id])
+            //fer
+            console.log(".....")
+            console.log(updateVehiculoProduct)
             return updateVehiculoProduct
 
         } catch (error) {
