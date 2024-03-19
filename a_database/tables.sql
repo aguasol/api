@@ -186,7 +186,7 @@ create table ventas.vehiculo_producto(
 	vehiculo_id int,
 	stock int, -- aqui se actua. el stock de venta/residuo del carro
 	stock_movil_conductor int,
-	stock_movil_empleado int -- si es igual/ recien 
+	-- stock_movil_empleado int -- si es igual/ recien 
 );
 ---------------------------------------------------------------------------------------------------
 
