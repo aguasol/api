@@ -19,3 +19,14 @@ export const getProductosZonas = async (req,res)=> {
         res.status(500).json({error:error.message})
     }
 }
+export const getProductoPorZonas = async (req,res) => {
+    console.log("id llego")
+    try {
+        const { empleadoID } = req.params;
+        const id = parseInt(empleadoID, 10);
+        const getResult = await modelProductoZona.getProductoPorZona(id);
+        res.json(getResult);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
