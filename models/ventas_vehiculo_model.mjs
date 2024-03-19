@@ -14,7 +14,9 @@ const modelVehiculo = {
                 VALUES ($1, $2, $3)
                 RETURNING *`,
                 [vehiculo.nombre_modelo, vehiculo.placa, vehiculo.administrador_id]);
-
+            // 
+            console.log("---vehiculos---")
+            console.log(result)
             const vehiculo_productos = await db_pool.manyOrNone(`
                 INSERT INTO ventas.vehiculo_producto
                 (producto_id, vehiculo_id, stock, stock_movil_conductor, stock_movil_empleado)
@@ -32,6 +34,7 @@ const modelVehiculo = {
                     4, result.id, 0, 0, 0,
                     5, result.id, 0, 0, 0
                 ]);
+            
             console.log("-%%%%%%%%%%%%%%%%%%%%%%%%%%%-")
             console.log("----------salida creacion");
 

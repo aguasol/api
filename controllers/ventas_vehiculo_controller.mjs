@@ -5,7 +5,7 @@ export const createVehiculos = async (req,res) => {
         const newVehiculo = req.body
         const vehiculo= await modelVehiculo.createVehiculo(newVehiculo)
         
-        res.json(vehiculo);
+        res.status(200).json(vehiculo);
     } catch (error) {
         res.status(500).json({error:error.message});
 
