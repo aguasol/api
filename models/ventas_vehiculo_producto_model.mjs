@@ -59,13 +59,13 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
-    updateVehiculoProductEm: async (id, stock) => {
+    updateVehiculoProductStocks: async (id, stock) => {
         // SUBCONSULTA DEL SELECT HACIA EL UPDATE
         // DONDE DEVOLVERA EL ULTIMO VEHICULO Q SE LE ASIGNO A ESE
         // CONDUCTOR
         try {
             const updateVehiculoProduct = await db_pool.manyOrNone(`
-        UPDATE ventas.vehiculo_producto SET stock_movil_empleado =
+        UPDATE ventas.vehiculo_producto SET stock =
          CASE 
          WHEN producto_id = 1 THEN $1
           WHEN producto_id = 2 THEN $2

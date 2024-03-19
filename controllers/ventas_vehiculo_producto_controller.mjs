@@ -32,7 +32,7 @@ export const getProductosVehiculo =  async (req,res) => {
         res.status(500).json({erro:error.message})
     }
 }
-export const updateVehiculoProductosEmp = async (req,res) => {
+export const updateVehiculoProductosStock = async (req,res) => {
     try {
         // EXTRAYENDO EL ID DE LA RUTA
         const {vehiculoID} = req.params
@@ -41,7 +41,7 @@ export const updateVehiculoProductosEmp = async (req,res) => {
 
         // EXTRAYENDO EL BODY 
         const stock = req.body
-        const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoProductEm(idvehiculo,stock)
+        const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoProductStocks(idvehiculo,stock)
         console.log("------controllooerrr-----")
         console.log(updatevehiculoproducto)
         res.status(200).json(updatevehiculoproducto)
