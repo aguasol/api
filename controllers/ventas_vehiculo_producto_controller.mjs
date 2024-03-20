@@ -68,11 +68,11 @@ export const updateVehiculoProductsCond = async (req,res) => {
         res.status(500).json({error:error.message})
     }
 }
-export const getVPconductors = async (req,res) => {
+export const getVPvehiculos = async (req,res) => {
     try {
-        const {conductorID} = req.params
-        const idConductor = parseInt(conductorID,10)
-        const getvp = await modelVehiculoProduct.getVehiculoProductConductor(idConductor);
+        const {vehiculoID} = req.params
+        const idvehiculo = parseInt(vehiculoID,10)
+        const getvp = await modelVehiculoProduct.getVehiculoProductVehiculo(idvehiculo);
         res.status(200).json(getvp)
     } catch (error) {
         res.status(500).json({error:error.message})

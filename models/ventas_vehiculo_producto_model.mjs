@@ -28,16 +28,14 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
-    getVehiculoProductConductor: async (idconductor) => {
+    getVehiculoProductVehiculo: async (idvehiculo) => {
         console.log("--cond vehiculo producto---")
 
         try {
             const getVPconductor = await db_pool.any(
                 `select * from ventas.vehiculo_producto
-                 where vehiculo_id =
-                  (select vehiculo_id from ventas.ruta where conductor_id= $1
-                     order by id desc limit 1
-                    );`, [idconductor]
+                 where vehiculo_id =$1
+                  ;`, [idvehiculo]
             )
             return getVPconductor
         } catch (error) {
@@ -116,7 +114,7 @@ const modelVehiculoProduct = {
             id])
             return updateVSE
 
-            
+
         } catch (error) {
             throw new Error (`error query ${error}`)
         }
