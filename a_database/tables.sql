@@ -211,11 +211,11 @@ create table ventas.vehiculo(
 --Table: ventas.zona_trabajo
 create table ventas.zona_trabajo(
 	id serial primary key,
-	nombre varchar(50), -- distrito
+	nombre varchar(500), -- distrito
 	ubicacion varchar(100), --GEOMETRY(POINT,4326), --municipalidad
-	poligono varchar(1000),--GEOMETRY(POLYGON,4326),
-	departamento varchar(50),
-	provincia varchar(50)
+	poligono varchar(10000),--GEOMETRY(POLYGON,4326),
+	departamento varchar(500),
+	provincia varchar(500)
 
 );
 
