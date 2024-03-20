@@ -111,7 +111,8 @@ create table ventas.cliente(
 	direccion_empresa varchar(200),
 	suscripcion varchar(200),
 	nombre_empresa varchar(200),
-	frecuencia varchar(200)
+	frecuencia varchar(200),
+	quiereretirar boolean
 );
 
 --SE AGREDO EMPLEADO ID
