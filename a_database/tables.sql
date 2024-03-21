@@ -112,7 +112,10 @@ create table ventas.cliente(
 	suscripcion varchar(200),
 	nombre_empresa varchar(200),
 	frecuencia varchar(200),
-	quiereretirar boolean
+	quiereretirar boolean,
+	medio_retiro varchar(200), --transferencia, yape, prin
+	banco_retiro varchar(200), --bcp, bbva, etc
+	numero_cuenta varchar(200) --numero de celular o otro
 );
 
 --SE AGREDO EMPLEADO ID
