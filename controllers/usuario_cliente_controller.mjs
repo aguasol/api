@@ -33,6 +33,19 @@ export const updateUserClientes = async (req,res)=>{
         res.status(500).json({error:error.message});
     }
 }
+export const updateClientes = async (req,res)=>{
+    try {
+        const {userClientId} = req.params;
+        const id = parseInt(userClientId,10);
+        console.log('el id',id);
+        const data = req.body;
+        console.log('data',data)
+        const updateClient = await modelUserCliente.updateCliente(id,data);
+        res.json(updateClient);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
 export const deleteUserClientes = async (req,res) => {
     try {
         const { userClientId } = req.params;

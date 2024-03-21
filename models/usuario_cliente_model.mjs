@@ -71,10 +71,20 @@ const modelUserCliente = {
                 throw new Error(`No se encontró un usuario con ID ${id}.`);
             }
 
-            const cliente = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4 WHERE usuario_id = $5 RETURNING *',
+            const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4 WHERE usuario_id = $5 RETURNING *',
                 [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar,  id]);
             console.log("dentro de model 2do update", id)
             return { usuario, administrador }
+        } catch (error) {
+            throw new Error(`Error en la actualización del administrador: ${error.message}`);
+        }
+    },
+    updateCliente: async (id, cliente) => {
+        try {
+            const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4 WHERE usuario_id = $5 RETURNING *',
+                [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar,  id]);
+            console.log("dentro de model 2do update", id)
+            return { cliente1 }
         } catch (error) {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);
         }
