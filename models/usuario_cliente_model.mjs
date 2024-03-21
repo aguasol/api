@@ -81,8 +81,8 @@ const modelUserCliente = {
     },
     updateCliente: async (id, cliente) => {
         try {
-            const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4 WHERE usuario_id = $5 RETURNING *',
-                [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar,  id]);
+            const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4, medio_retiro=$5, banco_retiro=$6, numero_cuenta=$7 WHERE usuario_id = $8 RETURNING *',
+                [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar, cliente.medio_retiro, cliente.banco_retiro, cliente.numero_cuenta, id]);
             console.log("dentro de model 2do update", id)
             return { cliente1 }
         } catch (error) {
