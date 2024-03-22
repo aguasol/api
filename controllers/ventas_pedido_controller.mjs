@@ -96,6 +96,7 @@ export const deletePedidos = async (req,res) => {
     }
 }
 
+//DEL CONDUCTOR CUANDO MARCA UN PEDIDO COMO ENTREGADO O TRUNCADO
 export const updateEstadoPedidos = async (req,res)=>{
     try {
         const {pedidoID} = req.params;
