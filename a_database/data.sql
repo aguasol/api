@@ -16,8 +16,8 @@ INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
-('botella 3l',9.00,'pqt. 4 und. (S/.2.25 c/u)','BIDON03.png'),
-  ('botella 700ml',12.00,'pqt. x 15 und. (S/.0.80 c/u)','BIDON0.png'),
+('botella 3l',9.00,'pqt. 4 und.','BIDON03.png'),
+  ('botella 700ml',12.00,'pqt. 15 und.','BIDON0.png'),
   ('bidon vacio',0.00,'und.','RECARGA.png');
 
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
