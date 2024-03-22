@@ -16,15 +16,15 @@ INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
-('botella 3l',9.00,'pqt. 4 und. (S/.2.25 c/u)','BIDON03.png'),
-  ('botella 700ml',12.00,'pqt. x 15 und. (S/.0.80 c/u)','BIDON0.png'),
+('botella 3l',9.00,'pqt. 4 und.','BIDON03.png'),
+  ('botella 700ml',12.00,'pqt. 15 und.','BIDON0.png'),
   ('bidon vacio',0.00,'und.','RECARGA.png');
 
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
-  ('Promocion regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'BIDON20.png'),
-  ('Promoción de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'BIDON7.png'),
-  ('Promoción de verano',16.00,'Lleva 2 botelas de 3L a solo S/.16.00. AHORRAS S/. 2.00',current_timestamp,current_timestamp,'BIDON03.png'),
-  ('Promoción personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00. AHORRAS S/.4.00',current_timestamp,current_timestamp,'BIDON0.png');
+  ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'BIDON20.png'),
+  ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'BIDON7.png'),
+  ('de verano',16.00,'Lleva 2 botelas de 3L a solo S/.16.00',current_timestamp,current_timestamp,'BIDON03.png'),
+  ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp,'BIDON0.png');
 
 INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) VALUES
   (1,1,1),
