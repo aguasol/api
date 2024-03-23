@@ -107,19 +107,12 @@ const modelUserCliente = {
     },
     existCodeCliente : async(codigo) => {
         try {
-            const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`,
+            const existCodigo = await db_pool.oneOrNone(`SELECT codigo, beneficiado_id, fecha_creacion_cuenta  FROM ventas.cliente WHERE codigo=$1`,
             [codigo.codigo]);
             console.log(existCodigo.codigo)
             if(existCodigo.codigo){
                 console.log('si existe')
-                const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
-                    existCodigo.codigo
-                ])
-                
-                const info = await db_pool.oneOrNone(`SELECT codigo, fecha_creacion_cuenta FROM ventas.cliente WHERE codigo=$1`,[
-                    existCodigo.codigo
-                ])
-                info['existe']=true
+                existCodigo['existe']=true
                 return info
             }
             else{
