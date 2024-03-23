@@ -212,6 +212,22 @@ const modelPedido = {
             console.log('entro a update')
             const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
                 [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago, pedidoID]);
+	const pedido = await db_pool.oneOrNone('SELECT descuento, beneficiado_id FROM ventas.pedido WHERE id = $1',
+                [pedidoID]);
+
+	if(pedido.beneficiado_id){
+	console.log('beneficiado si existe')
+            const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE id=$1`, [
+            pedido.beneficiado_id
+            ])
+            const nuevoSaldo = saldo.saldo_beneficios + (pedido.descuento/12)*3
+ 
+            await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
+ 
+	}else{
+        console.log("no existe beneficiado :c ")
+            }
+		
         /*const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`, [pedido.codigo]);
         console.log(existCodigo)
         if (existCodigo) {
