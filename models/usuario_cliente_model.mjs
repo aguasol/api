@@ -114,7 +114,7 @@ const modelUserCliente = {
             if(existCodigo){
                 console.log('si existe')
                 existCodigo['existe']=true
-                return info
+                return existCodigo
             }
             else{
                 existCodigo['existe']=false
