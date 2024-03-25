@@ -10,10 +10,7 @@ const modelPedido = {
        
 
         try {
-            //  console.log("-----PEDIDOO recibidoooo------")
-            // console.log(pedido)
-            // const io = await app_sol.get('io');
-            //console.log("-----PEDIDO INSERTADO-------")
+
             if (pedido.cliente_id) {
                 // Si cliente_id existe, es un cliente registrado
              
