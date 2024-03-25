@@ -32,6 +32,21 @@ export const getProductosVehiculo =  async (req,res) => {
         res.status(500).json({erro:error.message})
     }
 }
+export const updateXEmpleado = async (req,res) => {
+    try{
+        const {vehiculoID,productoID} = req.params
+        const idVehiculo =parseInt(vehiculoID,10)
+        const idProducto = parseInt(productoID,10)
+        const stock = req.body
+        const updateXempleado = await modelVehiculoProduct.updateVehiculoProductoXEmpleado(idProducto,idVehiculo,stock)
+        res.status(200).json(updateXempleado)
+    }
+    catch(error){
+        res.status(500).json({error:error.message})
+    }
+}
+
+/*
 export const updateVehiculoProductosStock = async (req,res) => {
     try {
         // EXTRAYENDO EL ID DE LA RUTA
@@ -41,7 +56,7 @@ export const updateVehiculoProductosStock = async (req,res) => {
 
         // EXTRAYENDO EL BODY 
         const stock = req.body
-        const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoProductStocks(idvehiculo,stock)
+        const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoStockEmpleado(idvehiculo,stock)
         console.log("------controllooerrr-----")
         console.log(updatevehiculoproducto)
         res.status(200).json(updatevehiculoproducto)
@@ -49,7 +64,7 @@ export const updateVehiculoProductosStock = async (req,res) => {
     } catch (error) {
         res.status(500).json({error:error.message})
     }
-}
+}*/
 export const updateVehiculoProductsCond = async (req,res) => {
     try {
         // EXTRAYENDO EL ID DE LA RUTA

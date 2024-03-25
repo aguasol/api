@@ -34,7 +34,7 @@ const modelVehiculoProduct = {
         try {
             const getVPconductor = await db_pool.any(
                 `select * from ventas.vehiculo_producto
-                 where vehiculo_id =$1
+                 where vehiculo_id =$1 order by id asc
                   ;`, [idvehiculo]
             )
             return getVPconductor
@@ -57,68 +57,21 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
-    updateVehiculoProductStocks: async (id, stock) => {
-        // SUBCONSULTA DEL SELECT HACIA EL UPDATE
-        // DONDE DEVOLVERA EL ULTIMO VEHICULO Q SE LE ASIGNO A ESE
-        // CONDUCTOR
+   // update Empleado
+    updateVehiculoProductoXEmpleado : async (idproducto,idvehiculo,stock) => {
+        console.log("updae x emple")
         try {
-            const updateVehiculoProduct = await db_pool.manyOrNone(`
-        UPDATE ventas.vehiculo_producto SET stock =
-         CASE 
-         WHEN producto_id = 1 THEN $1
-          WHEN producto_id = 2 THEN $2
-          WHEN producto_id = 3 THEN $3
-          WHEN producto_id = 4 THEN $4
-          WHEN producto_id = 5 THEN $5
-
-        ELSE stock
-        END
-        WHERE vehiculo_id = (
-            SELECT vehiculo_id FROM ventas.ruta WHERE 
-            conductor_id = $6 ORDER BY id DESC LIMIT 1
-        )`,
-                [
-                    stock.stock1,
-                    stock.stock2,
-                    stock.stock3,
-                    stock.stock4,
-                    stock.stock5,
-                    id])
-            console.log(".....")
-            console.log(updateVehiculoProduct)
-            return updateVehiculoProduct
-
+            const updateXempleado = await db_pool.manyOrNone(
+                `UPDATE ventas.vehiculo_producto SET stock_movil_conductor = $1 
+                WHERE producto_id = $2 and vehiculo_id = $3 RETURNING *`,
+                [stock.stockproducto,idproducto,idvehiculo]
+            )
+            return updateXempleado
         } catch (error) {
-            throw new Error(`error query ${error}`)
+            throw new Error(`error query : ${error}`)
         }
     },
-    updateVehiculoStockEmpleado:async (id,stock)=>{
-        try {
-            const updateVSE = await db_pool.manyOrNone(
-            ` UPDATE ventas.vehiculo_producto SET stock_movil_conductor =
-            CASE 
-            WHEN producto_id = 1 THEN $1
-             WHEN producto_id = 2 THEN $2
-             WHEN producto_id = 3 THEN $3
-             WHEN producto_id = 4 THEN $4
-             WHEN producto_id = 5 THEN $5
-   
-           ELSE stock_movil_conductor
-           END
-           WHERE vehiculo_id = $1`, [
-            stock.stock1,
-            stock.stock2,
-            stock.stock3,
-            stock.stock4,
-            stock.stock5,
-            id])
-            return updateVSE
 
-
-        } catch (error) {
-            throw new Error (`error query ${error}`)
-        }
-    },
     updateVehiculoProductCond: async (id, stock) => {
         try {
             const updateVehiculoProduct = await db_pool.manyOrNone(`

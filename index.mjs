@@ -6,6 +6,7 @@ import { Server } from "socket.io";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import compression from "compression";
 
 
 import multer from 'multer';
@@ -74,6 +75,7 @@ const port = 4000;
 app_sol.use(cors());
 app_sol.use(express.json());
 app_sol.use(morgan('combined'))
+app_sol.use(compression())
 
 
 // SERVIR IMAGENES
