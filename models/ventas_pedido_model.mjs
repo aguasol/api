@@ -2,7 +2,7 @@ import { Socket } from "socket.io";
 import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
-console.log("--------# 10.0 pedido")
+//console.log("--------# 10.0 pedido")
 
 
 const modelPedido = {
@@ -83,7 +83,7 @@ const modelPedido = {
     },
 
     getPedido: async () => {
-        console.log("dentro de get para conductores")
+       // console.log("dentro de get para conductores")
 
         try {
             const pedidos = await db_pool.any(`
@@ -111,7 +111,7 @@ const modelPedido = {
             LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
             WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
 
-            console.log(pedidos)
+           // console.log(pedidos)
             return pedidos
 
 
@@ -122,8 +122,8 @@ const modelPedido = {
 
     getPedidoEmpleado: async (empleadoID) => {
         try {
-            console.log("empleado id")
-            console.log(empleadoID)
+            //console.log("empleado id")
+            //console.log(empleadoID)
             const pedidos = await db_pool.any(`select
             vr.id as idruta,
             vp.id as npedido,
@@ -139,8 +139,8 @@ const modelPedido = {
             inner join personal.conductor as pc on vr.conductor_id = pc.id
             inner join personal.empleado as pe on vr.empleado_id = pe.id
             where pe.id=$1`, [empleadoID])
-            console.log("pedidos")
-            console.log(pedidos)
+          //  console.log("pedidos")
+          //  console.log(pedidos)
             return pedidos
         } catch (error) {
             throw new Error(`Error getting pedido ${error}`)
@@ -148,7 +148,7 @@ const modelPedido = {
     },
 
     getPedidoConductor: async (rutaID, conductorID) => {
-        console.log("dentro de get Pedidos para Conductores....")
+      //  console.log("dentro de get Pedidos para Conductores....")
 
         try {
             const pedidos = await db_pool.any(`
@@ -206,14 +206,14 @@ const modelPedido = {
     updateEstadoPedido: async (pedidoID, newDatos) => {
 
         try {
-            console.log('entro a update')
+         //   console.log('entro a update')
             const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
                 [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago, pedidoID]);
 	const pedido = await db_pool.oneOrNone('SELECT descuento, beneficiado_id FROM ventas.pedido WHERE id = $1',
                 [pedidoID]);
 
 	if(pedido.beneficiado_id){
-	console.log('beneficiado si existe')
+	//console.log('beneficiado si existe')
             const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE id=$1`, [
             pedido.beneficiado_id
             ])
@@ -222,7 +222,7 @@ const modelPedido = {
             await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
  
 	}else{
-        console.log("no existe beneficiado :c ")
+       // console.log("no existe beneficiado :c ")
             }
 		
         /*const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`, [pedido.codigo]);

@@ -1,65 +1,62 @@
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
 
-console.log("--------# 6.0 cliente")
+//console.log("--------# 6.0 cliente")
 const modelUserCliente = {
     createUserCliente: async (cliente) => {
-        const client = await db_pool.connect();
+        // const client = await db_pool.connect();
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         try {
-            console.log("cliente")
-            console.log(cliente)
+            //  console.log("cliente")
+            // console.log(cliente)
 
             const UsuarioExistente = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname=$1`,
                 [cliente.nickname])
-            console.log("usuarioexistente")
-            console.log(UsuarioExistente)
+            // console.log("usuarioexistente")
+            //  console.log(UsuarioExistente)
 
             if (UsuarioExistente) {
                 return { "message": "Usuario ya existente, intente otro por favor. " }
             }
             else {
-                console.log("usuario nuevo")
+                //   console.log("usuario nuevo")
 
                 const hashedPassword = await bcrypt.hash(cliente.contrasena, 10);
                 // Inicia una transacción
-                const result = await client.tx(async (t) => {
-                    const usuario = await t.one('INSERT INTO personal.usuario (rol_id, nickname, contrasena, email) VALUES ($1, $2, $3, $4) RETURNING *',
-                        [cliente.rol_id, cliente.nickname, hashedPassword, cliente.email]);
+                // const result = await client.tx(async (t) => {
+                const usuario = await db_pool.one('INSERT INTO personal.usuario (rol_id, nickname, contrasena, email) VALUES ($1, $2, $3, $4) RETURNING *',
+                    [cliente.rol_id, cliente.nickname, hashedPassword, cliente.email]);
 
-                    console.log("usuario");
-                    console.log(usuario);
-                    console.log("id usuario");
-                    console.log(usuario.id);
+                //  console.log("usuario");
+                // console.log(usuario);
+                //  console.log("id usuario");
+                // console.log(usuario.id);
 
-                    let code = '';
+                let code = '';
 
-                    for (let i = 0; i < 5; i++) {
-                        const randomIndex = Math.floor(Math.random() * characters.length);
-                        code += characters.charAt(randomIndex);
-                    }
-                    
-                    console.log("codigo....");
-                    console.log(code);
+                for (let i = 0; i < 5; i++) {
+                    const randomIndex = Math.floor(Math.random() * characters.length);
+                    code += characters.charAt(randomIndex);
+                }
+
+                //   console.log("codigo....");
+                //   console.log(code);
 
 
-                    const clientes = await t.one('INSERT INTO ventas.cliente (usuario_id, nombre, apellidos, fecha_nacimiento, sexo, direccion, dni, codigo, saldo_beneficios, telefono, direccion_empresa, suscripcion, RUC, nombre_empresa, frecuencia,fecha_creacion_cuenta) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *',
-                        [usuario.id, cliente.nombre, cliente.apellidos, cliente.fecha_nacimiento, cliente.sexo, cliente.direccion, cliente.dni, code, 0.0, cliente.telefono, cliente.direccion_empresa, cliente.suscripcion, cliente.RUC, cliente.nombre_empresa, cliente.frecuencia, cliente.fecha_creacion_cuenta]);
+                const clientes = await db_pool.one('INSERT INTO ventas.cliente (usuario_id, nombre, apellidos, fecha_nacimiento, sexo, direccion, dni, codigo, saldo_beneficios, telefono, direccion_empresa, suscripcion, RUC, nombre_empresa, frecuencia,fecha_creacion_cuenta) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16) RETURNING *',
+                    [usuario.id, cliente.nombre, cliente.apellidos, cliente.fecha_nacimiento, cliente.sexo, cliente.direccion, cliente.dni, code, 0.0, cliente.telefono, cliente.direccion_empresa, cliente.suscripcion, cliente.RUC, cliente.nombre_empresa, cliente.frecuencia, cliente.fecha_creacion_cuenta]);
 
-                    console.log("cliente");
-                    console.log(clientes);
+                //   console.log("cliente");
+                //   console.log(clientes);
 
-                    return { usuario, clientes }
-                });
-                return result
+                return { usuario, clientes }
+                // });
+                // return result
             }
         }
         catch (e) {
             throw new Error(`Error query create:${e}`)
-        } finally {
-            // Asegúrate de liberar la conexión al finalizar
-            client.done();
-        }
+        } 
     },
     updateUserCliente: async (id, cliente) => {
 
@@ -72,8 +69,8 @@ const modelUserCliente = {
             }
 
             const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4 WHERE usuario_id = $5 RETURNING *',
-                [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar,  id]);
-            console.log("dentro de model 2do update", id)
+                [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar, id]);
+            // console.log("dentro de model 2do update", id)
             return { usuario, administrador }
         } catch (error) {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);
@@ -83,7 +80,7 @@ const modelUserCliente = {
         try {
             const cliente1 = await db_pool.one('UPDATE ventas.cliente SET saldo_beneficios=$1, suscripcion=$2, frecuencia=$3, quiereretirar=$4, medio_retiro=$5, banco_retiro=$6, numero_cuenta=$7 WHERE id = $8 RETURNING *',
                 [cliente.saldo_beneficios, cliente.suscripcion, cliente.frecuencia, cliente.quiereretirar, cliente.medio_retiro, cliente.banco_retiro, cliente.numero_cuenta, id]);
-            console.log("dentro de model 2do update", id)
+            //  console.log("dentro de model 2do update", id)
             return { cliente1 }
         } catch (error) {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);
@@ -105,23 +102,23 @@ const modelUserCliente = {
             throw new Error(`Error en la eliminación del cliente: ${error.message}`);
         }
     },
-    existCodeCliente : async(codigo) => {
-        console.log("entro a EXISTTTT")
+    existCodeCliente: async (codigo) => {
+        // console.log("entro a EXISTTTT")
         try {
             const existCodigo = await db_pool.oneOrNone(`SELECT codigo, id, fecha_creacion_cuenta  FROM ventas.cliente WHERE codigo=$1`,
-            [codigo.codigo]);
-            console.log(existCodigo.codigo)
-            if(existCodigo){
-                console.log('si existe')
-                existCodigo['existe']=true
+                [codigo.codigo]);
+            // console.log(existCodigo.codigo)
+            if (existCodigo) {
+                //  console.log('si existe')
+                existCodigo['existe'] = true
                 return existCodigo
             }
-            else{
-                existCodigo['existe']=false
-                console.log('no esistee')
+            else {
+                existCodigo['existe'] = false
+                // console.log('no esistee')
                 return existCodigo
             }
-            
+
         } catch (error) {
             throw new Error(`Error query verify code ${error}`)
         }

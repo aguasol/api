@@ -20,7 +20,7 @@ export const getProductosZonas = async (req,res)=> {
     }
 }
 export const getProductoPorZonas = async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const { empleadoID } = req.params;
         const id = parseInt(empleadoID, 10);

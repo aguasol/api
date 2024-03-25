@@ -24,9 +24,9 @@ export const updateUserAdmins = async (req,res)=>{
     try {
         const {userAdminId} = req.params;
         const id = parseInt(userAdminId,10);
-        console.log('el id',id);
+        //console.log('el id',id);
         const data = req.body;
-        console.log('data',data)
+        //console.log('data',data)
         const updateUserAdmin = await modelUserAdmin.updateUserAdmin(id,data);
         res.json(updateUserAdmin);
     } catch (error) {

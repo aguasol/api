@@ -24,7 +24,7 @@ export const getLastPedidos = async (req,res) => {
 }
 
 export const getPedidos =  async (req,res) => {
-    console.log("llego el requerimiento de los pedidos")
+   // console.log("llego el requerimiento de los pedidos")
     try {
         const getPedidos = await modelPedido.getPedido();
         //console.log("----controller pedido")
@@ -36,15 +36,15 @@ export const getPedidos =  async (req,res) => {
 }
 
 export const getPedidosConductor = async (req,res) => {
-    console.log("id pedido conductor llego")
+   // console.log("id pedido conductor llego")
 
     try{
         const {rutaID} = req.params;
         const id = parseInt(rutaID,10);
-        console.log(id)
+       // console.log(id)
         const {conductorID} = req.params;
         const id2 = parseInt(conductorID,10);
-        console.log(id2)
+       // console.log(id2)
         const getPedidoCond = await modelPedido.getPedidoConductor(id,id2);
         res.json(getPedidoCond);
     } catch (error) {
@@ -64,12 +64,12 @@ export const getPedidoEmpleados = async (req,res) => {
 }
 
 export const getPedidosClientes = async (req,res) => {
-    console.log("id cliente llego")
+    //console.log("id cliente llego")
 
     try{
         const {clienteID} = req.params;
         const id = parseInt(clienteID,10);
-        console.log(id)
+       // console.log(id)
         const getPedidoCli = await modelPedido.getPedidosCliente(id);
         res.json(getPedidoCli);
     } catch (error) {
@@ -79,7 +79,7 @@ export const getPedidosClientes = async (req,res) => {
 
 
 export const deletePedidos = async (req,res) => {
-    console.log("id llego")
+  //  console.log("id llego")
     try {
         const { pedidoID } = req.params;
         const id = parseInt(pedidoID, 10);
@@ -102,12 +102,12 @@ export const updateEstadoPedidos = async (req,res)=>{
         const {pedidoID} = req.params;
         const id = parseInt(pedidoID,10);
         const newDatos = req.body;
-        console.log('este es el estado-----')
-        console.log(newDatos)
+        //console.log('este es el estado-----')
+        //console.log(newDatos)
         
         const updatePedidos = await modelPedido.updateEstadoPedido(id,newDatos);
-        console.log('este es el update-----')
-        console.log(updatePedidos)
+       // console.log('este es el update-----')
+        //console.log(updatePedidos)
         res.json(updatePedidos);
     } catch (error) {
         res.status(500).json({error:error.message});

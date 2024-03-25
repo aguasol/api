@@ -13,7 +13,7 @@ export const createPromociones = async (req,res) => {
 }
 
 export const getPromociones =  async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const getPromociones = await modelPromocion.getPromocion();
         res.json(getPromociones)
@@ -24,7 +24,7 @@ export const getPromociones =  async (req,res) => {
 
 
 export const deletePromociones = async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const { promocionID } = req.params;
         const id = parseInt(promocionID, 10);

@@ -22,7 +22,7 @@ export const getVehiculosProductos = async (req,res)=> {
     }
 }
 export const getProductosVehiculo =  async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const { vehiculoID } = req.params;
         const id = parseInt(vehiculoID, 10);
@@ -75,8 +75,8 @@ export const updateVehiculoProductsCond = async (req,res) => {
         // EXTRAYENDO EL BODY 
         const stock = req.body
         const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoProductCond(idvehiculo,stock)
-        console.log("------controllooerrr-----")
-        console.log(updatevehiculoproducto)
+       // console.log("------controllooerrr-----")
+       // console.log(updatevehiculoproducto)
         res.status(200).json(updatevehiculoproducto)
 
     } catch (error) {

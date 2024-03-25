@@ -2,7 +2,7 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
 
-console.log("--------# 13.0 promocion")
+//console.log("--------# 13.0 promocion")
 
 const modelPromocion = {
     createPromocion:async (promocion) => {
@@ -21,7 +21,7 @@ const modelPromocion = {
     },
 
     getPromocion: async ()=> {
-        console.log("id llego")
+        //console.log("id llego")
         try {
             const promociones = await db_pool.any('SELECT id,nombre,precio,descripcion,fecha_inicio,fecha_limite,foto FROM ventas.promocion');
             return promociones

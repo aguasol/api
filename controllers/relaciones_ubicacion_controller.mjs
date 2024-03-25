@@ -14,9 +14,9 @@ export const getUbicacionesXCliente = async (req,res) => {
     try {
         const { clienteID } = req.params;
         const id = parseInt(clienteID, 10);
-        console.log("--------------DEL ID----------------------",id)
+      //  console.log("--------------DEL ID----------------------",id)
         const ubicacionesCliente = await modelUbicacion.getUbicacionesCliente(id);
-        console.log("--------------DEL ID----------------------",id)
+       // console.log("--------------DEL ID----------------------",id)
 
         res.status(200).json(ubicacionesCliente);
     } catch (error) {
@@ -41,9 +41,9 @@ export const getUbicacionesClienteNRS = async (req,res) => {
     try {
         const { clienteNRID } = req.params;
         const id = parseInt(clienteNRID, 10);
-        console.log("--------------DEL ID----------------------",id)
+       // console.log("--------------DEL ID----------------------",id)
         const ubicacionesCliente = await modelUbicacion.getUbicacionesClienteNR(id);
-        console.log("--------------DEL ID----------------------",id)
+        //console.log("--------------DEL ID----------------------",id)
 
         res.status(200).json(ubicacionesCliente);
     } catch (error) {

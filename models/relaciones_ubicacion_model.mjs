@@ -1,5 +1,5 @@
 import { db_pool } from "../config.mjs";
-console.log("--------# 4.0 ubicacion")
+//console.log("--------# 4.0 ubicacion")
 const modelUbicacion = { 
     createUbicacion :async(ubicacion) => {
         
@@ -17,19 +17,19 @@ const modelUbicacion = {
     getUbicacion : async() => {
         try {
             const ubicaciones = await db_pool.any('SELECT * FROM relaciones.ubicacion')
-            console.log("ubicaciones")
-            console.log(ubicaciones)
+           // console.log("ubicaciones")
+         //   console.log(ubicaciones)
             return ubicaciones
         } catch (error) {
             throw new Error(`Error conseguir ${error}`)
         }
     },
     getUbicacionesCliente : async(clienteID) => {
-        console.log("----------LLEGO EL CLIENTE_ID----------------------------")
+      //  console.log("----------LLEGO EL CLIENTE_ID----------------------------")
         try {
             const ubicaciones = await db_pool.any('SELECT * FROM relaciones.ubicacion WHERE cliente_id = $1',[clienteID])
-            console.log("ubicaciones")
-            console.log(ubicaciones)
+           // console.log("ubicaciones")
+           // console.log(ubicaciones)
             return ubicaciones
         } catch (error) {
             throw new Error(`Error conseguir ${error}`)

@@ -42,9 +42,9 @@ export const updateUserConductores = async (req,res)=>{
     try {
         const {userConductorId} = req.params;
         const id = parseInt(userConductorId,10);
-        console.log('el id',id);
+        //console.log('el id',id);
         const data = req.body;
-        console.log('data',data)
+       // console.log('data',data)
         const updateUserConductor = await modelUserConductor.updateUserConductor(id,data);
         res.json(updateUserConductor);
     } catch (error) {

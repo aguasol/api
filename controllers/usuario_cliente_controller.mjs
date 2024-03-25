@@ -24,9 +24,9 @@ export const updateUserClientes = async (req,res)=>{
     try {
         const {userClientId} = req.params;
         const id = parseInt(userClientId,10);
-        console.log('el id',id);
+       // console.log('el id',id);
         const data = req.body;
-        console.log('data',data)
+        //console.log('data',data)
         const updateUserClient = await modelUserCliente.updateUserCliente(id,data);
         res.json(updateUserClient);
     } catch (error) {
@@ -37,9 +37,9 @@ export const updateClientes = async (req,res)=>{
     try {
         const {userClientId} = req.params;
         const id = parseInt(userClientId,10);
-        console.log('el id',id);
+       // console.log('el id',id);
         const data = req.body;
-        console.log('data',data)
+     //   console.log('data',data)
         const updateClient = await modelUserCliente.updateCliente(id,data);
         res.json(updateClient);
     } catch (error) {

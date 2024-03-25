@@ -1,50 +1,46 @@
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
 
-console.log("--------# 8.0 empleado")
+//console.log("--------# 8.0 empleado")
 const modelUserEmpleado = {
     createUserEmpleado: async (empleado) => {
-        const employer =  await db_pool.connect();
-        try{
+        // const employer =  await db_pool.connect();
+        try {
             const UsuarioExistente = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname=$1`,
                 [empleado.nickname])
-            console.log("usuarioexistente")
-            console.log(UsuarioExistente)
+            // console.log("usuarioexistente")
+            //  console.log(UsuarioExistente)
             if (UsuarioExistente) {
                 return { message: "Usuario ya existente, intente otro por favor." }
             }
-            else{
-                
+            else {
+
                 const hashedPassword = await bcrypt.hash(empleado.contrasena, 10);
                 // Inicia una transacción
-                const result = await employer.tx(async (t) => {
-                    const usuario = await t.one('INSERT INTO personal.usuario (rol_id, nickname, contrasena, email) VALUES ($1, $2, $3, $4) RETURNING *',
-                        [empleado.rol_id, empleado.nickname, hashedPassword, empleado.email]);
-                    console.log("id conductor")
-                    console.log(usuario.id)
-                    
+                //const result = await employer.tx(async (t) => {
+                const usuario = await db_pool.one('INSERT INTO personal.usuario (rol_id, nickname, contrasena, email) VALUES ($1, $2, $3, $4) RETURNING *',
+                    [empleado.rol_id, empleado.nickname, hashedPassword, empleado.email]);
+                // console.log("id conductor")
+                // console.log(usuario.id)
 
-                    const empleados = await t.one('INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.dni, empleado.fecha_nacimiento,empleado.codigo_empleado,empleado.administrador_id]);
-        
 
-                    console.log("empleados+-++++");
-                    console.log(empleados);
+                const empleados = await db_pool.one('INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
+                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.dni, empleado.fecha_nacimiento, empleado.codigo_empleado, empleado.administrador_id]);
 
-                    return { usuario, empleados } 
-                });
-                return {resultado:result}
+
+                //   console.log("empleados+-++++");
+                //  console.log(empleados);
+
+                return { usuario, empleados }
+                // });
+                // return {resultado:result}
             }
-          
-           
-        }
-        catch(e){
-            throw new Error(`Error query create:${e}`)
-        } finally {
-            // Asegúrate de liberar la conexión al finalizar
-            employer.done();
-        }
 
+
+        }
+        catch (e) {
+            throw new Error(`Error query create:${e}`)
+        }
     },
     updateUserEmpleado: async (id, empleado) => {
 
@@ -58,7 +54,7 @@ const modelUserEmpleado = {
 
             const empleados = await db_pool.one('UPDATE personal.empleado SET nombres=$1, apellidos=$2, dni=$3, fecha_nacimiento=$4, codigo_empleado=$5 WHERE usuario_id = $6 RETURNING *',
                 [empleados.nombres, empleados.apellidos, empleados.dni, empleados.fecha_nacimiento, empleados.codigo_empleado, id]);
-            console.log("dentro de model 2do update", id)
+            //  console.log("dentro de model 2do update", id)
             return { usuario, empleados }
         } catch (error) {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);

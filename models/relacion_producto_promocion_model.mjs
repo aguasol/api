@@ -2,10 +2,10 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
 
-console.log("--------# 3.0 producto promocion")
+//console.log("--------# 3.0 producto promocion")
 const modelProductoPromocion = {
     createProductoPromocion:async (relacion) => {
-        console.log("---- 3.- model promocion")
+      //  console.log("---- 3.- model promocion")
         
         try{
             // const io = await app_sol.get('io');
@@ -22,7 +22,7 @@ const modelProductoPromocion = {
     },
 
     getProductoPromocion: async ()=> {
-        console.log("id llego")
+     //   console.log("id llego")
         try {
             const relaciones = await db_pool.any('SELECT id,promocion_id,producto_id,cantidad FROM relaciones.producto_promocion');
             return relaciones
@@ -33,7 +33,7 @@ const modelProductoPromocion = {
     },
 
     getUNProductoPromocion: async (promocion_id)=> {
-        console.log("----------LLEGO LA PROMOCION_ID.----------------------------")
+       // console.log("----------LLEGO LA PROMOCION_ID.----------------------------")
         try {
             const relaciones = await db_pool.any('SELECT promocion_id,producto_id,cantidad FROM relaciones.producto_promocion WHERE promocion_id=$1',[promocion_id]);
             return relaciones

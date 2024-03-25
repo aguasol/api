@@ -17,11 +17,11 @@ export const createProductoPromociones = async (req,res) => {
 
 
 export const getUNProductoPromociones =  async (req,res) => {
-    console.log("------------OBTENGO LOS PRODUCTOS----------------------")
+   // console.log("------------OBTENGO LOS PRODUCTOS----------------------")
     try {
         const{ promocionID } = req.params;
         const id = parseInt(promocionID, 10);
-        console.log("--------------DEL ID----------------------",id)
+       // console.log("--------------DEL ID----------------------",id)
         const getUNProductoPromociones = await modelProductoPromocion.getUNProductoPromocion(id);
         //res.json(getUNProductoPromociones)
         if (getUNProductoPromociones) {
@@ -31,7 +31,7 @@ export const getUNProductoPromociones =  async (req,res) => {
             res.status(404).json({ error: 'No se encontró la relacion con la PROMO ID proporcionado' });
         }
     } catch (error) {
-        console.log("----------------AQUI ES EL ERROR :C---------------------------")
+       // console.log("----------------AQUI ES EL ERROR :C---------------------------")
         res.status(500).json({ error: error.message });
     }
 }
@@ -41,7 +41,7 @@ export const getUNProductoPromociones =  async (req,res) => {
 
 
 export const getProductoPromociones =  async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const getProductoPromociones = await modelProductoPromocion.getProductoPromocion();
         res.json(getProductoPromociones)
@@ -52,7 +52,7 @@ export const getProductoPromociones =  async (req,res) => {
 
 
 export const deleteProductoPromociones = async (req,res) => {
-    console.log("id llego")
+   // console.log("id llego")
     try {
         const { relacionID } = req.params;
         const id = parseInt(relacionID, 10);

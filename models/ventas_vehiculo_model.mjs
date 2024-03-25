@@ -6,8 +6,8 @@ const modelVehiculo = {
 
     createVehiculo: async (vehiculo) => {
         try {
-            console.log("vehiculo");
-            console.log(vehiculo);
+           // console.log("vehiculo");
+           // console.log(vehiculo);
             const result = await db_pool.one(`
                 INSERT INTO ventas.vehiculo 
                 (nombre_modelo, placa, administrador_id)
@@ -15,8 +15,8 @@ const modelVehiculo = {
                 RETURNING *`,
                 [vehiculo.nombre_modelo, vehiculo.placa, vehiculo.administrador_id]);
             // 
-            console.log("---vehiculos---")
-            console.log(result)
+           // console.log("---vehiculos---")
+           // console.log(result)
             const vehiculo_productos = await db_pool.manyOrNone(`
                 INSERT INTO ventas.vehiculo_producto
                 (producto_id, vehiculo_id, stock, stock_movil_conductor)
@@ -35,11 +35,11 @@ const modelVehiculo = {
                     5, result.id, 0, 0
                 ]);
             
-            console.log("-%%%%%%%%%%%%%%%%%%%%%%%%%%%-")
-            console.log("----------salida creacion");
-
-            console.log(vehiculo);
-            console.log("------vehiculos_productos")
+           // console.log("-%%%%%%%%%%%%%%%%%%%%%%%%%%%-")
+           // console.log("----------salida creacion");
+//
+           // console.log(vehiculo);
+           // console.log("------vehiculos_productos")
             return result;
         } catch (error) {
             throw new Error(`error query ${error}`);
@@ -51,15 +51,15 @@ const modelVehiculo = {
             // PRIMERO DEBEMOS TRAER EL ADMIN DEL EMPLEADO QUE SE ESTÁ REGISTRANDO
             const adminEmpleado = await db_pool.one(`
             SELECT administrador_id FROM personal.empleado WHERE id = $1`, [id])
-            console.log("-----admin Empleado ")
-            console.log(adminEmpleado)
+           // console.log("-----admin Empleado ")
+           // console.log(adminEmpleado)
 
             const getvehiculos = await db_pool.any(`
             SELECT * FROM ventas.vehiculo WHERE administrador_id = $1;
             `, [adminEmpleado.administrador_id])
 
-            console.log("getvehiculos")
-            console.log(getvehiculos)
+            //console.log("getvehiculos")
+            //console.log(getvehiculos)
             return getvehiculos
         } catch (error) {
             throw new Error(`error query ${error}`)
@@ -67,7 +67,7 @@ const modelVehiculo = {
     },
     getVehiculoAdmin: async (idadmin) => {
         try {
-            console.log("get vehiculos admin", idadmin)
+            //console.log("get vehiculos admin", idadmin)
             const vehiculoAdmin = await db_pool.any(`
             SELECT * FROM ventas.vehiculo WHERE administrador_id =$1`,
                 [idadmin])

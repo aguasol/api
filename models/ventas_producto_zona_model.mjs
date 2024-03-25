@@ -12,8 +12,8 @@ const modelProductoZona = {
             VALUES($1,$2,$3) RETURNING *`,
                 [productozona.zona_trabajo_id,productozona.producto_id,productozona.stock_padre])
            
-            console.log("---producto zone---")
-            console.log(ProductoZone)
+           // console.log("---producto zone---")
+           // console.log(ProductoZone)
             return ProductoZone
           
            

@@ -1,22 +1,22 @@
 
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
-console.log("--------# 1.0 login")
+//console.log("--------# 1.0 login")
 
 const modelLogin = {
     Login: async (credenciales) => {
         
-        console.log(credenciales)
+        //console.log(credenciales)
         try {
                       
             
             const existUser = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname = $1`,
             [credenciales.nickname])
-            console.log("Exist USER")
-            console.log(existUser)
-            console.log(typeof existUser)
+           // console.log("Exist USER")
+           // console.log(existUser)
+           // console.log(typeof existUser)
             if(existUser){
-                console.log("Exist USER - Rol ID:", existUser.rol_id)
+              //  console.log("Exist USER - Rol ID:", existUser.rol_id)
                 if(existUser.rol_id==2){
                     const resultado = await db_pool.oneOrNone(
                         `SELECT * FROM personal.usuario 

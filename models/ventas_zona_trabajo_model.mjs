@@ -18,8 +18,8 @@ const modelZonaTrabajo = {
     getZona : async() => {
         try {
             const zona = await db_pool.any('SELECT * FROM ventas.zona_trabajo')
-            console.log("zonas")
-            console.log(zona)
+            //console.log("zonas")
+            //console.log(zona)
             return zona
         } catch (error) {
             throw new Error(`Error conseguir ${error}`)

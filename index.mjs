@@ -39,8 +39,8 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    console.log('Cliente conectado');
-    console.log("holaa");
+    //console.log('Cliente conectado');
+    //console.log("holaa");
 
     socket.on('disconnect', () => {
         console.log('Cliente desconectado');
@@ -48,12 +48,12 @@ io.on('connection', (socket) => {
 
     // RECIBIENDO 
     socket.on('recibiendoMensaje', (data) => {
-        console.log(data);
+       // console.log(data);
         // io.emit('enviandoCoordenadas',data);
     });
 
     socket.on('Termine de Updatear', (data) => {
-        console.log(data);
+        //console.log(data);
         io.emit('Llama tus Pedidos :)', data);
     });
 
@@ -103,7 +103,7 @@ app_sol.use('/api', routerProductoZona);
 app_sol.use('/api', routerZonas);
 
 app_sol.use('/api', (req, res) => {
-    console.log("---no esta esa ruta")
+    //console.log("---no esta esa ruta")
     res.status(404).json({ error: 'Ruta no encontrada' });
 
 });

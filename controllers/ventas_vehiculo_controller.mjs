@@ -13,10 +13,10 @@ export const createVehiculos = async (req,res) => {
 }
 export const getVehiculos = async (req,res)=> {
     try {
-        console.log("dntro de controller vehiculo");
+       // console.log("dntro de controller vehiculo");
 
         const {empleadoID} = req.params
-        console.log(empleadoID);
+       // console.log(empleadoID);
         const id = parseInt(empleadoID,10)
         const getvehiculos = await modelVehiculo.getVehiculo(id);
         res.status(200).json(getvehiculos)

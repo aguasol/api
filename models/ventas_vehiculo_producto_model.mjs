@@ -15,13 +15,13 @@ const modelVehiculoProduct = {
 
     },
     getVehiculoProduct: async () => {
-        console.log("---dentro de get ---")
+      //  console.log("---dentro de get ---")
         try {
             const getVehiculoProductos = await db_pool.any(`
             SELECT * FROM ventas.vehiculo_producto;`)
             //select vvp.id, producto_id,stock_movil from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=1
-            console.log("----vehiculo...prod")
-            console.log(getVehiculoProductos)
+           // console.log("----vehiculo...prod")
+           // console.log(getVehiculoProductos)
             return getVehiculoProductos
 
         } catch (error) {
@@ -29,7 +29,7 @@ const modelVehiculoProduct = {
         }
     },
     getVehiculoProductVehiculo: async (idvehiculo) => {
-        console.log("--cond vehiculo producto---")
+      //  console.log("--cond vehiculo producto---")
 
         try {
             const getVPconductor = await db_pool.any(
@@ -44,13 +44,13 @@ const modelVehiculoProduct = {
 
     },
     getProductoVehiculo: async (vehiculoID) => {
-        console.log("---dentro de get ---")
+       // console.log("---dentro de get ---")
         try {
             const getVehiculoProductos = await db_pool.any(`
             select vvp.id, producto_id,stock from ventas.vehiculo as vv inner join ventas.vehiculo_producto as vvp on vvp.vehiculo_id=vv.id where vehiculo_id=$1`, [vehiculoID])
 
-            console.log("----vehiculo...prod")
-            console.log(getVehiculoProductos)
+           // console.log("----vehiculo...prod")
+           // console.log(getVehiculoProductos)
             return getVehiculoProductos
 
         } catch (error) {
@@ -59,7 +59,7 @@ const modelVehiculoProduct = {
     },
    // update Empleado
     updateVehiculoProductoXEmpleado : async (idproducto,idvehiculo,stock) => {
-        console.log("updae x emple")
+      //  console.log("updae x emple")
         try {
             const updateXempleado = await db_pool.manyOrNone(
                 `UPDATE ventas.vehiculo_producto SET stock_movil_conductor = $1 
