@@ -111,7 +111,7 @@ const modelUserCliente = {
             const existCodigo = await db_pool.oneOrNone(`SELECT codigo, beneficiado_id, fecha_creacion_cuenta  FROM ventas.cliente WHERE codigo=$1`,
             [codigo.codigo]);
             console.log(existCodigo.codigo)
-            if(existCodigo.codigo){
+            if(existCodigo){
                 console.log('si existe')
                 existCodigo['existe']=true
                 return info
