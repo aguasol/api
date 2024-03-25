@@ -159,6 +159,7 @@ const modelPedido = {
             vp.fecha, 
             vp.estado,
             vp.tipo, 
+            vp.beneficiado_id,
             vp.observacion, 
             COALESCE(vc.nombre, vcnr.nombre) as nombre,
             COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
