@@ -108,7 +108,7 @@ const modelUserCliente = {
     existCodeCliente : async(codigo) => {
         console.log("entro a EXISTTTT")
         try {
-            const existCodigo = await db_pool.oneOrNone(`SELECT codigo, beneficiado_id, fecha_creacion_cuenta  FROM ventas.cliente WHERE codigo=$1`,
+            const existCodigo = await db_pool.oneOrNone(`SELECT codigo, id, fecha_creacion_cuenta  FROM ventas.cliente WHERE codigo=$1`,
             [codigo.codigo]);
             console.log(existCodigo.codigo)
             if(existCodigo){
