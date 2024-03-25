@@ -7,26 +7,26 @@ console.log("--------# 10.0 pedido")
 
 const modelPedido = {
     createPedido: async (pedido) => {
-        const paquete = await db_pool.connect();
+       
 
         try {
             //  console.log("-----PEDIDOO recibidoooo------")
             // console.log(pedido)
             // const io = await app_sol.get('io');
-            console.log("-----PEDIDO INSERTADO-------")
+            //console.log("-----PEDIDO INSERTADO-------")
             if (pedido.cliente_id) {
                 // Si cliente_id existe, es un cliente registrado
-                const resultado = await paquete.tx(async (t) => {
-                    const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id,observacion,beneficiado_id)
+             
+                    const pedidos_cr = await db_pool.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id,observacion,beneficiado_id)
                         VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9,$10)
                         RETURNING *
                         `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.ubicacion_id, pedido.observacion, pedido.beneficiado_id]);
 //aqui agregar recibir  el beneficiado idddddddddddddddddddddddd
-                    console.log("pedidos cr");
+                    /*console.log("pedidos cr");
                     console.log(pedidos_cr);
-                    console.log(pedidos_cr.id);
+                    console.log(pedidos_cr.id);*/
 
-                    const pedidoss = await t.one(`SELECT vp.id, vp.subtotal, vp.descuento, vp.total, vp.ruta_id, vp.fecha, vp.estado, vp.tipo, vp.observacion,
+                    const pedidoss = await db_pool.one(`SELECT vp.id, vp.subtotal, vp.descuento, vp.total, vp.ruta_id, vp.fecha, vp.estado, vp.tipo, vp.observacion,
                         vc.nombre, vc.apellidos, vc.telefono, rub.latitud, rub.longitud, rub.distrito
                         FROM ventas.pedido as vp
                         FULL JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
@@ -35,29 +35,28 @@ const modelPedido = {
                         `, [pedidos_cr.id]);
 
                     // PEDIDOS SOCKET
-                    console.log('nuevoPedido Emitido');
+                   // console.log('nuevoPedido Emitido');
                     io.emit('nuevoPedido', pedidoss);
 
-                    return pedidoss;
+                    return pedidoss
 
-                })
                 
 
-                console.log(resultado)
-                return resultado
+              //  console.log(resultado)
+                //return resultado
 
 
             } else {
-                const resultado = await paquete.tx(async (t) => {
+                
                     // Si cliente_id es nulo, es un cliente no registrado
-                    const pedidos_nr = await t.one(`INSERT INTO ventas.pedido (cliente_nr_id, subtotal,descuento,total, fecha, tipo, estado,observacion, ubicacion_id)
+                    const pedidos_nr = await db_pool.one(`INSERT INTO ventas.pedido (cliente_nr_id, subtotal,descuento,total, fecha, tipo, estado,observacion, ubicacion_id)
                         VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)
                         RETURNING *`,
                         [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.observacion, pedido.ubicacion_id]);
-                    console.log("pedidos nr");
-                    console.log(pedidos_nr);
+                   /* console.log("pedidos nr");
+                    console.log(pedidos_nr);*/
 
-                    const pedidoss = await t.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
+                    const pedidoss = await db_pool.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
                         FROM ventas.pedido as vp
                         FULL JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
                         FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
@@ -66,8 +65,8 @@ const modelPedido = {
                     // PEDIDOS SOCKET
                     io.emit('nuevoPedido', pedidoss)
                     return pedidoss
-                })
-                return resultado
+                
+               
 
             }
 
