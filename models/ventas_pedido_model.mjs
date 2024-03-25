@@ -209,40 +209,19 @@ const modelPedido = {
             console.log('entro a update')
             const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
                 [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago, pedidoID]);
-	const pedido = await db_pool.oneOrNone('SELECT descuento, beneficiado_id FROM ventas.pedido WHERE id = $1',
+	        const pedido = await db_pool.oneOrNone('SELECT descuento, beneficiado_id FROM ventas.pedido WHERE id = $1',
                 [pedidoID]);
 
-	if(pedido.beneficiado_id){
-	console.log('beneficiado si existe')
-            const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE id=$1`, [
-            pedido.beneficiado_id
-            ])
-            const nuevoSaldo = saldo.saldo_beneficios + (pedido.descuento/12)*3
- 
-            await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
- 
-	}else{
-        console.log("no existe beneficiado :c ")
+	        if(pedido.beneficiado_id){
+	            console.log('beneficiado si existe')
+                const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE id=$1`, [pedido.beneficiado_id])
+                //el beneficio por codigo seria igual al descuento/12 * 3 
+                const nuevoSaldo = saldo.saldo_beneficios + (pedido.descuento/12)*3
+                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
+        	}else{
+                console.log("no existe beneficiado :c ")
             }
-		
-        /*const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`, [pedido.codigo]);
-        console.log(existCodigo)
-        if (existCodigo) {
-            console.log('si existe')
-            const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`, [
-            existCodigo.codigo
-            ])
-            const nuevoSaldo = saldo.saldo_beneficios + (3 * pedido.cantidad_bidones)
- 
-            await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`, [nuevoSaldo, existCodigo.codigo])
- 
-            }
-        else{
-        console.log("no existes ")
-            }*/
-
-//el beneficio por codigo seria igual al descuento/12 * 3 
-
+            
             if (!result) {
                 throw new Error(`No se encontró un pedido con ID ${id}.`);
             }
