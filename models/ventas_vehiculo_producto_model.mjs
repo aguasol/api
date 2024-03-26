@@ -66,6 +66,15 @@ const modelVehiculoProduct = {
                 WHERE producto_id = $2 and vehiculo_id = $3 RETURNING *`,
                 [stock.stockproducto,idproducto,idvehiculo]
             )
+
+            const stock_movil_cond = updateXempleado.stock_movil_conductor
+            console.log("stock movil cond")
+            console.log(updateXempleado.stock_movil_conductor)
+
+            const updateStockVehiculo = await db_pool.manyOrNone(
+                `UPDATE ventas.vehiculo_producto SET stock=stock + $1 WHERE producto_id = $2
+                AND vehiculo_id = $3 RETURNING *`,[stock_movil_cond,idproducto,idvehiculo]
+            )
             return updateXempleado
         } catch (error) {
             throw new Error(`error query : ${error}`)
