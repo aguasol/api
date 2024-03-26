@@ -69,7 +69,8 @@ const modelVehiculoProduct = {
 
             const stock_movil_cond = updateXempleado.stock_movil_conductor
             console.log("stock movil cond")
-            console.log(updateXempleado.stock_movil_conductor)
+            console.log(stock_movil_cond)
+            console.log("....")
             console.log(updateXempleado)
 
             const updateStockVehiculo = await db_pool.manyOrNone(
