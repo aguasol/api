@@ -67,7 +67,7 @@ const modelVehiculoProduct = {
                 [stock.stockproducto,idproducto,idvehiculo]
             )
 
-            const stock_movil_cond = updateXempleado.stock_movil_conductor
+            const {stock_movil_cond} = updateXempleado
             console.log("stock movil cond")
             console.log(stock_movil_cond)
             console.log("....")
