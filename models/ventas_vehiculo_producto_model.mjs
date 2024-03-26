@@ -79,17 +79,21 @@ const modelVehiculoProduct = {
                 console.log(updateStockVehiculo[0].stock)
 
                 // CONSEGUIR LA ZONA DE TRABAJO DEL TRABAJADOR
-                const zona = await db_pool.any(`SELECT pa.zona_trabajo_id FROM personal.empleado pe
+                const zonaId = await db_pool.any(`SELECT pa.zona_trabajo_id FROM personal.empleado pe
                 INNER JOIN personal.administrador pa ON pe.administrador_id=pa.id WHERE pe.id = $1`,
                 [idempleado])
                 console.log("zona")
                 console.log(zona)
-                console.log(zona.zona_trabajo_id)
+                console.log(zona[0].zona_trabajo_id)
+
+                const stockPadre = zonaId[0].zona_trabajo_id
 
                 // ACTUALIZAR LA PRODUCTO ZONA DE ACUERDO AL PEDIDO
+                
+
                 const updateSTOCKzona = await db_pool.manyOrNone(
                     `UPDATE ventas.producto_zona SET stock_padre = stock_padre - $1 WHERE producto_id = $2 AND 
-                    zona_trabajo_id=$3`,[updateStockVehiculo[0].stock,idproducto,zona.zona_trabajo_id]
+                    zona_trabajo_id=$3`,[updateStockVehiculo[0].stock,idproducto,stockPadre]
                 )
                 return updateStockVehiculo
             }
