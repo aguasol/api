@@ -34,11 +34,12 @@ export const getProductosVehiculo =  async (req,res) => {
 }
 export const updateXEmpleado = async (req,res) => {
     try{
-        const {vehiculoID,productoID} = req.params
+        const {vehiculoID,productoID,empleadoID} = req.params
         const idVehiculo =parseInt(vehiculoID,10)
         const idProducto = parseInt(productoID,10)
+        const idEmpleado = parseInt(empleadoID,10)
         const stock = req.body
-        const updateXempleado = await modelVehiculoProduct.updateVehiculoProductoXEmpleado(idProducto,idVehiculo,stock)
+        const updateXempleado = await modelVehiculoProduct.updateVehiculoProductoXEmpleado(idEmpleado,idProducto,idVehiculo,stock)
         res.status(200).json(updateXempleado)
     }
     catch(error){

@@ -58,7 +58,7 @@ const modelVehiculoProduct = {
         }
     },
     // update Empleado
-    updateVehiculoProductoXEmpleado: async (idproducto, idvehiculo, stock) => {
+    updateVehiculoProductoXEmpleado: async (idempleado,idproducto, idvehiculo, stock) => {
         //  console.log("updae x emple")
         try {
             const updateXempleado = await db_pool.manyOrNone(
@@ -86,7 +86,7 @@ const modelVehiculoProduct = {
                 // ACTUALIZAR LA PRODUCTO ZONA DE ACUERDO AL PEDIDO
                 const updateSTOCKzona = await db_pool.manyOrNone(
                     `UPDATE ventas.producto_zona SET stock_padre = stock_padre - $1 WHERE producto_id = $2 AND 
-                    zona_trabajo_id=$3`,[updateStockVehiculo.stock,idproducto,zona]
+                    zona_trabajo_id=$3`,[updateStockVehiculo[0].stock,idproducto,zona]
                 )
                 return updateStockVehiculo
             }

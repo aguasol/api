@@ -9,5 +9,5 @@ routerVehiculoProducto.get('/vehiculo_producto/:vehiculoID',getProductosVehiculo
 //routerVehiculoProducto.put('/vehiculo_producto_stock/:vehiculoID',updateVehiculoProductosStock)
 routerVehiculoProducto.put('/vehiculo_producto_conductor/:vehiculoID',updateVehiculoProductsCond)
 routerVehiculoProducto.get('/vp_vehiculo/:vehiculoID',getVPvehiculos)
-routerVehiculoProducto.put('/vehiculoXempleado/:vehiculoID/:productoID',updateXEmpleado)
+routerVehiculoProducto.put('/vehiculoXempleado/:vehiculoID/:productoID/:empleadoID',updateXEmpleado)
 export default routerVehiculoProducto;
