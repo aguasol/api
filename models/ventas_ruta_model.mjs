@@ -8,7 +8,7 @@ const modelRuta = {
     getPedidosByruta: async (ruta_id) => {
         try {
 
-            console.log("---HOLAAA DENTRO DE Pruta->>>", ruta_id)
+           // console.log("---HOLAAA DENTRO DE Pruta->>>", ruta_id)
             const pedidos = await db_pool.any('SELECT * FROM ventas.pedido WHERE ruta_id=$1',
                 [ruta_id]);
             //  console.log("ultima ruta")
@@ -22,21 +22,21 @@ const modelRuta = {
 
     createRuta: async (ruta) => {
         try {
-            console.log("model_ruta")
-            console.log(ruta)
+            //console.log("model_ruta")
+            //console.log(ruta)
             // const io = await app_sol.get('io');
 
             const rutas = await db_pool.one('INSERT INTO ventas.ruta (conductor_id,vehiculo_id,empleado_id,distancia_km,tiempo_ruta,fecha_creacion) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
                 [ruta.conductor_id, ruta.vehiculo_id, ruta.empleado_id, ruta.distancia_km, ruta.tiempo_ruta, ruta.fecha_creacion]);
-            console.log("--INSERT RUTA")
-            console.log(rutas)
+           // console.log("--INSERT RUTA")
+            //console.log(rutas)
 
-            console.log("--RUTA-CONDUCTOR ID")
-            console.log()
+            //console.log("--RUTA-CONDUCTOR ID")
+            //console.log()
             const lastruta = await db_pool.one('SELECT id FROM ventas.ruta WHERE empleado_id = $1 ORDER BY id DESC LIMIT 1',
                 [ruta.empleado_id]);
-            console.log("---LAST RUTA")
-            console.log(lastruta)
+            //console.log("---LAST RUTA")
+            //console.log(lastruta)
             /*console.log(lastruta.id)
             console.log(typeof lastruta.id)
             console.log("ruta.conductor_id")
@@ -57,8 +57,8 @@ const modelRuta = {
 
 
             const pedidos = await modelRuta.getPedidosByruta(lastruta.id)
-            console.log("----rutassssssssss")
-            console.log(ruta)
+            //console.log("----rutassssssssss")
+            //console.log(ruta)
 
             //EMITIR UN EVENTO
             io.emit('creadoRuta', rutas)
