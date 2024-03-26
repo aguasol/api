@@ -74,7 +74,7 @@ const modelVehiculoProduct = {
                 console.log(updateXempleado)
 
                 const updateStockVehiculo = await db_pool.manyOrNone(
-                    `UPDATE ventas.vehiculo_producto SET stock=stock + $1 WHERE producto_id = $2
+                    `UPDATE ventas.vehiculo_producto SET stock=stock + $1,stock_movil_conductor=0 WHERE producto_id = $2
                     AND vehiculo_id = $3 RETURNING *`, [stock_movil_cond, idproducto, idvehiculo]
                 )
                 return updateXempleado
