@@ -68,10 +68,7 @@ const modelVehiculoProduct = {
             )
             if (updateXempleado.length > 0) {
                 const stock_movil_cond = updateXempleado[0].stock_movil_conductor
-                console.log("stock movil cond")
-                console.log(stock_movil_cond)
-                console.log("....")
-                console.log(updateXempleado)
+                
 
                 const updateStockVehiculo = await db_pool.manyOrNone(
                     `UPDATE ventas.vehiculo_producto SET stock=stock + $1,stock_movil_conductor=0 WHERE producto_id = $2
