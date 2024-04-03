@@ -147,6 +147,40 @@ const modelPedido = {
         }
     },
 
+    getTotalEntregadosPedidos: async (empleadoID) =>{
+        try {
+            const montototal = await db_pool.any(`
+            select sum(vp.total) as monto_entregados from ventas.pedido as vp
+             inner join ventas.ruta as vr on vp.ruta_id=vr.id
+              where vp.estado='entregado' and vr.empleado_id=$1;
+            `,[empleadoID])
+
+            const totalestados = await db_pool.any(
+                `SELECT 
+                (SELECT COUNT(*) FROM ventas.pedido as vp 
+                 INNER JOIN ventas.ruta as vr on vp.ruta_id=vr.id
+                 WHERE vp.estado = 'pendiente' AND vr.empleado_id = $1) AS pendientes,
+                (SELECT COUNT(*) FROM ventas.pedido as vp 
+                 INNER JOIN ventas.ruta as vr on vp.ruta_id=vr.id
+                 WHERE vp.estado = 'en proceso' AND vr.empleado_id = $2) AS en_proceso,
+                (SELECT COUNT(*) FROM ventas.pedido as vp 
+                 INNER JOIN ventas.ruta as vr on vp.ruta_id=vr.id
+                 WHERE vp.estado = 'entregado' AND vr.empleado_id = $3) AS entregados,
+                 (SELECT COUNT(*) FROM ventas.pedido as vp
+                 INNER JOIN ventas.ruta as vr ON vp.ruta_id=vr.id
+                 WHERE vp.estado = 'truncado' AND vr.empleado_id = $4) AS truncados;`,
+                 [empleadoID]
+            )
+            return {
+                costo_entregados:montototal,
+                estados:totalestados
+            }
+
+        } catch (error) {
+            throw new Error(`Error getTotal ${error}`)
+        }
+    },
+
     getPedidoConductor: async (rutaID, conductorID) => {
       //  console.log("dentro de get Pedidos para Conductores....")
 

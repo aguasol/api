@@ -5,7 +5,7 @@ export const createPedidos = async (req,res) => {
         const newpedido = req.body
         const pedidocreado= await modelPedido.createPedido(newpedido);
         
-        res.json(pedidocreado);
+        res.status(200).json(pedidocreado);
     } catch (error) {
         res.status(500).json({error:error.message});
 
@@ -17,7 +17,7 @@ export const getLastPedidos = async (req,res) => {
         const { clienteID } = req.params;
         const id = parseInt(clienteID, 10);
         const getLast = await modelPedido.getLastPedido(id);
-        res.json(getLast);
+        res.status(200).json(getLast);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -29,7 +29,7 @@ export const getPedidos =  async (req,res) => {
         const getPedidos = await modelPedido.getPedido();
         //console.log("----controller pedido")
        // console.log(getPedidos)
-        res.json(getPedidos)
+        res.status(200).json(getPedidos)
     } catch (error) {
         res.status(500).json({erro:error.message})
     }
@@ -46,7 +46,7 @@ export const getPedidosConductor = async (req,res) => {
         const id2 = parseInt(conductorID,10);
        // console.log(id2)
         const getPedidoCond = await modelPedido.getPedidoConductor(id,id2);
-        res.json(getPedidoCond);
+        res.status(200).json(getPedidoCond);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -57,7 +57,7 @@ export const getPedidoEmpleados = async (req,res) => {
         const {empleadoID} =req.params
         const id = parseInt(empleadoID,10)
         const getPedidosEmpleado = await modelPedido.getPedidoEmpleado(id);
-        res.json(getPedidosEmpleado);
+        res.status(200).json(getPedidosEmpleado);
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -71,12 +71,22 @@ export const getPedidosClientes = async (req,res) => {
         const id = parseInt(clienteID,10);
        // console.log(id)
         const getPedidoCli = await modelPedido.getPedidosCliente(id);
-        res.json(getPedidoCli);
+        res.status(200).json(getPedidoCli);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+export const getTotalEntregados = async (req,res) =>{
+    try {
+        const {empleadoID} = req.params
+        const id = parseInt(empleadoID,10)
+        const getTotals = await modelPedido.getTotalEntregadosPedidos(id)
+        res.status(200).json(getTotals)
 
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 
 export const deletePedidos = async (req,res) => {
   //  console.log("id llego")
