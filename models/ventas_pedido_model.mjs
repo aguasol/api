@@ -162,13 +162,13 @@ const modelPedido = {
                  WHERE vp.estado = 'pendiente' AND vr.empleado_id = $1) AS pendientes,
                 (SELECT COUNT(*) FROM ventas.pedido as vp 
                  INNER JOIN ventas.ruta as vr on vp.ruta_id=vr.id
-                 WHERE vp.estado = 'en proceso' AND vr.empleado_id = $2) AS en_proceso,
+                 WHERE vp.estado = 'en proceso' AND vr.empleado_id = $1) AS en_proceso,
                 (SELECT COUNT(*) FROM ventas.pedido as vp 
                  INNER JOIN ventas.ruta as vr on vp.ruta_id=vr.id
-                 WHERE vp.estado = 'entregado' AND vr.empleado_id = $3) AS entregados,
+                 WHERE vp.estado = 'entregado' AND vr.empleado_id = $1) AS entregados,
                  (SELECT COUNT(*) FROM ventas.pedido as vp
                  INNER JOIN ventas.ruta as vr ON vp.ruta_id=vr.id
-                 WHERE vp.estado = 'truncado' AND vr.empleado_id = $4) AS truncados;`,
+                 WHERE vp.estado = 'truncado' AND vr.empleado_id = $1) AS truncados;`,
                  [empleadoID]
             )
             return {
