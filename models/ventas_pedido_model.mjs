@@ -172,9 +172,13 @@ const modelPedido = {
                  [empleadoID]
             )
             return {
-                costo_entregados:montototal,
-                estados:totalestados
+                costo_entregados: montototal[0].monto_entregados,
+                pendiente: totalestados[0].pendientes,
+                proceso: totalestados[0].en_proceso,
+                entregados: totalestados[0].entregados,
+                truncados: totalestados[0].truncados
             }
+            
 
         } catch (error) {
             throw new Error(`Error getTotal ${error}`)
