@@ -1,4 +1,4 @@
-import {getAllUserClientes,updateUserClientes,deleteUserClientes,createUserClientes, updateClientes,existCodeClientes} from '../controllers/usuario_cliente_controller.mjs'
+import {getAllUserClientes,updateUserClientes,deleteUserClientes,createUserClientes,updateClientes,existCodeClientes} from '../controllers/usuario_cliente_controller.mjs'
 import express from 'express';
 
 const routerUserCliente = express.Router();

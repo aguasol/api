@@ -82,6 +82,10 @@ app_sol.use(compression())
 
 app_sol.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
+// Servir html
+app_sol.use('/politica', express.static(path.join(__dirname, 'public', 'politica.html')));
+app_sol.use('/condiciones', express.static(path.join(__dirname, 'public', 'condiciones.html')));
+
 /** CONFIGURAMOS LAS RUTAS */
 app_sol.use('/api', routerUserAdmin);
 app_sol.use('/api', routerUserCliente);
