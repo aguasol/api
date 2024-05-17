@@ -122,6 +122,29 @@ const modelUserCliente = {
         } catch (error) {
             throw new Error(`Error query verify code ${error}`)
         }
+    },
+    getClienteRecuperacion: async (dato) => {
+        console.log("dentro model");
+        try {
+            const userClients = await db_pool.any(`SELECT personal.usuario.id,personal.usuario.contrasena,personal.usuario.email,personal.usuario.nickname,
+            ventas.cliente.telefono FROM personal.usuario INNER JOIN ventas.cliente ON 
+            personal.usuario.id = ventas.cliente.usuario_id WHERE personal.usuario.email=$1 OR personal.usuario.nickname=$2 OR ventas.cliente.telefono=$3`, [dato.info,dato.info,dato.info]);
+            console.log("dentro de recovery");
+            console.log(userClients);
+            return userClients;
+        } catch (e) {
+            throw new Error(`Error query clients recovery: ${err}`);
+        }
+    },
+    updatePassword: async (clave,id) => {
+        try {
+            const hashedPassword = await bcrypt.hash(clave.clave, 10);
+            const actual = await db_pool.one(`UPDATE personal.usuario SET contrasena=$1 WHERE id=$2 RETURNING *`,[hashedPassword,id]);
+            console.log(actual);
+            return actual;
+        } catch (e) {
+            throw new Error(`Error recovery: ${err}`);
+        }
     }
 }
 export default modelUserCliente;

@@ -71,3 +71,29 @@ export const existCodeClientes = async (req,res) => {
         res.status(500).json({error:e.message})
     }
 }
+export const getClientRecovery = async (req,res) => {
+    console.log("dentro controller");
+    try {
+        console.log(req.body);
+        const info = req.body;
+        const alluserclients = await modelUserCliente.getClienteRecuperacion(info);
+        res.status(200).json(alluserclients);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+}
+export const updateRecovery = async (req,res) => {
+    console.log("dentro controller");
+    try {
+        console.log(req.body);
+        const clave = req.body;
+        const { userId } = req.params;
+        const id = parseInt(userId, 10);
+        const password = await modelUserCliente.updatePassword(clave,id);
+        res.json(password);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+}
