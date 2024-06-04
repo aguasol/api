@@ -35,11 +35,12 @@ export const updateUserClientes = async (req,res)=>{
 }
 export const updateClientes = async (req,res)=>{
     try {
-        const {userClientId} = req.params;
-        const id = parseInt(userClientId,10);
-       // console.log('el id',id);
+        const { userClienteId } = req.params
+        //console.log('el userid',userClienteId);
+        const id = parseInt(userClienteId,10)
+        //console.log('el id',id);
         const data = req.body;
-     //   console.log('data',data)
+        //console.log('data',data)
         const updateClient = await modelUserCliente.updateCliente(id,data);
         res.json(updateClient);
     } catch (error) {
@@ -91,7 +92,7 @@ export const updateRecovery = async (req,res) => {
         const { userId } = req.params;
         const id = parseInt(userId, 10);
         const password = await modelUserCliente.updatePassword(clave,id);
-        res.json(password);
+        res.status(200).json(password);
     } catch (error) {
         res.status(500).json({error:error.message});
 

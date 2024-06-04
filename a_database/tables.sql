@@ -39,7 +39,8 @@ create table personal.usuario(
 	rol_id int not null,
 	nickname varchar(100) not null,
 	contrasena varchar(100) not null,
-	email varchar(200)
+	email varchar(200),
+	telefono varchar(30)
 );
 
 -- Table: personal.superadmin
