@@ -156,7 +156,7 @@ const modelUserCliente = {
     },
     getRecargas: async (id) => {
         try {
-            const Recargas = await db_pool.any(`select ventas.pedido.cliente_id,SUM(relaciones.detalle_pedido.cantidad) as recargas from relaciones.detalle_pedido 
+            const Recargas = await db_pool.oneOrNone(`select ventas.pedido.cliente_id,SUM(relaciones.detalle_pedido.cantidad) as recargas from relaciones.detalle_pedido 
             inner join ventas.pedido on relaciones.detalle_pedido.pedido_id = ventas.pedido.id where relaciones.detalle_pedido.producto_id = 2 and ventas.pedido.cliente_id = $1
             GROUP BY ventas.pedido.cliente_id`,[id])
             return Recargas

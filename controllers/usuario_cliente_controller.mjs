@@ -54,7 +54,7 @@ export const deleteUserClientes = async (req,res) => {
         const deleteResult = await modelUserCliente.deleteUserCliente(id);
 
         if (deleteResult) {
-            res.json({ mensaje: 'Usuario Cliente eliminado exitosamente' });
+            res.status(200).json({ mensaje: 'Usuario Cliente eliminado exitosamente' });
         } else {
             // Si rowCount no es 1, significa que no se encontró un cliente con ese ID
             res.status(404).json({ error: 'No se encontró la ruta con el ID proporcionado' });
@@ -103,7 +103,7 @@ export const getAllRecargas = async (req,res) => {
         const { userClientId } = req.params;
         const id = parseInt(userClientId, 10);
         const alluserrecargas = await modelUserCliente.getRecargas(id);
-        res.json(alluserrecargas);
+        res.status(200).json(alluserrecargas);
     } catch (error) {
         res.status(500).json({error:error.message});
 
