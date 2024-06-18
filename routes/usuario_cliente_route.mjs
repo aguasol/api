@@ -1,4 +1,4 @@
-import {getAllUserClientes,updateUserClientes,deleteUserClientes,createUserClientes,updateClientes,existCodeClientes,getClientRecovery,updateRecovery} from '../controllers/usuario_cliente_controller.mjs'
+import {getAllUserClientes,updateUserClientes,deleteUserClientes,createUserClientes,updateClientes,existCodeClientes,getClientRecovery,updateRecovery,getAllRecargas} from '../controllers/usuario_cliente_controller.mjs'
 import express from 'express';
 
 const routerUserCliente = express.Router();
@@ -11,5 +11,6 @@ routerUserCliente.put('/cliente/:userClienteId',updateClientes)
 routerUserCliente.post('/code_cliente',existCodeClientes)
 routerUserCliente.post('/user_cliente/Recovery',getClientRecovery)
 routerUserCliente.put('/user_cliente/Recovery/:userId',updateRecovery)
+routerUserCliente.get('/cliente/recargas/:userClientId',getAllRecargas)
 
 export default routerUserCliente;

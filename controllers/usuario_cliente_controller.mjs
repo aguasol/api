@@ -98,3 +98,14 @@ export const updateRecovery = async (req,res) => {
 
     }
 }
+export const getAllRecargas = async (req,res) => {
+    try {
+        const { userClientId } = req.params;
+        const id = parseInt(userClientId, 10);
+        const alluserrecargas = await modelUserCliente.getRecargas(id);
+        res.json(alluserrecargas);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+}
