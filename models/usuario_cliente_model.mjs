@@ -164,5 +164,16 @@ const modelUserCliente = {
             throw new Error(`Error recargas: ${e}`);
         }
     },
+    getBidonNuevo: async(id) => {
+        try {
+            const getBidon = await db_pool.oneOrNone(`
+                select vp.cliente_id as cliente,SUM(rdp.cantidad) as bidones from ventas.pedido as vp
+                inner join relaciones.detalle_pedido as rdp on rdp.pedido_id=vp.id
+                where rdp.producto_id = 1 and vp.cliente_id = $1 GROUP BY cliente;`,[id])
+            return getBidon
+        } catch (error) {
+            throw new Error(`Error Bidones: ${e}`);
+        }
+    }
 }
 export default modelUserCliente;

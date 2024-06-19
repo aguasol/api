@@ -109,3 +109,13 @@ export const getAllRecargas = async (req,res) => {
 
     }
 }
+export const getBidonNuevos = async (req,res) => {
+    try {
+        const {clienteID } = req.params
+        const id = parseInt(clienteID,10)
+        const allgetBidonNew = await modelUserCliente.getBidonNuevo(id)
+        res.status(200).json(allgetBidonNew)
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
