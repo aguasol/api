@@ -1,3 +1,4 @@
+import e from "cors";
 import modelUserEmpleado from "../models/usuario_empleado_model.mjs";
 
 export const getAllUserEmpleados = async (req,res) => {
@@ -14,16 +15,19 @@ export const createUserEmpleados = async (req,res) => {
     try{
         const newEmpleado = req.body;
         const empleadoCreated = await modelUserEmpleado.createUserEmpleado(newEmpleado);
-        if(empleadoCreated.resultado){
+        console.log("......create empleado")
+        console.log(empleadoCreated)
+        if(empleadoCreated){
            // console.log("toy aqui")
-            res.json(empleadoCreated);
-        }
-        else if(empleadoCreated.message==="Usuario ya existente, intente otro por favor."){
-            //console.log("hoo")
-            res.status(409).json(empleadoCreated)
+           if(empleadoCreated.message=='Usuario ya existente, intente otro por favor.'){
+            res.status(400).json(empleadoCreated.message)
+           }
+           else{
+            res.status(200).json(empleadoCreated)
+           }
         }
         else{
-            res.status(500).json({error:"Respuesta inesperada del servidor"})
+            res.status(501).json({error:"Respuesta inesperada del servidor"})
         }
         
     }

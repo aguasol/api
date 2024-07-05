@@ -8,7 +8,7 @@ export const getUsers = async (req,res) => {
         // Manejar diferentes casos basados en el tipo de respuesta
         if (userResponse.usuario) {
           // Caso de éxito: Usuario autenticado
-          res.json(userResponse);
+          res.status(200).json(userResponse);
         } else if (userResponse.message === "credenciales invalidas") {
           // Credenciales inválidas
           res.status(401).json(userResponse);

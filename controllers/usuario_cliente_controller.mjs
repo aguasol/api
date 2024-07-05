@@ -1,53 +1,58 @@
 import modelUserCliente from "../models/usuario_cliente_model.mjs";
 
-export const getAllUserClientes = async (req,res) => {
+export const getAllUserClientes = async (req, res) => {
     try {
         const alluserclients = await modelUserCliente.getUsersCliente();
-        res.json(alluserclients);
+        res.status(200).json(alluserclients);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
 
     }
 }
 
-export const createUserClientes = async (req,res) => {
-    try{
+export const createUserClientes = async (req, res) => {
+    try {
         const newUserClient = req.body;
         const clientCreated = await modelUserCliente.createUserCliente(newUserClient);
-        res.json({clientCreated});
+        if (clientCreated.message == "Usuario ya existente, intente otro por favor. ") {
+            res.status(401).json(clientCreated)
+        } else {
+            res.status(200).json({ clientCreated });
+        }
+
     }
-    catch(e){
-        res.status(500).json({error:e.message})
+    catch (e) {
+        res.status(500).json({ error: e.message })
     }
 }
-export const updateUserClientes = async (req,res)=>{
+export const updateUserClientes = async (req, res) => {
     try {
-        const {userClientId} = req.params;
-        const id = parseInt(userClientId,10);
-       // console.log('el id',id);
+        const { userClientId } = req.params;
+        const id = parseInt(userClientId, 10);
+        // console.log('el id',id);
         const data = req.body;
         //console.log('data',data)
-        const updateUserClient = await modelUserCliente.updateUserCliente(id,data);
-        res.json(updateUserClient);
+        const updateUserClient = await modelUserCliente.updateUserCliente(id, data);
+        res.status(200).json(updateUserClient);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
     }
 }
-export const updateClientes = async (req,res)=>{
+export const updateClientes = async (req, res) => {
     try {
         const { userClienteId } = req.params
         //console.log('el userid',userClienteId);
-        const id = parseInt(userClienteId,10)
+        const id = parseInt(userClienteId, 10)
         //console.log('el id',id);
         const data = req.body;
         //console.log('data',data)
-        const updateClient = await modelUserCliente.updateCliente(id,data);
-        res.json(updateClient);
+        const updateClient = await modelUserCliente.updateCliente(id, data);
+        res.status(200).json(updateClient);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
     }
 }
-export const deleteUserClientes = async (req,res) => {
+export const deleteUserClientes = async (req, res) => {
     try {
         const { userClientId } = req.params;
         const id = parseInt(userClientId, 10);
@@ -63,16 +68,16 @@ export const deleteUserClientes = async (req,res) => {
         res.status(500).json({ error: error.message });
     }
 }
-export const existCodeClientes = async (req,res) => {
+export const existCodeClientes = async (req, res) => {
     try {
         const newcodigo = req.body;
         const clienteExists = await modelUserCliente.existCodeCliente(newcodigo)
         res.status(200).json(clienteExists)
     } catch (e) {
-        res.status(500).json({error:e.message})
+        res.status(500).json({ error: e.message })
     }
 }
-export const getClientRecovery = async (req,res) => {
+export const getClientRecovery = async (req, res) => {
     console.log("dentro controller");
     try {
         console.log(req.body);
@@ -80,42 +85,42 @@ export const getClientRecovery = async (req,res) => {
         const alluserclients = await modelUserCliente.getClienteRecuperacion(info);
         res.status(200).json(alluserclients);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
 
     }
 }
-export const updateRecovery = async (req,res) => {
+export const updateRecovery = async (req, res) => {
     console.log("dentro controller");
     try {
         console.log(req.body);
         const clave = req.body;
         const { userId } = req.params;
         const id = parseInt(userId, 10);
-        const password = await modelUserCliente.updatePassword(clave,id);
+        const password = await modelUserCliente.updatePassword(clave, id);
         res.status(200).json(password);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
 
     }
 }
-export const getAllRecargas = async (req,res) => {
+export const getAllRecargas = async (req, res) => {
     try {
         const { userClientId } = req.params;
         const id = parseInt(userClientId, 10);
         const alluserrecargas = await modelUserCliente.getRecargas(id);
         res.status(200).json(alluserrecargas);
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
 
     }
 }
-export const getBidonNuevos = async (req,res) => {
+export const getBidonNuevos = async (req, res) => {
     try {
-        const {clienteID } = req.params
-        const id = parseInt(clienteID,10)
+        const { clienteID } = req.params
+        const id = parseInt(clienteID, 10)
         const allgetBidonNew = await modelUserCliente.getBidonNuevo(id)
         res.status(200).json(allgetBidonNew)
     } catch (error) {
-        res.status(500).json({error:error.message});
+        res.status(500).json({ error: error.message });
     }
 }

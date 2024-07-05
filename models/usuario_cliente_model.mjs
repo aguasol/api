@@ -12,14 +12,14 @@ const modelUserCliente = {
 
             const UsuarioExistente = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname=$1`,
                 [cliente.nickname])
-            // console.log("usuarioexistente")
-            //  console.log(UsuarioExistente)
+             console.log("usuarioexistente")
+              console.log(UsuarioExistente)
 
             if (UsuarioExistente) {
                 return { "message": "Usuario ya existente, intente otro por favor. " }
             }
             else {
-                //   console.log("usuario nuevo")
+                   console.log("usuario nuevo")
 
                 const hashedPassword = await bcrypt.hash(cliente.contrasena, 10);
                 // Inicia una transacción

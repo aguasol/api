@@ -3,7 +3,37 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 
 //console.log("--------# 10.0 pedido")
+import amqp from 'amqplib';
 
+const sendPedidoRabbit = async (pedidoCreado) => {
+    try {
+        // Establecemos la conexión con el servidor RABBIT MQ
+        const connection = await amqp.connect('amqp://localhost')
+        const channel = await connection.createChannel()
+
+        // Definimos la cola
+        const queue = 'colaPedidoRabbit'
+
+        // Si no existe la colala creamos
+        await channel.assertQueue(queue,{
+            durable:false
+        })
+
+        console.log(pedidoCreado)
+        // Enviamos el mensaja a la cola
+        channel.sendToQueue(queue,Buffer.from(JSON.stringify(pedidoCreado)))
+        console.log("ENVIANDO A RABBIT MQ")
+        console.log(JSON.stringify(pedidoCreado))
+
+        setTimeout(() => {
+            connection.close();
+          
+        }, 500);
+
+    } catch (error) {
+        throw new Error(`Error en el envío a RabbitMQ: ${error}`)
+    }
+}
 
 const modelPedido = {
     createPedido: async (pedido) => {
@@ -23,6 +53,8 @@ const modelPedido = {
                     console.log(pedidos_cr);
                     console.log(pedidos_cr.id);*/
 
+                    
+
                     const pedidoss = await db_pool.one(`SELECT vp.id, vp.subtotal, vp.descuento, vp.total, vp.ruta_id, vp.fecha, vp.estado, vp.tipo, vp.observacion,
                         vc.nombre, vc.apellidos, vc.telefono, rub.latitud, rub.longitud, rub.distrito
                         FROM ventas.pedido as vp
@@ -33,8 +65,11 @@ const modelPedido = {
 
                     // PEDIDOS SOCKET
                    // console.log('nuevoPedido Emitido');
-                    io.emit('nuevoPedido', pedidoss);
+                   // ENVIANDO EL PEDIDO A LA COLA
+                  
 
+                    io.emit('nuevoPedido', pedidoss);
+                    //await sendPedidoRabbit(pedidos_cr)
                     return pedidoss
 
                 
@@ -52,6 +87,9 @@ const modelPedido = {
                         [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.observacion, pedido.ubicacion_id]);
                    /* console.log("pedidos nr");
                     console.log(pedidos_nr);*/
+
+                    // ENVIANDO EL PEDIDO A LA COLA
+                   // await sendPedidoRabbit(pedidos_nr)
 
                     const pedidoss = await db_pool.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
                         FROM ventas.pedido as vp
@@ -112,6 +150,7 @@ const modelPedido = {
             WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
 
            // console.log(pedidos)
+          
             return pedidos
 
 

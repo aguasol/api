@@ -21,7 +21,7 @@ const modelUserEmpleado = {
                 const usuario = await db_pool.one('INSERT INTO personal.usuario (rol_id, nickname, contrasena, email) VALUES ($1, $2, $3, $4) RETURNING *',
                     [empleado.rol_id, empleado.nickname, hashedPassword, empleado.email]);
                 // console.log("id conductor")
-                // console.log(usuario.id)
+                 console.log(usuario)
 
 
                 const empleados = await db_pool.one('INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
@@ -29,7 +29,7 @@ const modelUserEmpleado = {
 
 
                 //   console.log("empleados+-++++");
-                //  console.log(empleados);
+                  console.log(empleados);
 
                 return { usuario, empleados }
                 // });

@@ -30,7 +30,7 @@ export const getLastClientesnr =  async (req,res) => {
         const { empleadoID} = req.params;
         const empleado_id = parseInt(empleadoID,10);
         const getLast =  await modelClientenr.getLastClientenr(empleado_id)
-        res.json(getLast);
+        res.status(200).json(getLast);
     } catch (error) {
         res.status(500).json({"message":"NO DATA"})
     }

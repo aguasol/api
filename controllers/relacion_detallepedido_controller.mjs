@@ -5,7 +5,7 @@ export const createDetalle = async (req,res) => {
         const newdetalle = req.body
         const detalleCreado= await modelDetallePedido.createDetallePedido(newdetalle);
         
-        res.json(detalleCreado);
+        res.status(200).json(detalleCreado);
     } catch (error) {
         res.status(500).json({error:error.message});
 
@@ -14,7 +14,7 @@ export const createDetalle = async (req,res) => {
 export const getDetalles =  async (req,res) => {
     try {
         const allDetalles = await modelDetallePedido.getDetallePedido();
-        res.json(allDetalles)
+        res.status(200).json(allDetalles)
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -24,7 +24,7 @@ export const getDetallePedidoXPedidos =  async (req,res) => {
         const{pedidoID}=req.params;
         const id=parseInt(pedidoID,10)
         const allDetalles = await modelDetallePedido.getDetallePedidoXPedido(id);
-        res.json(allDetalles)
+        res.status(200).json(allDetalles)
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -34,7 +34,7 @@ export const getDetallePedidosXRuta =  async (req,res) => {
         const{rutaID}=req.params;
         const id=parseInt(rutaID,10)
         const allDetalles = await modelDetallePedido.getDetallePedidoXRuta(id);
-        res.json(allDetalles)
+        res.status(200).json(allDetalles)
     } catch (error) {
         res.status(500).json({error:error.message})
     }
@@ -44,7 +44,7 @@ export const getDetallePedidosClientes =  async (req,res) => {
         const{pedidoID}=req.params;
         const id=parseInt(pedidoID,10)
         const allproductos = await modelDetallePedido.getDetallePedidoCliente(id);
-        res.json(allproductos)
+        res.status(200).json(allproductos)
     } catch (error) {
         res.status(500).json({error:error.message})
     }

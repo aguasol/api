@@ -14,14 +14,11 @@ export const createUserConductores = async (req,res) => {
     try{
         const newConductor = req.body;
         const conductorCreated = await modelUserConductor.createUserConductor(newConductor);
-        if(conductorCreated.resultado){
-            res.json(conductorCreated);
-        }
-        else if(conductorCreated.message==="Usuario ya existente, intente otro por favor."){
-            res.status(409).json(conductorCreated)
+        if(conductorCreated.message=="Usuario ya existente, intente otro por favor."){
+            res.status(401).json(conductorCreated)
         }
         else{
-            res.status(500).json({error:"Respuesta inesperada del servidor"})
+            res.status(200).json(conductorCreated)
         }
         
     }
