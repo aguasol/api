@@ -2,7 +2,9 @@ import modelUserConductor from "../models/usuario_conductor_model.mjs";
 
 export const getAllUserConductores = async (req,res) => {
     try {
-        const alluserconductores= await modelUserConductor.getUsersConductor();
+        const {idEmpleado} =req.params;
+        const idempleados = parseInt(idEmpleado,10);
+        const alluserconductores= await modelUserConductor.getUsersConductor(idempleados);
         res.json(alluserconductores);
     } catch (error) {
         res.status(500).json({error:error.message});
@@ -75,5 +77,15 @@ export const getPedidosPorConductores = async (req,res) => {
     } catch (error) {
         res.status(500).json({error:error.message});
 
+    }
+}
+export const getConductorAdmines = async (req,res) => {
+    try {
+        const {idAdmin} = req.params
+        const idAdministrador = parseInt(idAdmin,10);
+        const getconductoradmin = await modelUserConductor.getConductorAdmin(idAdministrador);
+        res.status(200).json(getconductoradmin);
+    } catch (error){
+        res.status(500).json({error:error.message});
     }
 }

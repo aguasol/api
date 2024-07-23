@@ -5,7 +5,7 @@ const routerUserEmpleado = express.Router();
 
 routerUserEmpleado.post('/user_empleado',createUserEmpleados)
 routerUserEmpleado.delete('/user_empleado/:userEmpleadoId',deleteUserEmpleados)
-routerUserEmpleado.get('/user_empleado',getAllUserEmpleados)
+routerUserEmpleado.get('/user_empleado/:idAdministrador',getAllUserEmpleados)
 routerUserEmpleado.put('/user_empleado/:userEmpleadoId',updateUserEmpleados)
 
 

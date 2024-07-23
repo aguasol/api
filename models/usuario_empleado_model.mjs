@@ -60,10 +60,13 @@ const modelUserEmpleado = {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);
         }
     },
-    getUsersEmpleado: async () => {
+    getUsersEmpleado: async (idAdministrador) => {
         try {
-            const userEmpleado = await db_pool.any('select * from personal.usuario inner join personal.empleado on personal.usuario.id = personal.empleado.usuario_id;')
-            return userEmpleado
+            //console.log("ENTRANDO AL ENDPOINT DE EMPLEADOS")
+            const userEmpleado = await db_pool.any(`select * from personal.usuario inner join personal.empleado on personal.usuario.id = personal.empleado.usuario_id 
+                where personal.empleado.administrador_id=$1;`,[idAdministrador])
+            //console.log(userEmpleado)
+                return userEmpleado
         } catch (e) {
             throw new Error(`Error query clients: ${err}`);
         }

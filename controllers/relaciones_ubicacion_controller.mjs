@@ -52,3 +52,18 @@ export const getUbicacionesClienteNRS = async (req,res) => {
     }
 
 }
+
+export const updateRelacionesUbicaciones = async (req,res) => {
+    try {
+        const {empleadoID,idRelacionUbicacion} = req.params;
+        const idrubi = parseInt(idRelacionUbicacion,10)
+        const idempleado = parseInt(empleadoID,10)
+        const resultado = await modelUbicacion.updateRelacionesUbicacion(idempleado,idrubi); 
+
+        res.status(200).json(resultado);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+
+}
