@@ -61,17 +61,20 @@ const modelUserConductor = {
             throw new Error(`Error en la actualización del conductor: ${error.message}`);
         }
     },
-    getUsersConductor: async () => {
+    getUsersConductor: async (idEmpleado) => {
         try {
-            const userConductores = await db_pool.any('select * from personal.usuario inner join personal.conductor on personal.usuario.id = personal.conductor.usuario_id')
+            //const userConductores = await db_pool.any('select * from personal.usuario inner join personal.conductor on personal.usuario.id = personal.conductor.usuario_id')
+            const userConductores = await db_pool.any(`select * from personal.conductor as pc where pc.administrador_id = (
+	select administrador_id from personal.empleado as pe  inner join personal.administrador as pa on pe.administrador_id = pa.id
+where pe.id = $1)`, [idEmpleado])
             return userConductores
         } catch (e) {
             throw new Error(`Error query clients: ${err}`);
         }
     },
-    getconductorruta: async () => {
-        try {
-            const conductorruta = await db_pool.any(`
+
+    /*
+`
             WITH ConductorDatosOrdenados AS (
                 SELECT
                     pc.id AS conductor_id,
@@ -97,7 +100,49 @@ const modelUserConductor = {
             FROM
                 ConductorDatosOrdenados
             WHERE
-                rn = 1;`)
+                rn = 1;`
+    */
+
+                /*
+                SELECT vr.conductor_id, pc.nombres, pc.apellidos, pc.licencia,
+	pc.dni,pc.fecha_nacimiento,
+	vr.id AS ruta
+	FROM ventas.ruta AS vr
+INNER JOIN personal.conductor AS pc ON vr.conductor_id = pc.id
+where vr.empleado_id = $1
+                */
+    getconductorruta: async (empleadoID) => {
+        try {
+            const conductorruta = await db_pool.any(`WITH RutaConductor AS (
+    SELECT 
+        vr.conductor_id, 
+        pc.nombres, 
+        pc.apellidos, 
+        pc.licencia,
+        pc.dni,
+        pc.fecha_nacimiento,
+        vr.id AS ruta,
+        ROW_NUMBER() OVER (PARTITION BY pc.id ORDER BY vr.id DESC) AS rn
+    FROM 
+        ventas.ruta AS vr
+    INNER JOIN 
+        personal.conductor AS pc ON vr.conductor_id = pc.id
+    WHERE 
+        vr.empleado_id = $1
+)
+
+SELECT 
+    conductor_id, 
+    nombres, 
+    apellidos, 
+    licencia, 
+    dni, 
+    fecha_nacimiento, 
+    ruta
+FROM 
+    RutaConductor
+WHERE 
+    rn = 1;`,[empleadoID])
             return conductorruta
         } catch (error) {
             throw new Error(`Error query drivers: ${err}`);
@@ -105,8 +150,8 @@ const modelUserConductor = {
     },
     getPedidosPorConductor: async (conductorID, empleadoID) => {
         try {
-            //  console.log("este es el conductor recibido")
-            // console.log(conductorID)
+            //console.log("este es el conductor recibido")
+            //console.log(conductorID)
 
             const adminID = await db_pool.one(`
             SELECT id,administrador_id FROM personal.empleado WHERE id = $1`, [empleadoID])
@@ -117,8 +162,8 @@ const modelUserConductor = {
             const lastRuta = await db_pool.oneOrNone(`select vr.id from personal.conductor  as pc inner join ventas.ruta as vr on pc.id = vr.conductor_id  where pc.id= $1 and pc.administrador_id = $2 and vr.empleado_id = $3 order by vr.id desc limit 1`,
                 [conductorID, adminID.administrador_id, adminID.id])
 
-            //  console.log("esta es su ultima ruta")
-            //  console.log(lastRuta)
+            //console.log("esta es su ultima ruta")
+            //console.log(lastRuta)
 
 
             const pedidos = await db_pool.any(`select vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,rub.latitud,rub.longitud,rub.distrito,
@@ -132,8 +177,8 @@ const modelUserConductor = {
 			left join relaciones.ubicacion as rub on rub.id = vp.ubicacion_id
 			where vr.id = $1`, [lastRuta.id])
 
-            //  console.log("estos son los pedidos")
-            //    console.log(pedidos)
+            //console.log("estos son los pedidos")
+            //console.log(pedidos)
 
             return pedidos
 
@@ -149,5 +194,21 @@ const modelUserConductor = {
             throw new Error(`Error en la eliminación del cliente: ${error.message}`);
         }
     },
+
+    getConductorAdmin: async (id) => {
+        try {
+            console.log("entrando al ENDPOINT ADMIN CONDUCTOR")
+            const result = await db_pool.any(`select pc.id,pc.nombres,pc.apellidos,pc.dni,pc.licencia,pc.fecha_nacimiento,
+	pu.rol_id, pu.nickname, pu.contrasena, pu.email,pc.usuario_id	
+	from personal.conductor 
+	as pc inner join 
+	personal.administrador as pa on pc.administrador_id=pa.id inner join personal.usuario as pu 
+	on pc.usuario_id = pu.id where pa.id=$1 `, [id]);
+            console.log(result);
+            return result;
+        } catch (error) {
+            throw new Error(`Error en admin conductor: ${error.message}`);
+        }
+    }
 }
 export default modelUserConductor;
