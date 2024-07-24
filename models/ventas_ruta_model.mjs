@@ -28,8 +28,8 @@ const modelRuta = {
 
             const rutas = await db_pool.one('INSERT INTO ventas.ruta (conductor_id,vehiculo_id,empleado_id,distancia_km,tiempo_ruta,fecha_creacion) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
                 [ruta.conductor_id, ruta.vehiculo_id, ruta.empleado_id, ruta.distancia_km, ruta.tiempo_ruta, ruta.fecha_creacion]);
-           // console.log("--INSERT RUTA")
-            //console.log(rutas)
+         console.log("--INSERT RUTA")
+         console.log(rutas)
 
             //console.log("--RUTA-CONDUCTOR ID")
             //console.log()
@@ -62,8 +62,8 @@ const modelRuta = {
 
             //EMITIR UN EVENTO
             io.emit('creadoRuta', rutas)
-            //  console.log("rutas")
-            // console.log(rutas)
+              console.log("rutas")
+             console.log(rutas)
             return rutas
 
         }

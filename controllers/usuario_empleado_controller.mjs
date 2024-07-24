@@ -3,8 +3,10 @@ import modelUserEmpleado from "../models/usuario_empleado_model.mjs";
 
 export const getAllUserEmpleados = async (req,res) => {
     try {
-        const alluserempleados= await modelUserEmpleado.getUsersEmpleado();
-        res.json(alluserempleados);
+        const {idAdministrador} = req.params;
+        const adminId = parseInt(idAdministrador,10);
+        const alluserempleados= await modelUserEmpleado.getUsersEmpleado(adminId);
+        res.status(200).json(alluserempleados);
     } catch (error) {
         res.status(500).json({error:error.message});
 

@@ -26,10 +26,13 @@ export const getLastPedidos = async (req,res) => {
 export const getPedidos =  async (req,res) => {
    // console.log("llego el requerimiento de los pedidos")
     try {
-        const getPedidos = await modelPedido.getPedido();
+        const {empleadoid} = req.params;
+        const idempleado = parseInt(empleadoid,10);
+        const getidempleado = await modelPedido.getPedido(idempleado)
+        //const getPedidos = await modelPedido.getPedido();
         //console.log("----controller pedido")
        // console.log(getPedidos)
-        res.status(200).json(getPedidos)
+        res.status(200).json(getidempleado)
     } catch (error) {
         res.status(500).json({erro:error.message})
     }

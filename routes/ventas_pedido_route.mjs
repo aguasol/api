@@ -2,7 +2,7 @@ import { createPedidos, getLastPedidos,getTotalEntregados ,getPedidosNews,getPed
 import express from 'express';
 
 const routerVentasPedido = express.Router();
-routerVentasPedido.get('/pedido',getPedidos)
+routerVentasPedido.get('/pedido/:empleadoid',getPedidos)
 routerVentasPedido.post('/pedido',createPedidos)
 routerVentasPedido.get('/pedido_cliente/:clienteID',getPedidosClientes)
 routerVentasPedido.get('/pedidoEmpleado/:empleadoID',getPedidosNews)
