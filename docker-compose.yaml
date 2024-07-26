@@ -1,6 +1,5 @@
 # docker-compose.yaml
-version: '3'
-
+#version: '3'
 services:
   node-api:
     build:
