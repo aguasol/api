@@ -78,9 +78,9 @@ export const existCodeClientes = async (req, res) => {
     }
 }
 export const getClientRecovery = async (req, res) => {
-    console.log("dentro controller");
+    //console.log("dentro controller");
     try {
-        console.log(req.body);
+        //console.log(req.body);
         const info = req.body;
         const alluserclients = await modelUserCliente.getClienteRecuperacion(info);
         res.status(200).json(alluserclients);
@@ -90,9 +90,9 @@ export const getClientRecovery = async (req, res) => {
     }
 }
 export const updateRecovery = async (req, res) => {
-    console.log("dentro controller");
+    //console.log("dentro controller");
     try {
-        console.log(req.body);
+        //console.log(req.body);
         const clave = req.body;
         const { userId } = req.params;
         const id = parseInt(userId, 10);

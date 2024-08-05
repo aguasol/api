@@ -12,8 +12,8 @@ const modelUserCliente = {
 
             const UsuarioExistente = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname=$1`,
                 [cliente.nickname])
-             console.log("usuarioexistente")
-              console.log(UsuarioExistente)
+             //console.log("usuarioexistente")
+              //console.log(UsuarioExistente)
 
             if (UsuarioExistente) {
                 return { "message": "Usuario ya existente, intente otro por favor. " }
@@ -128,7 +128,7 @@ const modelUserCliente = {
         }
     },
     getClienteRecuperacion: async (dato) => {
-        console.log("dentro model");
+        //console.log("dentro model");
         try {
             const userClients = await db_pool.one(`SELECT * FROM personal.usuario WHERE email=$1 OR nickname=$2 OR telefono=$3`, [dato.info,dato.info,dato.info]);
             //console.log("dentro de recovery");

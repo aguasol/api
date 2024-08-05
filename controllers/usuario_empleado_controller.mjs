@@ -17,8 +17,8 @@ export const createUserEmpleados = async (req,res) => {
     try{
         const newEmpleado = req.body;
         const empleadoCreated = await modelUserEmpleado.createUserEmpleado(newEmpleado);
-        console.log("......create empleado")
-        console.log(empleadoCreated)
+        //console.log("......create empleado")
+        //console.log(empleadoCreated)
         if(empleadoCreated){
            // console.log("toy aqui")
            if(empleadoCreated.message=='Usuario ya existente, intente otro por favor.'){

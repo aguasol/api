@@ -19,11 +19,11 @@ const sendPedidoRabbit = async (pedidoCreado) => {
             durable: false
         })
 
-        console.log(pedidoCreado)
+        //console.log(pedidoCreado)
         // Enviamos el mensaja a la cola
         channel.sendToQueue(queue, Buffer.from(JSON.stringify(pedidoCreado)))
-        console.log("ENVIANDO A RABBIT MQ")
-        console.log(JSON.stringify(pedidoCreado))
+        //console.log("ENVIANDO A RABBIT MQ")
+        //console.log(JSON.stringify(pedidoCreado))
 
         setTimeout(() => {
             connection.close();
@@ -152,7 +152,7 @@ const modelPedido = {
             WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
 */
             // console.log(pedidos)
-            console.log("Iniciando prueba")
+           // console.log("Iniciando prueba")
             const pedidos = await db_pool.any(`WITH AdministradorZona AS (
     SELECT pa.zona_trabajo_id
     FROM personal.empleado AS pe
@@ -187,7 +187,7 @@ WHERE
     vp.estado = 'pendiente'
 ORDER BY
     vp.id ASC;`,[empleadoID])
-            console.log(pedidos)
+           // console.log(pedidos)
 
             return pedidos
 
@@ -288,7 +288,7 @@ ORDER BY
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
             LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                 WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
-            console.log(pedidos)
+            //console.log(pedidos)
             return pedidos
 
         } catch (error) {
@@ -296,11 +296,11 @@ ORDER BY
         }
     },
     getPedidosCliente: async (clienteID) => {
-        console.log("dentro de get Pedidos para Clientes....")
+        //console.log("dentro de get Pedidos para Clientes....")
 
         try {
             const pedidos = await db_pool.any(`SELECT vp.id, vp.estado, vp.subtotal,  vp.descuento, vp.total, vp.tipo_pago, vp.tipo, vp.fecha, rub.direccion, rub.distrito FROM ventas.pedido as vp INNER JOIN relaciones.ubicacion AS rub ON rub.id=vp.ubicacion_id WHERE vp.cliente_id=$1`, [clienteID]);
-            console.log(pedidos)
+           // console.log(pedidos)
             return pedidos
 
         } catch (error) {
@@ -328,13 +328,13 @@ ORDER BY
                 [pedidoID]);
 
             if (pedido.beneficiado_id) {
-                console.log('beneficiado si existe')
+                //console.log('beneficiado si existe')
                 const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE id=$1`, [pedido.beneficiado_id])
                 //el beneficio por codigo seria igual al descuento/12 * 3 
                 const nuevoSaldo = saldo.saldo_beneficios + (pedido.descuento / 12) * 3
                 await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
             } else {
-                console.log("no existe beneficiado :c ")
+               // console.log("no existe beneficiado :c ")
             }
 
             if (!result) {
@@ -361,8 +361,8 @@ ORDER BY
     },
     getPedidosNew: async (id) => {
         try {
-            console.log("id---")
-            console.log(id)
+           // console.log("id---")
+            //console.log(id)
             const pedidosEmpleado = await db_pool.any(`
             select vp.id,
             vp.ruta_id,
@@ -386,13 +386,23 @@ ORDER BY
             left join personal.administrador as pa on pa.zona_trabajo_id=ru.zona_trabajo_id
             left join personal.empleado as pe on pe.administrador_id=pa.id where pe.id=$1;
             `, [id])
-            console.log("---pedidos new---")
+           // console.log("---pedidos new---")
             return pedidosEmpleado
         } catch (error) {
             throw new Error(`Error query getPedidosNew ${error}`)
         }
     },
-
+    updateEstadoRuta:async(pedidoId) =>{
+        try {
+            const result = await db_pool.oneOrNone(`UPDATE ventas.pedido SET ruta_id = null,
+                estado = 'pendiente' WHERE id = $1 RETURNING *`,
+                [pedidoId]);
+            return result
+            
+        } catch (error) {
+            throw new Error(`Error query update:${error.message}`)
+        }
+    }
 
 }
 

@@ -11,20 +11,19 @@ INSERT INTO ventas.zona_trabajo (nombre,poligono,departamento,provincia) VALUES
   ('la joya','-16.5289,-71.077099,-16.52352,-71.78382,-16.51817,-71.79027,-16.50507,-71.80456,-16.48638,-71.79923,-16.47319,-71.79345,-16.46372,-71.80223,-16.45543,-71.80122,-16.44309,-71.80693,-16.43444,-71.80383,-16.42153,-71.80495,-16.41705,-71.8015,-16.41518,-71.80976,-16.41474,-71.83203,-16.41698,-71.83987,-16.42033,-71.84413,-16.41952,-71.85309,-16.42163,-71.85814,-16.42675,-71.86117,-16.43333,-71.86361,-16.43835,-71.85981,-16.46926,-71.86955,-16.49028,-71.85402,-16.47903,-71.89861,-16.46542,-71.92401,-16.4566,-71.91041,-16.45116,-71.91011,-16.45474,-71.93036,-16.46821,-71.94605,-16.47753,-71.94561,-16.47129,-71.92401,-16.48311,-71.9084,-16.48849,-71.88732,-16.49486,-71.87873,-16.49451,-71.85983,-16.515,-71.87358,-16.51392,-71.90384,-16.51292,-71.91303,-16.5122,-71.92842,-16.52767,-71.94934,-16.54315,-71.95861,-16.56485,-71.97049,-16.59407,-71.97019,-16.6149,-71.99395,-16.62579,-71.98349,-16.6119,-71.95397,-16.59536,-71.92879,-16.58111,-71.9063,-16.58025,-71.8948,-16.57767,-71.88209,-16.56962,-71.88944,-16.52605,-71.90645,-16.51977,-71.89496,-16.51835,-71.8813,-16.51811,-71.85961,-16.52803,-71.79819,-16.54223,-71.82767,-16.55727,-71.84359,-16.85928,-71.84828,-16.59084,-71.84547,-16.58777,-71.82106,-16.58025,-71.81268,-16.55171,-71.81111,-16.53484,-71.79262,-16.53127,-71.77179','arequipa','arequipa');
   
   -- Insertar registros en la tabla producto
-INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
-('recarga',13.00,'und.','RECARGA.png');
+
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
+('recarga',13.00,'und.','BIDON20.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
 ('botella 3l',9.00,'pqt. 4 und.','BIDON03.png'),
-  ('botella 700ml',12.00,'pqt. 15 und.','BIDON0.png'),
-  ('bidon vacio',0.00,'und.','RECARGA.png');
+('botella 700ml',12.00,'pqt. 15 und.','BIDON0.png');
 
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
-  ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'BIDON20.png'),
-  ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'BIDON7.png'),
-  ('de verano',16.00,'Lleva 2 botelas de 3L a solo S/.16.00',current_timestamp,current_timestamp,'BIDON03.png'),
-  ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp,'BIDON0.png');
+  ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'recargaregalona.jpg'),
+  ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'siete.png'),
+  ('de verano',16.00,'Lleva 2 paquetes de 3L a solo S/.16.00',current_timestamp,current_timestamp,'paquetes2.png'),
+  ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp,'setecientos.png');
 
 INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) VALUES
   (1,1,1),
@@ -39,11 +38,9 @@ INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
 (1,3,0),
 (1,4,0),
 (1,5,0),
-(1,6,0),
 (2,1,0),
 (2,2,0),
 (2,3,0),
 (2,4,0),
-(2,5,0),
-(2,6,0);
+(2,5,0);
 

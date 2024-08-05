@@ -156,3 +156,30 @@ export const getPedidosNews = async(req,res) => {
     }
 }
 
+export const updateEstadoRutas = async (req,res )=>{
+    try{
+        const {idpedido} = req.params
+        const pedidoid = parseInt(idpedido,10)
+        const result = await modelPedido.updateEstadoRuta(pedidoid)
+        res.status(200).json(result)
+    }
+    catch(error){
+        res.status(500).json({error:error.message})
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

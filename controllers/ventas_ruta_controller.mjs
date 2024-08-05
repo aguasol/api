@@ -1,5 +1,23 @@
 import modelRuta from "../models/ventas_ruta_model.mjs";
 
+export const getAllRutasEmpleado = async (req,res) => {
+    try {
+        const {empleadoId} = req.params
+        const idEmpleado = parseInt(empleadoId,10)
+        const result = await modelRuta.getAllRutaEmpleado(idEmpleado)
+   
+        if(result.message){
+            console.log("debe aqui")
+            res.status(404).json(result)
+        }
+        else{
+            res.status(200).json(result)
+        }
+        
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 export const createRutas = async (req,res) => {
     try {
         const newRuta = req.body

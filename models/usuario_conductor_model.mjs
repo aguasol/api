@@ -197,7 +197,7 @@ WHERE
 
     getConductorAdmin: async (id) => {
         try {
-            console.log("entrando al ENDPOINT ADMIN CONDUCTOR")
+            //console.log("entrando al ENDPOINT ADMIN CONDUCTOR")
             const result = await db_pool.any(`select pc.id,pc.nombres,pc.apellidos,pc.dni,pc.licencia,pc.fecha_nacimiento,
 	pu.rol_id, pu.nickname, pu.contrasena, pu.email,pc.usuario_id	
 	from personal.conductor 

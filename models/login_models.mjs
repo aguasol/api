@@ -14,7 +14,7 @@ const modelLogin = {
             const existUser = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname = $1 OR telefono=$2 OR email = $3`,
             [credenciales.nickname,credenciales.nickname,credenciales.nickname])
            // console.log("Exist USER")
-           console.log(existUser)
+           //console.log(existUser)
            // console.log(typeof existUser)
             if(existUser){
               //  console.log("Exist USER - Rol ID:", existUser.rol_id)
@@ -27,7 +27,7 @@ const modelLogin = {
                     );
                     if (resultado && await bcrypt.compare(credenciales.contrasena, resultado.contrasena)) {
                         const token = jwt.sign({ id: resultado.id }, 'aguasol', { expiresIn: '30s' }); // Ajusta el tiempo de expiración según tus necesidades
-                        console.log(token);
+                        //console.log(token);
                         return {usuario:resultado,token}
                     }
                     else{

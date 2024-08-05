@@ -56,12 +56,12 @@ const modelUbicacion = {
             //Este endpoint es para actualizar los pedidos para clientes no Registrados
             const zonatrabajoid = await db_pool.one(`SELECT zona_trabajo_id FROM personal.administrador AS pa
                 INNER JOIN personal.empleado AS pe ON pa.id=pe.administrador_id WHERE pe.id=$1`,[empleadoID])//sacamos el zona_trabajo_id de empleado
-            console.log("Esta es Zona de Trabajo Empleado")
-            console.log(zonatrabajoid)
+            //console.log("Esta es Zona de Trabajo Empleado")
+            //console.log(zonatrabajoid)
             const ubicacion = await db_pool.one(`UPDATE relaciones.ubicacion SET zona_trabajo_id=$1 
                 WHERE id=$2 RETURNING *`,[zonatrabajoid.zona_trabajo_id,idRelacionUbicacion])//Aca se le esta pasando id de la relacion de ubicacion para actualizar el campo zona de trabajo
-            console.log("Esta es la zona de trabajo actualizada")
-            console.log(ubicacion)
+            //console.log("Esta es la zona de trabajo actualizada")
+            //console.log(ubicacion)
             return ubicacion
 
         }catch(error){

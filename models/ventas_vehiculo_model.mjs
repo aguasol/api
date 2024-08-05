@@ -47,7 +47,7 @@ const modelVehiculo = {
     },
     getVehiculo: async (id) => {
         try {
-            console.log(id)
+           // console.log(id)
             // PRIMERO DEBEMOS TRAER EL ADMIN DEL EMPLEADO QUE SE ESTÁ REGISTRANDO
             const adminEmpleado = await db_pool.one(`
             SELECT administrador_id FROM personal.empleado WHERE id = $1`, [id])
