@@ -39,6 +39,7 @@ WHERE DATE(fecha_creacion) = CURRENT_DATE and vr.empleado_id = $1`,
                     p.total,
                     p.fecha,
                     p.tipo,
+                    p.estado,
                     rub.distrito,
                     rub.direccion
                 FROM 

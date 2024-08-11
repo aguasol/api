@@ -4,10 +4,10 @@ console.log("--------# 16.0 vehiculo producto")
 const modelVehiculoProduct = {
     createVehiculoProduct: async (vehiculoproducto) => {
         try {
-            const vehiculoproducto = await db_pool.one(`
-            INSERT INTO vehiculo_producto (producto_id,vehiculo_id,stock_movil)
-            VALUES($1,$2,$3) RETURNING *`, [vehiculoproducto.producto_id, vehiculoproducto.vehiculo_i, vehiculoproducto.stock_movil])
-            return vehiculoproducto
+            const result = await db_pool.one(`
+            INSERT INTO ventas.vehiculo_producto (producto_id,vehiculo_id,stock_movil_conductor)
+            VALUES($1,$2,$3) RETURNING *`, [vehiculoproducto.producto_id, vehiculoproducto.vehiculo_id, vehiculoproducto.stock_movil_conductor])
+            return result
 
         } catch (error) {
             throw new Error(`error query ${error}`)
@@ -102,6 +102,9 @@ const modelVehiculoProduct = {
         }
     },
 
+    
+    
+
     updateVehiculoProductCond: async (id, stock) => {
         try {
             const updateVehiculoProduct = await db_pool.manyOrNone(`
@@ -116,6 +119,71 @@ const modelVehiculoProduct = {
             throw new Error(`error query ${error}`)
         }
     },
+
+    updateVehiculosProductosStock: async (idvehiculo,stock,idproducto) =>{
+        try{
+            const updateStock = await db_pool.manyOrNone(`UPDATE ventas.vehiculo_producto
+SET stock = $2
+WHERE vehiculo_id = $1 and producto_id = $3
+                `,[idvehiculo,stock,idproducto])
+        return updateStock        
+        } catch (error){
+            throw new Error(`error query ${error}`)
+        }
+
+    },
+
+    updateProductoZonaStock: async (zonaTrabajoId, productoId, stock) => {
+        try {
+            const updateStockPadre = await db_pool.manyOrNone(
+                `UPDATE ventas.producto_zona
+                SET stock_padre = stock_padre - $1
+                WHERE zona_trabajo_id = $2 AND producto_id = $3`,
+                [stock, zonaTrabajoId, productoId]
+            );
+            return updateStockPadre; 
+        } catch (error) {
+            throw new Error(`Error al actualizar stock_padre: ${error}`);
+        }
+    },
+
+    
+    getProductoVehiculoStock: async (vehiculoID) => {
+        // console.log("---dentro de get ---")
+        try {
+            const getVehiculoProductos = await db_pool.any(`
+            SELECT stock_movil_conductor FROM ventas.vehiculo_producto WHERE vehiculo_id=$1 order by producto_id`, [vehiculoID])
+
+            // console.log("----vehiculo...prod")
+            // console.log(getVehiculoProductos)
+            return getVehiculoProductos
+
+        } catch (error) {
+            throw new Error(`error query ${error}`)
+        }
+    },
+
+    getProductoStockPadre: async (zonaTrabajoId, productoId) => {
+        try{
+            const getProductosPadre = await db_pool.oneOrNone(`
+                SELECT stock_padre FROM ventas.producto_zona WHERE zona_trabajo_id=$1 AND producto_id = $2`,[zonaTrabajoId,productoId])
+                return getProductosPadre
+        }catch(error){
+            throw new Error(`error query ${error}`)
+        }
+    },
+
+    getIdZonaPadreStock: async (idempleado) => {
+        try{
+            const getIdZona = await db_pool.oneOrNone(`
+                SELECT pa.zona_trabajo_id FROM personal.empleado AS pe INNER JOIN personal.administrador AS pa ON pe.administrador_id=pa.id WHERE pe.id=$1`,[idempleado])
+                return getIdZona
+        }catch(error){
+            throw new Error(`error query ${error}`)
+        }
+    }
+
+
 
 }
 export default modelVehiculoProduct
