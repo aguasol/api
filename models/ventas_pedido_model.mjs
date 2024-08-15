@@ -91,11 +91,12 @@ const modelPedido = {
                 // ENVIANDO EL PEDIDO A LA COLA
                 // await sendPedidoRabbit(pedidos_nr)
 
-                const pedidoss = await db_pool.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
-                        FROM ventas.pedido as vp
-                        FULL JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
-                        FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
-                        WHERE estado =  \'pendiente\' and vp.id=$1`, [pedidos_nr.id]);
+                const pedidoss = await db_pool.one(`SELECT vp.id, vp.subtotal, vp.descuento, vp.total, vp.ruta_id, vp.fecha, vp.estado, vp.tipo, vp.observacion,
+      vc.nombre, vc.apellidos, vc.telefono, rub.latitud, rub.longitud, rub.distrito
+FROM ventas.pedido as vp
+FULL JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
+FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
+WHERE (estado = 'pendiente' or estado = 'pagado') AND vp.id = $1;`, [pedidos_nr.id]);
 
                 // PEDIDOS SOCKET
                 io.emit('nuevoPedido', pedidoss)
