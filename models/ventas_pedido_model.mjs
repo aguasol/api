@@ -353,7 +353,7 @@ ORDER BY
             if (!result) {
                 return { "Message": "No se encontró un pedido con ese ID" }
             }
-            io.emit("ruteando", true)
+            io.emit("pedidoañadido", result)
             return { result }
 
         } catch (error) {
@@ -412,7 +412,7 @@ ORDER BY
                 estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
                 [motivo.motivoped,pedidoId]);
 
-            io.emit('PedidoAñadido', result)
+            io.emit('pedidoanulado', result)
 
             return result
 
