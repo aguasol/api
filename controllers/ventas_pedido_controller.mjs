@@ -173,8 +173,8 @@ export const updateEstadoRutaCancelados = async (req,res )=>{
     try{
         const {idpedido} = req.params
         const pedidoid = parseInt(idpedido,10)
-        const {motivoped} = req.body
-        const result = await modelPedido.updateEstadoRutaCancelado(pedidoid,motivoped)
+        const observacion = req.body
+        const result = await modelPedido.updateEstadoRutaCancelado(pedidoid,observacion)
         res.status(200).json(result)
     }
     catch(error){
