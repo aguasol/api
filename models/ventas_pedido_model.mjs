@@ -403,6 +403,20 @@ ORDER BY
         } catch (error) {
             throw new Error(`Error query update:${error.message}`)
         }
+    },
+    updateEstadoRutaCancelado:async(pedidoId,motivo) =>{
+        try {
+            const result = await db_pool.oneOrNone(
+                `UPDATE ventas.pedido SET 
+                estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
+                [motivo,pedidoId]);
+
+            io.emit('PedidoAñadido', result)
+            return result
+
+        } catch (error) {
+            throw new Error(`Error query update:${error.message}`)
+        }
     }
 
 }

@@ -169,7 +169,18 @@ export const updateEstadoRutas = async (req,res )=>{
 }
 
 
-
+export const updateEstadoRutaCancelados = async (req,res )=>{
+    try{
+        const {idpedido} = req.params
+        const pedidoid = parseInt(idpedido,10)
+        const {motivoped} = req.body
+        const result = await modelPedido.updateEstadoRutaCancelado(pedidoid,motivoped)
+        res.status(200).json(result)
+    }
+    catch(error){
+        res.status(500).json({error:error.message})
+    }
+}
 
 
 
