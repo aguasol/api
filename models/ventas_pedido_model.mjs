@@ -288,7 +288,7 @@ ORDER BY
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
             LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
-                WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
+                WHERE ruta_id=$1 and conductor_id=$2 ORDER BY vp.id ASC`, [rutaID, conductorID]);
             //console.log(pedidos)
             return pedidos
 
