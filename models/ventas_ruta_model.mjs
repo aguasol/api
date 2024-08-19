@@ -142,6 +142,22 @@ WHERE DATE(fecha_creacion) = CURRENT_DATE and vr.empleado_id = $1`,
             throw new Error(`Error query create:${error}`)
         }
     },
+    getpedidosfecharuta:async(conductor,fecha) => {
+        try {
+            const consulta = await db_pool.any(`
+                SELECT vp.id,vp.ruta_id,
+                vp.subtotal,vp.descuento,vp.total,
+                vp.fecha,vp.tipo,vp.estado,
+                vp.observacion,vp.tipo_pago
+                 FROM ventas.pedido as vp inner join ventas.ruta as vr on vp.ruta_id = vr.id
+                WHERE conductor_id = $1 AND DATE(fecha_creacion) = $2
+                ORDER BY vp.id ASC`,[conductor,fecha.fecha_ruta])
+            console.log(consulta)
+            return consulta 
+        } catch (error) {
+            throw new Error(`Error query ${error}`)
+        }
+    }
 
 
 }

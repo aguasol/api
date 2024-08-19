@@ -61,3 +61,21 @@ export const getLastRutasConductor =  async (req,res) => {
         res.status(500).json({error:error.message});
     }
 }
+export const getfechapedidosrutas = async (req,res) => {
+    try {
+        const {conductorID} = req.params
+        const idconductor = parseInt(conductorID,10)
+        const newfecha = req.body
+        const result = await modelRuta.getpedidosfecharuta(idconductor,newfecha)
+        console.log(result)
+        if(result.length>0){
+            res.status(200).json(result)
+        }
+        else{
+            res.status(404).json(result)
+        }
+        
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
