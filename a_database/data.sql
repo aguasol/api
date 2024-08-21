@@ -22,7 +22,7 @@ INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
   ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'recargaregalona.jpg'),
   ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'siete.png'),
-  ('de verano',16.00,'Lleva 2 paquetes de 3L a solo S/.16.00',current_timestamp,current_timestamp,'paquetes2.png'),
+  ('de temporada',16.00,'Lleva 2 paquetes de 3L a solo S/.16.00',current_timestamp,current_timestamp,'paquetes2.png'),
   ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp,'setecientos.png');
 
 INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) VALUES
