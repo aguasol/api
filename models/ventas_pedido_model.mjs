@@ -185,7 +185,7 @@ LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
 
 INNER JOIN AdministradorZona AS az ON rub.zona_trabajo_id = az.zona_trabajo_id
 WHERE
-    vp.estado = 'pendiente' or vp.estado = 'en proceso' or vp.estado = 'pagado'
+    vp.estado = 'pendiente' or vp.estado = 'pagado'
 ORDER BY
     vp.id ASC;`,[empleadoID])
            // console.log(pedidos)
