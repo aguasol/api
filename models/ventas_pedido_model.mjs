@@ -419,7 +419,21 @@ ORDER BY
         } catch (error) {
             throw new Error(`Error query update:${error.message}`)
         }
-    }
+    },
+    updatePedido: async (pedidoID, newDatos) => {
+        try {
+            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET total = $1,fecha = $2,estado=$3, observacion=$4 WHERE id = $5 RETURNING *',
+                [newDatos.totalpago, newDatos.fechaped, newDatos.estadoped,newDatos.observacion, pedidoID]);
+            if (!result) {
+                return { "Message": "No se encontró un pedido con ese ID" }
+            }
+            io.emit("pedidomodificado", result)
+            return { result }
+
+        } catch (error) {
+            throw new Error(`Error en la actualización del pedido: ${error.message}`)
+        }
+    },
 
 }
 

@@ -90,7 +90,22 @@ export const getTotalEntregados = async (req,res) =>{
         res.status(500).json({error:error.message})
     }
 }
+export const updatePedidos = async (req,res)=>{
+    try {
+        const {pedidoID} = req.params;
+        const id = parseInt(pedidoID,10);
+        const newDatos = req.body;
+        //console.log('este es el estado-----')
+        //console.log(newDatos)
 
+        const updatePedidos = await modelPedido.updatePedido(id,newDatos);
+       // console.log('este es el update-----')
+        //console.log(updatePedidos)
+        res.status(200).json(updatePedidos);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
 export const deletePedidos = async (req,res) => {
   //  console.log("id llego")
     try {
