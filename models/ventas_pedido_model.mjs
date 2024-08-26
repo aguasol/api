@@ -435,6 +435,78 @@ ORDER BY
         }
     },
 
+    getPedidoDesktop: async (empleadoID) => {
+        // console.log("dentro de get para conductores")
+
+        try {
+            /*
+            const pedidos = await db_pool.any(`
+            
+                SELECT
+                vp.id,
+                vp.subtotal,
+                vp.descuento,
+                vp.total,
+                vp.ruta_id,
+                vp.fecha,
+                vp.estado,
+                vp.tipo,
+                vp.observacion,
+                rub.latitud,
+                rub.longitud,
+                rub.distrito,
+                COALESCE(vc.nombre, vcnr.nombre) as nombre,
+                COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
+                COALESCE(vc.telefono, vcnr.telefono) as telefono
+                
+            FROM
+                ventas.pedido as vp
+            LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
+            LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
+            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
+            WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
+*/
+            // console.log(pedidos)
+           // console.log("Iniciando prueba")
+            const pedidos = await db_pool.any(`WITH AdministradorZona AS (
+    SELECT pa.zona_trabajo_id
+    FROM personal.empleado AS pe
+    INNER JOIN personal.administrador AS pa ON pe.administrador_id = pa.id
+    WHERE pe.id = $1
+)
+
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.observacion,
+    rub.distrito,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+INNER JOIN AdministradorZona AS az ON rub.zona_trabajo_id = az.zona_trabajo_id
+ORDER BY
+    vp.id ASC;`,[empleadoID])
+           // console.log(pedidos)
+
+            return pedidos
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
 }
 
 export default modelPedido;
