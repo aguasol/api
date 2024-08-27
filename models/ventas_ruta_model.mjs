@@ -7,9 +7,16 @@ console.log("--------# 14.0 ruta")
 const modelRuta = {
     getAllRutaEmpleado: async (empleado_id) => {
         try {
+
+            // Obtener la fecha actual en la zona horaria local del servidor
+        const now = new Date();
+        console.log('Fecha actual en servidor:', now);
+        
             const allrutas = await db_pool.any(`
-                SELECT *
+                SELECT vr.id,pc.nombres,vv.nombre_modelo,vr.fecha_creacion
 FROM ventas.ruta AS vr
+inner join personal.conductor as pc on vr.conductor_id = pc.id
+inner join ventas.vehiculo as vv on vr.vehiculo_id = vv.id
 WHERE DATE(fecha_creacion) = CURRENT_DATE and vr.empleado_id = $1`,
                 [empleado_id])
             //console.log(allrutas)
@@ -41,7 +48,9 @@ WHERE DATE(fecha_creacion) = CURRENT_DATE and vr.empleado_id = $1`,
                     p.tipo,
                     p.estado,
                     rub.distrito,
-                    rub.direccion
+                    rub.direccion,
+                    rub.latitud,
+                    rub.longitud
                 FROM 
                     ventas.pedido p
                 LEFT JOIN 

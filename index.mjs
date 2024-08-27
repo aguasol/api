@@ -7,6 +7,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import compression from "compression";
+import { Client } from '@googlemaps/google-maps-services-js';
+import polyline from 'google-polyline';
 
 
 import multer from 'multer';
@@ -118,6 +120,33 @@ function errorHandler(err, req, res, next) {
         return next(err);
     }
     res.status(500).json({ error: 'Error interno del servidor' });
+}
+
+// Crear cliente de Google Maps
+const client = new Client({});
+
+app_sol.post('/decode-route', async (req, res) => {
+    const { encodedPath } = req.body; // Obtenemos la cadena codificada del cuerpo de la solicitud
+
+    if (!encodedPath) {
+        return res.status(400).json({ error: 'encodedPath is required' });
+    }
+
+    try {
+        // Utilizar la biblioteca `google-polyline` para decodificar la ruta
+        const decodedPath = decodePolyline(encodedPath);
+
+        // Enviamos la respuesta con la ruta decodificada
+        res.json({ decodedPath });
+    } catch (error) {
+        console.error('Error decoding route:', error);
+        res.status(500).json({ error: 'Failed to decode route' });
+    }
+});
+
+// Función para decodificar la cadena codificada
+function decodePolyline(encoded) {
+    return polyline.decode(encoded);
 }
 
 // Delega a la función de manejo de errores personalizada
