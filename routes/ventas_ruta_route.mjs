@@ -1,5 +1,4 @@
-import { createRutas, getAllRutasEmpleado, getfechapedidosrutas, getLastRutas,getLastRutasConductor,getPedidosByrutas } from "../controllers/ventas_ruta_controller.mjs"; 
-import express from 'express';
+import { createRutas,getAllRutasEmpleadoDesktop, getAllRutasEmpleado,getLastRutasAll, getfechapedidosrutas, getLastRutas,getLastRutasConductor,getPedidosByrutas } from "../controllers/ventas_ruta_controller.mjs";
 const routerVentasRuta = express.Router();
 routerVentasRuta.get('/allrutas_empleado/:empleadoId',getAllRutasEmpleado)
 routerVentasRuta.post('/ruta',createRutas)
@@ -7,5 +6,8 @@ routerVentasRuta.get('/ruta/:rutaId',getPedidosByrutas)
 routerVentasRuta.get('/rutalast/:empleadoId',getLastRutas)
 routerVentasRuta.get('/rutakastcond/:conductorId',getLastRutasConductor)
 routerVentasRuta.post('/fecharutapedido/:conductorID',getfechapedidosrutas)
+// cambios pato
+routerVentasRuta.get('/allrutas',getAllRutasEmpleadoDesktop)
+routerVentasRuta.get('/rutalastAll',getLastRutasAll)
 
 export default routerVentasRuta;

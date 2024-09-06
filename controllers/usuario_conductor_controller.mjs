@@ -12,6 +12,17 @@ export const getAllUserConductores = async (req,res) => {
     }
 }
 
+export const getAllUsersConductores = async (req,res) => {
+    try {
+
+        const alluserconductores= await modelUserConductor.getAllUsersConductor();
+        res.status(200).json(alluserconductores);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+}
+
 export const createUserConductores = async (req,res) => {
     try{
         const newConductor = req.body;
@@ -52,6 +63,27 @@ export const updateUserConductores = async (req,res)=>{
         res.status(500).json({error:error.message});
     }
 }
+//cambios pato
+export const updateConductorEstado = async (req, res) => {
+    try {
+      const { userConductorId } = req.params;
+      const  newData = req.body;
+      const id = parseInt(userConductorId, 10);
+
+
+
+      const updatedConductor = await modelUserConductor.updateConductorEstado(id, newData);
+
+    
+
+      res.status(200).json(updatedConductor);
+    } catch (error) {
+      //console.error(Error en el controlador: ${error.message});
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+
 export const deleteUserConductores = async (req,res) => {
     try {
         const { userConductorId } = req.params;

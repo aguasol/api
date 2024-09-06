@@ -153,7 +153,7 @@ WHERE (estado = 'pendiente' or estado = 'pagado') AND vp.id = $1;`, [pedidos_nr.
             WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
 */
             // console.log(pedidos)
-           // console.log("Iniciando prueba")
+            // console.log("Iniciando prueba")
             const pedidos = await db_pool.any(`WITH AdministradorZona AS (
     SELECT pa.zona_trabajo_id
     FROM personal.empleado AS pe
@@ -187,8 +187,8 @@ INNER JOIN AdministradorZona AS az ON rub.zona_trabajo_id = az.zona_trabajo_id
 WHERE
     vp.estado = 'pendiente' or vp.estado = 'pagado'
 ORDER BY
-    vp.id ASC;`,[empleadoID])
-           // console.log(pedidos)
+    vp.id ASC;`, [empleadoID])
+            // console.log(pedidos)
 
             return pedidos
 
@@ -263,7 +263,7 @@ ORDER BY
         }
     },
 
-    getPedidoConductor: async (rutaID, conductorID) => {
+    getPedidoConductor: async (rutaID) => {
         //  console.log("dentro de get Pedidos para Conductores....")
 
         try {
@@ -288,7 +288,7 @@ ORDER BY
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
             LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
-                WHERE ruta_id=$1 and conductor_id=$2 ORDER BY vp.id ASC`, [rutaID, conductorID]);
+                WHERE ruta_id=$1 ORDER BY vp.id ASC`, [rutaID]);
             //console.log(pedidos)
             return pedidos
 
@@ -301,7 +301,7 @@ ORDER BY
 
         try {
             const pedidos = await db_pool.any(`SELECT vp.id, vp.estado, vp.subtotal,  vp.descuento, vp.total, vp.tipo_pago, vp.tipo, vp.fecha, rub.direccion, rub.distrito FROM ventas.pedido as vp INNER JOIN relaciones.ubicacion AS rub ON rub.id=vp.ubicacion_id WHERE vp.cliente_id=$1`, [clienteID]);
-           // console.log(pedidos)
+            // console.log(pedidos)
             return pedidos
 
         } catch (error) {
@@ -335,7 +335,7 @@ ORDER BY
                 const nuevoSaldo = saldo.saldo_beneficios + (pedido.descuento / 12) * 3
                 await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE id = $2`, [nuevoSaldo, pedido.beneficiado_id])
             } else {
-               // console.log("no existe beneficiado :c ")
+                // console.log("no existe beneficiado :c ")
             }
 
             if (!result) {
@@ -362,7 +362,7 @@ ORDER BY
     },
     getPedidosNew: async (id) => {
         try {
-           // console.log("id---")
+            // console.log("id---")
             //console.log(id)
             const pedidosEmpleado = await db_pool.any(`
             select vp.id,
@@ -387,30 +387,30 @@ ORDER BY
             left join personal.administrador as pa on pa.zona_trabajo_id=ru.zona_trabajo_id
             left join personal.empleado as pe on pe.administrador_id=pa.id where pe.id=$1;
             `, [id])
-           // console.log("---pedidos new---")
+            // console.log("---pedidos new---")
             return pedidosEmpleado
         } catch (error) {
             throw new Error(`Error query getPedidosNew ${error}`)
         }
     },
-    updateEstadoRuta:async(pedidoId) =>{
+    updateEstadoRuta: async (pedidoId) => {
         try {
             const result = await db_pool.oneOrNone(`UPDATE ventas.pedido SET ruta_id = null,
                 estado = 'pendiente' WHERE id = $1 RETURNING *`,
                 [pedidoId]);
             return result
-            
+
         } catch (error) {
             throw new Error(`Error query update:${error.message}`)
         }
     },
-    updateEstadoRutaCancelado:async(pedidoId,motivo) =>{
+    updateEstadoRutaCancelado: async (pedidoId, motivo) => {
 
         try {
             const result = await db_pool.oneOrNone(
                 `UPDATE ventas.pedido SET 
                 estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
-                [motivo.motivoped,pedidoId]);
+                [motivo.motivoped, pedidoId]);
 
             io.emit('pedidoanulado', result)
 
@@ -423,7 +423,7 @@ ORDER BY
     updatePedido: async (pedidoID, newDatos) => {
         try {
             const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET total = $1,fecha = $2,estado=$3, observacion=$4 WHERE id = $5 RETURNING *',
-                [newDatos.totalpago, newDatos.fechaped, newDatos.estadoped,newDatos.observacion, pedidoID]);
+                [newDatos.totalpago, newDatos.fechaped, newDatos.estadoped, newDatos.observacion, pedidoID]);
             if (!result) {
                 return { "Message": "No se encontró un pedido con ese ID" }
             }
@@ -439,35 +439,7 @@ ORDER BY
         // console.log("dentro de get para conductores")
 
         try {
-            /*
-            const pedidos = await db_pool.any(`
-            
-                SELECT
-                vp.id,
-                vp.subtotal,
-                vp.descuento,
-                vp.total,
-                vp.ruta_id,
-                vp.fecha,
-                vp.estado,
-                vp.tipo,
-                vp.observacion,
-                rub.latitud,
-                rub.longitud,
-                rub.distrito,
-                COALESCE(vc.nombre, vcnr.nombre) as nombre,
-                COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
-                COALESCE(vc.telefono, vcnr.telefono) as telefono
-                
-            FROM
-                ventas.pedido as vp
-            LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
-            LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
-            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
-            WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
-*/
-            // console.log(pedidos)
-           // console.log("Iniciando prueba")
+
             const pedidos = await db_pool.any(`WITH AdministradorZona AS (
     SELECT pa.zona_trabajo_id
     FROM personal.empleado AS pe
@@ -498,8 +470,8 @@ LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
 LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
 INNER JOIN AdministradorZona AS az ON rub.zona_trabajo_id = az.zona_trabajo_id
 ORDER BY
-    vp.id ASC;`,[empleadoID])
-           // console.log(pedidos)
+    vp.id ASC;`, [empleadoID])
+            // console.log(pedidos)
 
             return pedidos
 
@@ -509,6 +481,74 @@ ORDER BY
         }
     },
 
+    getAllPedidoDesktop: async () => {
+        // console.log("dentro de get para conductores")
+
+        try {
+
+            const pedidos = await db_pool.any(`
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+ORDER BY
+    vp.id ASC;`)
+            // console.log(pedidos)
+
+            return pedidos
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+
+    // ENDPOINTS FLASH DE CONDUCTOR PARA MANEJAR ESTADOS DE PEDIDOS
+
+    // ACEPTAR
+    updateEstadoPedidosConductor: async (id, data) => {
+        try {
+            const resultado = await db_pool.one(`
+            UPDATE ventas.pedido SET estado = $1 WHERE id = $2 RETURNING *`, [data.estado, id])
+
+            // EVENTO PARA EL WS
+            io.emit("aceptado", resultado)
+
+            // RETURN PARA EL CLIENTE
+            return resultado
+
+        } catch (error) {
+            throw new Error(`Error update pedido: ${error}`)
+        }
+    },
+
+    // ENTREGAR
+    updateEstadoPedidosConductordos: async (id, data) => {
+        try {
+
+        } catch (error) {
+
+        }
+    }
 }
 
 export default modelPedido;

@@ -1,8 +1,10 @@
 import { db_pool } from "../config.mjs";
 import bcrypt from 'bcrypt';
-
+import { io } from '../index.mjs';
 //console.log("--------# 7.0 conductor")
 const modelUserConductor = {
+
+    // cambios pato
     createUserConductor: async (conductor) => {
         //const driver =  await db_pool.connect();
 
@@ -25,8 +27,8 @@ const modelUserConductor = {
                 //  console.log(usuario.id)
 
 
-                const conductores = await db_pool.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento, conductor.administrador_id]);
+                const conductores = await db_pool.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento]);
 
 
                 //  console.log("conductores+-++++");
@@ -61,6 +63,31 @@ const modelUserConductor = {
             throw new Error(`Error en la actualización del conductor: ${error.message}`);
         }
     },
+
+    // cambios pato
+    updateConductorEstado: async (id, data) => {
+        try {
+            const result = await db_pool.one(
+                'UPDATE personal.conductor SET estado = $1 WHERE id = $2 RETURNING id, estado',
+                [data.estado, id]
+            );
+
+            // Emitir evento Socket.IO desde el modelo
+
+            io.emit('Termine de Updatear', result);
+            //io.emit('Termine de Updatear', result);
+            //console.log(Evento 'Termine de Updatear' emitido para el conductor ${id});
+
+            //console.log('Advertencia: io no está definido, no se pudo emitir el evento');
+
+            //        console.log(result);
+            return result;
+        } catch (error) {
+            //console.error(Error al actualizar el estado del conductor: ${error.message});
+            throw new Error(`Error al actualizar el estado del conductor: ${error.message}`);
+        }
+    },
+
     getUsersConductor: async (idEmpleado) => {
         try {
             //const userConductores = await db_pool.any('select * from personal.usuario inner join personal.conductor on personal.usuario.id = personal.conductor.usuario_id')
@@ -73,6 +100,17 @@ where pe.id = $1)`, [idEmpleado])
         }
     },
 
+    // cambios pato
+    getAllUsersConductor: async () => {
+        try {
+            //const userConductores = await db_pool.any('select * from personal.usuario inner join personal.conductor on personal.usuario.id = personal.conductor.usuario_id')
+            const userConductores = await db_pool.any(
+                `select * from personal.conductor`)
+            return userConductores
+        } catch (e) {
+            throw new Error(`Error query clients: ${err}`);
+        }
+    },
     /*
 `
             WITH ConductorDatosOrdenados AS (
@@ -103,14 +141,14 @@ where pe.id = $1)`, [idEmpleado])
                 rn = 1;`
     */
 
-                /*
-                SELECT vr.conductor_id, pc.nombres, pc.apellidos, pc.licencia,
-	pc.dni,pc.fecha_nacimiento,
-	vr.id AS ruta
-	FROM ventas.ruta AS vr
+    /*
+    SELECT vr.conductor_id, pc.nombres, pc.apellidos, pc.licencia,
+pc.dni,pc.fecha_nacimiento,
+vr.id AS ruta
+FROM ventas.ruta AS vr
 INNER JOIN personal.conductor AS pc ON vr.conductor_id = pc.id
 where vr.empleado_id = $1
-                */
+    */
     getconductorruta: async (empleadoID) => {
         try {
             const conductorruta = await db_pool.any(`WITH RutaConductor AS (
@@ -142,7 +180,7 @@ SELECT
 FROM 
     RutaConductor
 WHERE 
-    rn = 1;`,[empleadoID])
+    rn = 1;`, [empleadoID])
             return conductorruta
         } catch (error) {
             throw new Error(`Error query drivers: ${err}`);

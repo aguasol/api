@@ -45,10 +45,10 @@ export const getPedidosConductor = async (req,res) => {
         const {rutaID} = req.params;
         const id = parseInt(rutaID,10);
        // console.log(id)
-        const {conductorID} = req.params;
-        const id2 = parseInt(conductorID,10);
+       // const {conductorID} = req.params;
+        //const id2 = parseInt(conductorID,10);
        // console.log(id2)
-        const getPedidoCond = await modelPedido.getPedidoConductor(id,id2);
+        const getPedidoCond = await modelPedido.getPedidoConductor(id);
         res.status(200).json(getPedidoCond);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -208,11 +208,41 @@ export const getPedidosDesktop =  async (req,res) => {
         // console.log(getPedidos)
          res.status(200).json(getidempleado)
      } catch (error) {
+         res.status(500).json({error:error.message})
+     }
+ }
+// cambios pato
+ export const getAllPedidosDesktop =  async (req,res) => {
+    // console.log("llego el requerimiento de los pedidos")
+     try {
+         //const {empleadoid} = req.params;
+         //const idempleado = parseInt(empleadoid,10);
+         const getidempleado = await modelPedido.getAllPedidoDesktop()
+         //const getPedidos = await modelPedido.getPedido();
+         //console.log("----controller pedido")
+        // console.log(getPedidos)
+         res.status(200).json(getidempleado)
+     } catch (error) {
          res.status(500).json({erro:error.message})
      }
  }
+ // CONTROLLER PARA ESTADOS FLASH DE CONDUCTOR
 
-
+export const updateEstadoFlash =  async (req,res) => {
+    // console.log("llego el requerimiento de los pedidos")
+     try {
+         const {pedidoID} = req.params;
+         const id = parseInt(pedidoID,10);
+         const newdata = req.body;
+         const resultado = await modelPedido.updateEstadoPedidosConductor(id,newdata)
+         //const getPedidos = await modelPedido.getPedido();
+         //console.log("----controller pedido")
+        // console.log(getPedidos)
+         res.status(200).json(resultado)
+     } catch (error) {
+         res.status(500).json({error:error.message})
+     }
+ }
 
 
 

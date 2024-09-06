@@ -18,6 +18,23 @@ export const getAllRutasEmpleado = async (req,res) => {
         res.status(500).json({error:error.message})
     }
 }
+// cambios pato
+export const getAllRutasEmpleadoDesktop = async (req,res) => {
+    try {
+        const result = await modelRuta.getAllRutaEmpleadoDesktop()
+
+        if(result.message){
+            console.log("debe aqui")
+            res.status(404).json(result)
+        }
+        else{
+            res.status(200).json(result)
+        }
+
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 export const createRutas = async (req,res) => {
     try {
         const newRuta = req.body
@@ -34,6 +51,17 @@ export const getLastRutas =  async (req,res) => {
         const { empleadoId} = req.params;
         const empleado_id = parseInt(empleadoId,10);
         const getLast =  await modelRuta.getLastRuta(empleado_id)
+        res.status(200).json(getLast);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
+// cambios pato
+export const getLastRutasAll =  async (req,res) => {
+    try {
+        //const { empleadoId} = req.params;
+        //const empleado_id = parseInt(empleadoId,10);
+        const getLast =  await modelRuta.getLastRutaAll()
         res.status(200).json(getLast);
     } catch (error) {
         res.status(500).json({error:error.message});

@@ -30,6 +30,7 @@ import routerVehiculoProducto from "./routes/ventas_vehiculo_producto_route.mjs"
 import routerVehiculo from "./routes/ventas_vehiculo_route.mjs";
 import routerProductoZona from "./routes/ventas_producto_zona_route.mjs";
 import routerZonas from "./routes/ventas_zona_trabajo_route.mjs";
+import routerAlmacenes from "./routes/ventas_almacen_route.mjs";
 
 /** INICIA LA APP Y EL PUERTO */
 const app_sol = express();
@@ -42,7 +43,7 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-    //console.log('Cliente conectado');
+    console.log('Cliente conectado');
     //console.log("holaa");
 
     socket.on('disconnect', () => {
@@ -60,6 +61,11 @@ io.on('connection', (socket) => {
         io.emit('Llama tus Pedidos :)', data);
     });
 
+    socket.on('avisarAceptado',(data) => {
+        console.log("....escuchando ")
+        console.log(data);
+        io.emit('notificarConductores',data);
+    });
     //socket.emit('testy');
     io.emit('testy')
 
@@ -108,6 +114,7 @@ app_sol.use('/api', routerVehiculoProducto);
 app_sol.use('/api', routerVehiculo);
 app_sol.use('/api', routerProductoZona);
 app_sol.use('/api', routerZonas);
+app_sol.use('/api',routerAlmacenes)
 
 app_sol.use('/api', (req, res) => {
     //console.log("---no esta esa ruta")

@@ -73,6 +73,7 @@ create table personal.conductor(
 	licencia varchar (100) not null,
 	dni varchar(100) not null,
 	fecha_nacimiento date not null,
+	estado varchar(200), -- disponibilidad
 	administrador_id int
 );	
 
@@ -91,6 +92,15 @@ create table personal.empleado(
 ------------------------------------
 -- VENTAS USUARIOS
 ------------------------------------
+
+-- Table: ventas.almacen
+create table ventas.almacen(
+	id serial primary key,
+	nombre varchar(200),
+	estado varchar(200),
+	horario varchar(200),
+	administrador_id int
+);
 
 -- Table: ventas.cliente
 create table ventas.cliente(
@@ -250,6 +260,9 @@ create table relaciones.producto_promocion(
 -- CONSTRAINTS
 ---------------------------------
 -- ALTER TABLE orders ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
+
+-- ALMACEN
+ALTER TABLE ventas.almacen ADD CONSTRAINT fk_almacen_administrador FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- PRODUCTO
 ALTER TABLE ventas.vehiculo_producto ADD CONSTRAINT fk_vehiculo_producto_product FOREIGN KEY(producto_id) REFERENCES ventas.producto(id) ON DELETE CASCADE ON UPDATE CASCADE;
