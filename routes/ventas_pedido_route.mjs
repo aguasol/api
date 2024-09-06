@@ -21,5 +21,5 @@ routerVentasPedido.get('/pedidoDesktop/:empleadoid',getPedidosDesktop)
 routerVentasPedido.put('/estadoflash/:pedidoID',updateEstadoFlash)
 // cambios pato
 routerVentasPedido.get('/pedidosDesktop',getAllPedidosDesktop)
-routerVentasPedido.get('/globalinformefecha',getpedidosinformes)
+routerVentasPedido.post('/globalinformefecha',getpedidosinformes)
 export default routerVentasPedido;
