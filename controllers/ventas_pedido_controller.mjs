@@ -1,3 +1,4 @@
+import express from "express";
 import modelPedido from "../models/ventas_pedido_model.mjs";
 
 export const createPedidos = async (req,res) => {
@@ -244,7 +245,21 @@ export const updateEstadoFlash =  async (req,res) => {
      }
  }
 
-
+export const getpedidosinformes = async (req,res) =>{
+    try {
+        const newfecha = req.body
+        const resultado = await modelPedido.getpedidosinformefecha(newfecha)
+        if(resultado.length>0){
+            res.status(200).json(resultado)
+        }
+        else{
+            res.status(404).json(resultado)
+        }
+        
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 
 
 

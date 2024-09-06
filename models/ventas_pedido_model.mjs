@@ -548,6 +548,16 @@ ORDER BY
         } catch (error) {
 
         }
+    },
+
+    getpedidosinformefecha :async (data) => {
+        try {
+            const result = await db_pool.any(`
+                SELECT * FROM ventas.pedido WHERE DATE(fecha)=$1 ORDER BY id ASC `,[data.fecha])
+                return result      
+        } catch (error) {
+            throw new Error(`Error get pedido: ${error}`)
+        }
     }
 }
 

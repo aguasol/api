@@ -1,4 +1,4 @@
-import { createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash} from '../controllers/ventas_pedido_controller.mjs';
+import { createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash, getpedidosinformes} from '../controllers/ventas_pedido_controller.mjs';
 
 import express from 'express';
 
@@ -21,4 +21,5 @@ routerVentasPedido.get('/pedidoDesktop/:empleadoid',getPedidosDesktop)
 routerVentasPedido.put('/estadoflash/:pedidoID',updateEstadoFlash)
 // cambios pato
 routerVentasPedido.get('/pedidosDesktop',getAllPedidosDesktop)
+routerVentasPedido.get('/globalinformefecha',getpedidosinformes)
 export default routerVentasPedido;
