@@ -1,4 +1,5 @@
 import { createRutas,getAllRutasEmpleadoDesktop, getAllRutasEmpleado,getLastRutasAll, getfechapedidosrutas, getLastRutas,getLastRutasConductor,getPedidosByrutas } from "../controllers/ventas_ruta_controller.mjs";
+import express from 'express';
 const routerVentasRuta = express.Router();
 routerVentasRuta.get('/allrutas_empleado/:empleadoId',getAllRutasEmpleado)
 routerVentasRuta.post('/ruta',createRutas)

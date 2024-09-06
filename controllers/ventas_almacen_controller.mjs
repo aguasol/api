@@ -1,5 +1,5 @@
-import modelAlmacen from "../models/ventas_almacen.mjs";
-import modelClientenr from "../models/ventas_almacen.mjs";
+import modelAlmacen from '../models/ventas_almacen_model.mjs'
+
 
 export const getAlmacenes = async (req,res) => {
     try {
