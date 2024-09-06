@@ -27,8 +27,8 @@ const modelUserConductor = {
                 //  console.log(usuario.id)
 
 
-                const conductores = await db_pool.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento]);
+                const conductores = await db_pool.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento,estado,soat) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
+                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento,conductor.estado,conductor.soat]);
 
 
                 //  console.log("conductores+-++++");
