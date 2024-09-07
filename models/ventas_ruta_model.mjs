@@ -169,6 +169,15 @@ WHERE DATE(fecha_creacion) = CURRENT_DATE`
         } catch (error) {
             throw new Error(`Error query ${error}`)
         }
+    },
+    getlastrutaconductorfasty: async () => {
+        try {
+            const result = await db_pool.one(`
+                SELECT id FROM ventas.ruta ORDER BY id DESC LIMIT 1`)
+            return result
+        } catch (error) {   
+            throw new Error(`Error query ${error}`)
+        }
     }
 
 
