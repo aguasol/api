@@ -15,21 +15,27 @@ INSERT INTO ventas.zona_trabajo (nombre,poligono,departamento,provincia) VALUES
 INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
 ('bidon 20l',35.00,'und.','BIDON20.png'),
 ('recarga',13.00,'und.','BIDON20.png'),
+('caja de agua',20.00,'und.','CAJA.png'),
 ('botella 7l',6.00,'und.','BIDON7.png'),
 ('botella 3l',9.00,'pqt. 4 und.','BIDON03.png'),
+('botella 1l',22.00,'pqt. 12 und.','BOTELLA1L.png'),
 ('botella 700ml',12.00,'pqt. 15 und.','BIDON0.png');
 
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
-  ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp,'recargaregalona.jpg'),
-  ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp,'siete.png'),
-  ('de temporada',16.00,'Lleva 2 paquetes de 3L a solo S/.16.00',current_timestamp,current_timestamp,'paquetes2.png'),
-  ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp,'setecientos.png');
+  ('regalona',13.00,'Lleva una recarga y recibe un Vasito Sol de REGALO',current_timestamp,current_timestamp+interval '21 days','recargaregalona.jpg'),
+  ('de locura',60.00,'Compra 10 bidones de 7L y lleva 1 GRATIS',current_timestamp,current_timestamp+interval '21 days','siete.png'),
+  ('de temporada',16.00,'Lleva 2 paquetes de 3L a solo S/.16.00',current_timestamp,current_timestamp+interval '21 days','paquetes2.png'),
+  ('personales',20.00,'Lleva 2 paquetes de 700ml a solo S/.20.00',current_timestamp,current_timestamp+interval '21 days','setecientos.png'),
+  ('cajas dobles',38.00,'Lleva 2 cajas de 20l a solo S/.38.00',current_timestamp,current_timestamp+interval '21 days','cajasdobles.png'),
+  ('de litro',40.00,'Lleva 2 paquetes de 1l a solo S/.40.00',current_timestamp,current_timestamp+interval '21 days','litropromo.png');
 
 INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) VALUES
-  (1,1,1),
-  (2,3,11),
-  (3,4,2),
-  (4,5,2);
+  (1,2,1),
+  (2,4,11),
+  (3,5,2),
+  (4,7,2),
+  (5,3,2),
+  (6,6,2);
 
 -- Insert productozona
 INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
@@ -43,4 +49,3 @@ INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
 (2,3,0),
 (2,4,0),
 (2,5,0);
-

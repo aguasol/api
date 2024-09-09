@@ -74,7 +74,8 @@ create table personal.conductor(
 	dni varchar(100) not null,
 	fecha_nacimiento date not null,
 	estado varchar(200), -- disponibilidad
-	administrador_id int
+	soat varchar(300)
+	--administrador_id int
 );	
 
 -- Table: personal.empleado
@@ -319,7 +320,7 @@ ALTER TABLE personal.conductor ADD CONSTRAINT fk_conductor_usuario FOREIGN KEY (
 ALTER TABLE personal.empleado ADD CONSTRAINT fk_empleado_usuario FOREIGN KEY (usuario_id) REFERENCES personal.usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --USUARIOS CON GESTION
-ALTER TABLE personal.conductor ADD CONSTRAINT fk_conductor_admin FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE personal.conductor ADD CONSTRAINT fk_conductor_admin FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE personal.empleado ADD CONSTRAINT fk_empleado_admin FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
@@ -375,3 +376,6 @@ SELECT setval('relaciones.detalle_pedido_id_seq', 1, false);
 
 -- Ubicación
 SELECT setval('relaciones.ubicacion_id_seq', 1, false);
+
+-- Almacen
+SELECT setval('ventas.almacen_id_seq', 1, false);
