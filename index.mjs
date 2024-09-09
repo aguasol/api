@@ -38,7 +38,7 @@ const server = http.createServer(app_sol);
 const io = new Server(server, {
     reconnection: true,
     reconnectionAttempts: 10,  // Número máximo de intentos
-    reconnectionDelay: 500,  // Retardo entre intentos en milisegundos
+    reconnectionDelay: 1000,  // Retardo entre intentos en milisegundos
     reconnectionDelayMax:2000
 });
 
