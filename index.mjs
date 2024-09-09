@@ -36,14 +36,13 @@ import routerAlmacenes from "./routes/ventas_almacen_route.mjs";
 const app_sol = express();
 const server = http.createServer(app_sol);
 const io = new Server(server, {
-    pingTimeout:60000,
-    pingInterval:25000,
+    
     reconnection: true,
     reconnectionAttempts: 10,  // Número máximo de intentos
     reconnectionDelay: 2000,  // Retardo entre intentos en milisegundos
     reconnectionDelayMax:2000
 });
-
+server.setTimeout(120000)
 io.on('connection', (socket) => {
     console.log('Cliente conectado');
     //console.log("holaa");
