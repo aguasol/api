@@ -36,9 +36,11 @@ import routerAlmacenes from "./routes/ventas_almacen_route.mjs";
 const app_sol = express();
 const server = http.createServer(app_sol);
 const io = new Server(server, {
+    pingTimeout:60000,
+    pingInterval:25000,
     reconnection: true,
     reconnectionAttempts: 10,  // Número máximo de intentos
-    reconnectionDelay: 1000,  // Retardo entre intentos en milisegundos
+    reconnectionDelay: 2000,  // Retardo entre intentos en milisegundos
     reconnectionDelayMax:2000
 });
 
