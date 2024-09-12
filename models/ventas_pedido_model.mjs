@@ -500,6 +500,7 @@ SELECT
     rub.distrito,
     rub.latitud,
     rub.longitud,
+    rub.direccion,
     COALESCE(vc.nombre, vcnr.nombre) AS nombre,
     COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
     COALESCE(vc.telefono, vcnr.telefono) AS telefono
