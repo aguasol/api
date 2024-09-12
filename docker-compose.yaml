@@ -17,3 +17,10 @@ services:
       - "80:80"
     depends_on:
       - node-api
+
+  flutter-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.flutter
+    ports:
+      - "8081:80"

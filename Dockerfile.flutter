@@ -1,0 +1,11 @@
+# Usa la imagen oficial de Nginx como base
+FROM nginx:alpine
+
+# Copia los archivos generados por Flutter para la web en la carpeta donde Nginx busca archivos estáticos
+COPY flutterweb/web /usr/share/nginx/html
+
+# Expón el puerto 80 dentro del contenedor
+EXPOSE 80
+
+# Comando para mantener Nginx corriendo en el contenedor
+CMD ["nginx", "-g", "daemon off;"]
