@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 const modelUserCliente = {
     createUserCliente: async (cliente) => {
         // const client = await db_pool.connect();
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz123456789';
         try {
             //  console.log("cliente")
             // console.log(cliente)
