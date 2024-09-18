@@ -1,4 +1,4 @@
-import {getAllUsersConductores,updateConductorEstado,getAllUserConductores,getPedidosPorConductores,createUserConductores,updateUserConductores,deleteUserConductores, getconductorrutas, getConductorAdmines} from '../controllers/usuario_conductor_controller.mjs'
+import {getAllUsersConductores,updateConductorEstado,createconductorpedidos,getAllUserConductores,getPedidosPorConductores,createUserConductores,updateUserConductores,deleteUserConductores, getconductorrutas, getConductorAdmines} from '../controllers/usuario_conductor_controller.mjs'
 import express from 'express';
 
 const routerUserConductor = express.Router();
@@ -13,4 +13,5 @@ routerUserConductor.get('/conductor_admin/:idAdmin',getConductorAdmines)
 // cambios pato
 routerUserConductor.get('/user_conductores', getAllUsersConductores)
 routerUserConductor.put('/conductor/:userConductorId', updateConductorEstado);
+routerUserConductor.post('/aceptarpedido',createconductorpedidos)
 export default routerUserConductor;

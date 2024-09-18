@@ -123,3 +123,14 @@ export const getConductorAdmines = async (req,res) => {
         res.status(500).json({error:error.message});
     }
 }
+export const createconductorpedidos = async (req,res) => {
+    try{
+        const { conductor_id, pedido_id, fecha_aceptacion } = req.body;
+        const conductorPedidoCreated = await modelUserConductor.createconductorpedido(conductor_id, pedido_id, fecha_aceptacion);
+        res.status(200).json(conductorPedidoCreated);
+
+    }
+    catch(e){
+        res.status(500).json({error:e.message})
+    }
+}

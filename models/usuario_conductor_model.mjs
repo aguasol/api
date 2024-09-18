@@ -28,7 +28,7 @@ const modelUserConductor = {
 
 
                 const conductores = await db_pool.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento,estado,soat) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *',
-                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento,conductor.estado,conductor.soat]);
+                    [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento, conductor.estado, conductor.soat]);
 
 
                 //  console.log("conductores+-++++");
@@ -247,6 +247,25 @@ WHERE
         } catch (error) {
             throw new Error(`Error en admin conductor: ${error.message}`);
         }
-    }
+    },
+    createconductorpedido: async (conductor_id, pedido_id, fecha_aceptacion) => {
+        try {
+            const result1 = await db_pool.one(`INSERT INTO ventas.conductor_pedido (conductor_id, pedido_id, fecha_aceptacion)
+VALUES ($1,$2,$3)
+RETURNING *`,
+                [conductor_id, pedido_id, fecha_aceptacion]);
+            console.log(result1);
+
+            const result2 = await db_pool.any(`
+                    SELECT * FROM personal.conductor WHERE id=$1`, [result1.conductor_id])
+            console.log(result2);
+            return result2
+        }
+        catch (e) {
+            throw new Error(`Error query create:${e}`)
+        }
+    },
+
+
 }
 export default modelUserConductor;
