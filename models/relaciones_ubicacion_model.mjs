@@ -67,6 +67,14 @@ const modelUbicacion = {
         }catch(error){
             throw new Error(`Error update ${error}`)
         }
+    },
+    deleteRelacionesUbicacion : async(idUbicacion) =>{
+        try {
+            const resultado = await db_pool.result(`DELETE FROM relaciones.ubicacion WHERE id = $1`,[idUbicacion])
+            return resultado.rowCount === 1
+        } catch (error) {
+            throw new Error(`Error en la eliminacion de ubicacion: ${error.message}`)
+        }
     }
 }
 export default modelUbicacion
