@@ -18,9 +18,11 @@ services:
     depends_on:
       - node-api
 
-  flutter-web:
+  vue-web:
     build:
       context: .
-      dockerfile: Dockerfile.flutter
+      dockerfile: Dockerfile.vue3
     ports:
       - "8081:80"
+    depends_on:
+      - node-api
