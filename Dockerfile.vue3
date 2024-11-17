@@ -19,8 +19,8 @@ RUN npm run build
 # Usa una imagen de Nginx para servir los archivos construidos
 FROM nginx:alpine as production-stage
 
-# Copia los archivos construidos al directorio donde Nginx los sirve
-COPY --from=build-stage /app/dist /usr/share/nginx/html
+# Copia los archivos construidos desde la carpeta "centralvue/dist" al directorio donde Nginx los sirve
+COPY ./centralvue/dist /usr/share/nginx/html
 
 # Exponemos el puerto 80 para el contenedor
 EXPOSE 80
