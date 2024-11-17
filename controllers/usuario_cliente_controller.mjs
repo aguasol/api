@@ -124,3 +124,32 @@ export const getBidonNuevos = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+// CONTROLLER PATRICK
+export const getAllUserClientesSaldo = async (req, res) => {
+    try {
+        const alluserclients = await modelUserCliente.getUsersClienteSaldo();
+        res.status(200).json(alluserclients);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+
+
+    }
+}
+
+
+export const updateSaldoClientes = async (req, res) => {
+    try {
+        const { userClientId } = req.params;
+        const id = parseInt(userClientId, 10);
+        // console.log('el id',id);
+        const data = req.body;
+        //console.log('data',data)
+        const updateSaldo = await modelUserCliente.updateSaldoCliente(id, data);
+        res.status(200).json(updateSaldo);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+
+
+    }
+}

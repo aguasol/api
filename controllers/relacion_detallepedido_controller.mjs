@@ -50,3 +50,13 @@ export const getDetallePedidosClientes =  async (req,res) => {
     }
 }
 
+export const getDetallePedidoXPedidosXPromos =  async (req,res) => {
+    try {
+        const{pedidoID}=req.params;
+        const id=parseInt(pedidoID,10)
+        const allDetalles = await modelDetallePedido.getDetallePedidoXPedidoXPromocion(id);
+        res.status(200).json(allDetalles)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}

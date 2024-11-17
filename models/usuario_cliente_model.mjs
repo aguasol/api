@@ -12,14 +12,14 @@ const modelUserCliente = {
 
             const UsuarioExistente = await db_pool.oneOrNone(`SELECT * FROM personal.usuario WHERE nickname=$1`,
                 [cliente.nickname])
-             //console.log("usuarioexistente")
-              //console.log(UsuarioExistente)
+            //console.log("usuarioexistente")
+            //console.log(UsuarioExistente)
 
             if (UsuarioExistente) {
                 return { "message": "Usuario ya existente, intente otro por favor. " }
             }
             else {
-                   console.log("usuario nuevo")
+                console.log("usuario nuevo")
 
                 const hashedPassword = await bcrypt.hash(cliente.contrasena, 10);
                 // Inicia una transacción
@@ -58,7 +58,7 @@ const modelUserCliente = {
         }
         catch (e) {
             throw new Error(`Error query create:${e}`)
-        } 
+        }
     },
     updateUserCliente: async (id, cliente) => {
 
@@ -88,9 +88,12 @@ const modelUserCliente = {
             throw new Error(`Error en la actualización del administrador: ${error.message}`);
         }
     },
+    //CLIENTES RECIENTES CAMBIO PATO
     getUsersCliente: async () => {
         try {
-            const userClients = await db_pool.any('select * from personal.usuario inner join ventas.cliente on personal.usuario.id = ventas.cliente.usuario_id;')
+            const userClients = await db_pool.any(`select * from personal.usuario
+                 inner join ventas.cliente on personal.usuario.id = ventas.cliente.usuario_id
+                  order by personal.usuario.id desc;`)
             //console.log("show codigo---------------------------------");
             //console.log(userClients.codigo);
             return userClients
@@ -98,6 +101,47 @@ const modelUserCliente = {
             throw new Error(`Error query clients: ${e}`);
         }
     },
+    getUsersClienteSaldo: async () => {
+        //IMPLEMENTACION DE VISUALIZACION DE CLIENTES DE BILLETERA SOL
+        try {
+            const userClients = await db_pool.any(`SELECT
+        ventas.cliente.id,
+        ventas.cliente.nombre,
+        ventas.cliente.apellidos,
+        ventas.cliente.telefono,
+        ventas.cliente.saldo_beneficios,
+        ventas.cliente.quiereretirar,
+        ventas.cliente.banco_retiro,
+        ventas.cliente.numero_cuenta
+    FROM
+        ventas.cliente
+    WHERE
+        ventas.cliente.saldo_beneficios > 0;`)
+            //console.log("show codigo---------------------------------");
+            //console.log(userClients.codigo);
+            return userClients
+        } catch (e) {
+            throw new Error(`Error query clients: ${e}`);
+        }
+    },
+    //saldo cliente cambio
+    updateSaldoCliente: async (id, cliente) => {
+        try {
+            //console.log(id,"ID")
+            //console.log(cliente, "cliente")
+            const result = await db_pool.one(`UPDATE ventas.cliente
+                    SET saldo_beneficios = $1,
+                    quiereretirar = $2 WHERE id= $3 RETURNING *`,
+                [cliente.saldo_beneficios, cliente.quiereretirar, id]);
+            //console.log("----------------------------")
+            //console.log(result)
+            return { result }
+        } catch (error) {
+            throw new Error(`Error en la actualización del cliente: ${error.message}`);
+        }
+    },
+
+
     deleteUserCliente: async (id) => {
         try {
             const result = await db_pool.result('DELETE FROM personal.usuario WHERE ID = $1', [id]);
@@ -130,7 +174,7 @@ const modelUserCliente = {
     getClienteRecuperacion: async (dato) => {
         //console.log("dentro model");
         try {
-            const userClients = await db_pool.one(`SELECT * FROM personal.usuario WHERE email=$1 OR nickname=$2 OR telefono=$3`, [dato.info,dato.info,dato.info]);
+            const userClients = await db_pool.one(`SELECT * FROM personal.usuario WHERE email=$1 OR nickname=$2 OR telefono=$3`, [dato.info, dato.info, dato.info]);
             //console.log("dentro de recovery");
             //console.log(userClients);
             return userClients;
@@ -144,10 +188,10 @@ const modelUserCliente = {
             throw new Error(`Error query clients recovery: ${e}`);
         }
     },
-    updatePassword: async (clave,id) => {
+    updatePassword: async (clave, id) => {
         try {
             const hashedPassword = await bcrypt.hash(clave.clave, 10);
-            const actual = await db_pool.one(`UPDATE personal.usuario SET contrasena=$1 WHERE id=$2 RETURNING *`,[hashedPassword,id]);
+            const actual = await db_pool.one(`UPDATE personal.usuario SET contrasena=$1 WHERE id=$2 RETURNING *`, [hashedPassword, id]);
             //console.log(actual);
             return actual;
         } catch (e) {
@@ -158,18 +202,18 @@ const modelUserCliente = {
         try {
             const Recargas = await db_pool.oneOrNone(`select ventas.pedido.cliente_id,SUM(relaciones.detalle_pedido.cantidad) as recargas from relaciones.detalle_pedido 
             inner join ventas.pedido on relaciones.detalle_pedido.pedido_id = ventas.pedido.id where relaciones.detalle_pedido.producto_id = 2 and ventas.pedido.cliente_id = $1
-            GROUP BY ventas.pedido.cliente_id`,[id])
+            GROUP BY ventas.pedido.cliente_id`, [id])
             return Recargas
         } catch (e) {
             throw new Error(`Error recargas: ${e}`);
         }
     },
-    getBidonNuevo: async(id) => {
+    getBidonNuevo: async (id) => {
         try {
             const getBidon = await db_pool.oneOrNone(`
                 select vp.cliente_id as cliente,SUM(rdp.cantidad) as bidones from ventas.pedido as vp
                 inner join relaciones.detalle_pedido as rdp on rdp.pedido_id=vp.id
-                where rdp.producto_id = 1 and vp.cliente_id = $1 GROUP BY cliente;`,[id])
+                where rdp.producto_id = 1 and vp.cliente_id = $1 GROUP BY cliente;`, [id])
             return getBidon
         } catch (error) {
             throw new Error(`Error Bidones: ${e}`);

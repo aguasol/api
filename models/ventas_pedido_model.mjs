@@ -484,7 +484,9 @@ ORDER BY
     getAllPedidoDesktop: async () => {
         // console.log("dentro de get para conductores")
 
+
         try {
+
 
             const pedidos = await db_pool.any(`
 SELECT
@@ -503,23 +505,29 @@ SELECT
     rub.direccion,
     COALESCE(vc.nombre, vcnr.nombre) AS nombre,
     COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
-    COALESCE(vc.telefono, vcnr.telefono) AS telefono
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
 FROM
     ventas.pedido AS vp
 LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
 LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
 LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
-ORDER BY
+WHERE vp.estado = 'en proceso'
+    ORDER BY
     vp.id ASC;`)
             // console.log(pedidos)
 
+
             return pedidos
+
+
 
 
         } catch (error) {
             throw new Error(`Error getting pedido: ${error}`)
         }
     },
+
 
 
 
@@ -551,15 +559,260 @@ ORDER BY
         }
     },
 
-    getpedidosinformefecha :async (data) => {
+    getpedidosinformefecha: async (data) => {
         try {
             const result = await db_pool.any(`
-                SELECT * FROM ventas.pedido WHERE DATE(fecha)=$1 ORDER BY id ASC `,[data.fecha])
-                return result      
+                SELECT * FROM ventas.pedido WHERE DATE(fecha)=$1 ORDER BY id ASC `, [data.fecha])
+            return result
         } catch (error) {
             throw new Error(`Error get pedido: ${error}`)
         }
-    }
+    },
+
+    getAllPedidoPendienteTotales: async () => {
+        // console.log("dentro de get para conductores")
+        //TODOS LOS PEDIDOS EN GENERAL ENDPOINT PARA IDENTIFICAR BENEFICIADOS
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.beneficiado_id,
+    vcb.nombre AS beneficiado_nombre,
+    vcb.apellidos AS beneficiado_apellidos,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    rub.direccion,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,            
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+LEFT JOIN ventas.cliente AS vcb ON vp.beneficiado_id = vcb.id
+WHERE vp.estado = 'pendiente'
+ORDER BY
+    vp.id DESC;`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+
+
+
+
+
+
+//MONTOS ENTREGADOS
+   
+    getAllEntregado: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT SUM(vp.total) AS total_pedidos_entregados
+FROM ventas.pedido AS vp
+WHERE vp.estado = 'entregado';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+
+
+//MONTOS PENDIENTES
+   
+    getAllPendiente: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT SUM(vp.total) AS total_pedidos_entregados
+FROM ventas.pedido AS vp
+WHERE vp.estado = 'pendiente';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+
+
+
+
+
+//CONTEO DE LOS PEDIDOS ENTREGADOS
+    getAllCountEntregado: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT COUNT(*) AS total_pedidos_entregados
+FROM ventas.pedido AS vp
+WHERE vp.estado = 'entregado';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+//CONTEO DE LOS PEDIDOS EN PROCESO
+    getAllCountProceso: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT COUNT(*) AS total_pedidos_proceso
+FROM ventas.pedido AS vp
+WHERE vp.estado = 'en proceso';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+    getAllPedidoDesktopTotales: async () => {
+        // console.log("dentro de get para conductores")
+        //TODOS LOS PEDIDOS EN GENERAL ENDPOINT PARA IDENTIFICAR BENEFICIADOS
+        try {
+
+            const pedidos = await db_pool.any(
+`SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.beneficiado_id,
+    vcb.nombre AS beneficiado_nombre,
+    vcb.apellidos AS beneficiado_apellidos,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    rub.direccion,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,            
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+LEFT JOIN ventas.cliente AS vcb ON vp.beneficiado_id = vcb.id
+ORDER BY
+    vp.id DESC;`)
+            // console.log(pedidos)
+
+            return pedidos
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+
+
+
+//CONTEO DE PEDIDOS PENDIENTES
+    getAllCountPendiente: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT COUNT(*) AS total_pedidos_pendiente
+FROM ventas.pedido AS vp
+WHERE vp.estado = 'pendiente';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
 }
 
 export default modelPedido;

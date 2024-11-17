@@ -88,6 +88,32 @@ const modelDetallePedido = {
         } catch (error) {
             throw new Error(`Error query get: ${error}`);
         }
-    }
+    },
+    // CAMBIO PARA TRAER LOS DETALLES PEDIDOS DE TODOS LOS PRODUCTOS
+    getDetallePedidoXPedidoXPromocion: async (pedidoID) => {
+        //  console.log("---- 2.- model getDetallexPedido")
+ 
+          try {
+              const pedidos = await db_pool.any(`SELECT
+    rdp.pedido_id,
+    rdp.producto_id,
+    vp.nombre AS nombre_prod,
+    rdp.cantidad,
+    rdp.promocion_id,
+    p.nombre AS nombre_promocion
+FROM
+    relaciones.detalle_pedido AS rdp
+INNER JOIN
+    ventas.producto AS vp ON rdp.producto_id = vp.id
+LEFT JOIN
+    ventas.promocion AS p ON rdp.promocion_id = p.id
+WHERE
+    rdp.pedido_id = $1`, [pedidoID])
+              return pedidos
+          } catch (error) {
+              throw new Error(`Error query get: ${error}`);
+          }
+      },
+
 }
 export default modelDetallePedido;
