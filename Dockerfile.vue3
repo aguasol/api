@@ -20,8 +20,8 @@ RUN npm run build
 FROM nginx:alpine as production-stage
 
 # Copia los archivos construidos desde la carpeta "centralvue/dist" al directorio donde Nginx los sirve
-#COPY ./centralvue/dist /usr/share/nginx/html
-COPY --from=build-stage ./centralvue/dist /usr/share/nginx/html
+COPY ./centralvue/dist /usr/share/nginx/html
+#COPY --from=build-stage ./centralvue/dist /usr/share/nginx/html
 
 # Exponemos el puerto 80 para el contenedor
 EXPOSE 80
