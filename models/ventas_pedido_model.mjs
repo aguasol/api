@@ -626,8 +626,8 @@ ORDER BY
 
 
 
-//MONTOS ENTREGADOS
-   
+    //MONTOS ENTREGADOS
+
     getAllEntregado: async () => {
         // console.log("dentro de get para conductores")
 
@@ -655,8 +655,8 @@ WHERE vp.estado = 'entregado';`)
 
 
 
-//MONTOS PENDIENTES
-   
+    //MONTOS PENDIENTES
+
     getAllPendiente: async () => {
         // console.log("dentro de get para conductores")
 
@@ -687,7 +687,7 @@ WHERE vp.estado = 'pendiente';`)
 
 
 
-//CONTEO DE LOS PEDIDOS ENTREGADOS
+    //CONTEO DE LOS PEDIDOS ENTREGADOS
     getAllCountEntregado: async () => {
         // console.log("dentro de get para conductores")
 
@@ -713,7 +713,7 @@ WHERE vp.estado = 'entregado';`)
     },
 
 
-//CONTEO DE LOS PEDIDOS EN PROCESO
+    //CONTEO DE LOS PEDIDOS EN PROCESO
     getAllCountProceso: async () => {
         // console.log("dentro de get para conductores")
 
@@ -744,7 +744,7 @@ WHERE vp.estado = 'en proceso';`)
         try {
 
             const pedidos = await db_pool.any(
-`SELECT
+                `SELECT
     vp.id,
     vp.subtotal,
     vp.descuento,
@@ -787,7 +787,7 @@ ORDER BY
 
 
 
-//CONTEO DE PEDIDOS PENDIENTES
+    //CONTEO DE PEDIDOS PENDIENTES
     getAllCountPendiente: async () => {
         // console.log("dentro de get para conductores")
 
@@ -799,6 +799,156 @@ ORDER BY
 SELECT COUNT(*) AS total_pedidos_pendiente
 FROM ventas.pedido AS vp
 WHERE vp.estado = 'pendiente';`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+    // endpoints nuevos 2 dicimbre
+
+    getAllPedidoDesktopEntregado: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    rub.direccion,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+WHERE vp.estado = 'entregado'
+    ORDER BY
+    vp.id DESC;`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+    getAllPedidoDesktopEntregadoMes: async () => {
+        // console.log("dentro de get para conductores")
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    rub.direccion,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+WHERE vp.estado = 'entregado'
+    AND vp.fecha >= DATE_TRUNC('month', CURRENT_DATE) -- Primer día del mes actual
+    AND vp.fecha < DATE_TRUNC('month', CURRENT_DATE + INTERVAL '1 month') -- Primer día del próximo mes
+ORDER BY
+    vp.id DESC;`)
+            // console.log(pedidos)
+
+
+            return pedidos
+
+
+
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
+
+
+    getAllPedidoDesktopEntregadoDia: async () => {
+        // console.log("dentro de get para conductores")
+
+    
+
+
+        try {
+
+
+            const pedidos = await db_pool.any(`
+SELECT
+    vp.id,
+    vp.subtotal,
+    vp.descuento,
+    vp.total,
+    vp.ruta_id,
+    vp.fecha,
+    vp.estado,
+    vp.tipo,
+    vp.observacion,
+    rub.distrito,
+    rub.latitud,
+    rub.longitud,
+    rub.direccion,
+    COALESCE(vc.nombre, vcnr.nombre) AS nombre,
+    COALESCE(vc.apellidos, vcnr.apellidos) AS apellidos,
+    COALESCE(vc.telefono, vcnr.telefono) AS telefono,
+    vc.quiereretirar
+FROM
+    ventas.pedido AS vp
+LEFT JOIN ventas.cliente AS vc ON vp.cliente_id = vc.id
+LEFT JOIN ventas.cliente_noregistrado AS vcnr ON vp.cliente_nr_id = vcnr.id
+LEFT JOIN relaciones.ubicacion AS rub ON vp.ubicacion_id = rub.id
+WHERE vp.estado = 'entregado'
+    AND DATE(vp.fecha) = CURRENT_DATE -- Filtrar solo los pedidos del día actual
+ORDER BY
+    vp.id DESC;`)
             // console.log(pedidos)
 
 

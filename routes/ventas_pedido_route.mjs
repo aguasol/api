@@ -1,4 +1,5 @@
-import { getAllPedidosPendientesTotales,createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash,getAllEntregados,getAllPendientes, getpedidosinformes, getAllCountEntregados,getAllCountProcesos,getAllCountPendientes,getAllPedidosDesktopTotales} from '../controllers/ventas_pedido_controller.mjs';
+import { getAllPedidosDesktopEntregados,getAllPedidosDesktopEntregadosMes,getAllPedidosDesktopEntregadosDia, getAllPedidosPendientesTotales,createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash,getAllEntregados,getAllPendientes, getpedidosinformes, getAllCountEntregados,getAllCountProcesos,getAllCountPendientes,getAllPedidosDesktopTotales} from '../controllers/ventas_pedido_controller.mjs';
+
 import express from 'express';
 
 const routerVentasPedido = express.Router();
@@ -28,4 +29,9 @@ routerVentasPedido.get('/pedidosConteoEntregado',getAllCountEntregados)
 routerVentasPedido.get('/pedidosConteoProceso',getAllCountProcesos)
 routerVentasPedido.get('/pedidosConteoPendiente',getAllCountPendientes)
 routerVentasPedido.get('/pedidosDesktopTotales',getAllPedidosDesktopTotales)
+
+routerVentasPedido.get('/pedidosDesktopEntregado',getAllPedidosDesktopEntregados)
+routerVentasPedido.get('/pedidosDesktopEntregadoMes',getAllPedidosDesktopEntregadosMes)
+routerVentasPedido.get('/pedidosDesktopEntregadoDia',getAllPedidosDesktopEntregadosDia)
+
 export default routerVentasPedido;

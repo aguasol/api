@@ -389,7 +389,51 @@ export const getAllCountPendientes = async (req, res) => {
     }
 }
 
+export const getAllPedidosDesktopEntregados = async (req, res) => {
+    // console.log("llego el requerimiento de los pedidos")
+    try {
+        //const {empleadoid} = req.params;
+        //const idempleado = parseInt(empleadoid,10);
+        const getidempleado = await modelPedido.getAllPedidoDesktopEntregado()
+        //const getPedidos = await modelPedido.getPedido();
+        //console.log("----controller pedido")
+        // console.log(getPedidos)
+        res.status(200).json(getidempleado)
+    } catch (error) {
+        res.status(500).json({ erro: error.message })
+    }
+}
 
+export const getAllPedidosDesktopEntregadosMes = async (req, res) => {
+    // console.log("llego el requerimiento de los pedidos")
+    try {
+        //const {empleadoid} = req.params;
+        //const idempleado = parseInt(empleadoid,10);
+        const getidempleado = await modelPedido.getAllPedidoDesktopEntregadoMes()
+        //const getPedidos = await modelPedido.getPedido();
+        //console.log("----controller pedido")
+        // console.log(getPedidos)
+        res.status(200).json(getidempleado)
+    } catch (error) {
+        res.status(500).json({ erro: error.message })
+    }
+}
+
+
+export const getAllPedidosDesktopEntregadosDia = async (req, res) => {
+    // console.log("llego el requerimiento de los pedidos")
+    try {
+        //const {empleadoid} = req.params;
+        //const idempleado = parseInt(empleadoid,10);
+        const getidempleado = await modelPedido.getAllPedidoDesktopEntregadoDia()
+        //const getPedidos = await modelPedido.getPedido();
+        //console.log("----controller pedido")
+        // console.log(getPedidos)
+        res.status(200).json(getidempleado)
+    } catch (error) {
+        res.status(500).json({ erro: error.message })
+    }
+}
 
 
 
