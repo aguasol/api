@@ -67,6 +67,9 @@ io.on('connection', (socket) => {
         console.log(data);
         io.emit('notificarConductores',data);
     });
+    socket.on('ack', (messageId) => {
+        console.log(`Mensaje ${messageId} confirmado por el cliente`);
+    });
     //socket.emit('testy');
     io.emit('testy')
 

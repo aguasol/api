@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+import { io } from '../index.mjs';
 //console.log("--------# 4.0 ubicacion")
 const modelUbicacion = { 
     createUbicacion :async(ubicacion) => {
@@ -6,6 +7,11 @@ const modelUbicacion = {
         try {
             const ubicaciones = await db_pool.one('INSERT INTO relaciones.ubicacion(latitud,longitud,direccion,cliente_id,cliente_nr_id,distrito,zona_trabajo_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
             [ubicacion.latitud,ubicacion.longitud,ubicacion.direccion,ubicacion.cliente_id,ubicacion.cliente_nr_id,ubicacion.distrito,ubicacion.zona_trabajo_id])
+            
+            io.emit('nuevaUbicacion', {
+                data: ubicaciones,
+                messageId: Date.now().toString() // Identificador único simple
+            });
             return ubicaciones
 
         } catch (error) {
