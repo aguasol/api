@@ -2,7 +2,7 @@ import { db_pool } from "../config.mjs";
 import { io } from '../index.mjs';
 import amqp from 'amqplib';
 
-const RABBITMQ_URL = 'amqp://localhost';
+const RABBITMQ_URL = 'amqp://rabbitmq';
 const EXCHANGE_NAME = 'pedidos_exchange';
 const MAIN_QUEUE = 'pedidos_queue';
 const BACKUP_QUEUE = 'pedidos_backup';

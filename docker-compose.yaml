@@ -1,5 +1,4 @@
 # docker-compose.yaml
-#version: '3'
 services:
   node-api:
     build:
@@ -8,6 +7,8 @@ services:
     restart: always
     ports:
       - "4000:4000"
+    depends_on:
+      - rabbitmq
 
   nginx:
     build:
@@ -26,3 +27,13 @@ services:
       - "8081:80"
     depends_on:
       - node-api
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # Puerto para comunicación AMQP
+      - "15672:15672" # Puerto para el panel de administración web
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
