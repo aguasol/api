@@ -67,11 +67,27 @@ io.on('connection', (socket) => {
         console.log(data);
         io.emit('notificarConductores',data);
     });
+
     socket.on('ack', (messageId) => {
         console.log(`Mensaje ${messageId} confirmado por el cliente`);
     });
+
+    socket.on('pedido_aceptado', async (data) => {
+        try {
+            const { pedidoId, conductorId } = data;
+            await modelUbicacion.handlePedidoAceptado(pedidoId, conductorId);
+        } catch (error) {
+            socket.emit('error', { 
+                message: 'Error al procesar el pedido', 
+                error: error.message 
+            });
+        }
+    });
+
+    
     //socket.emit('testy');
     io.emit('testy')
+
 
     /*  io.engine.on('upgrade', (request, socket, head) => {
           console.log('Upgrade request');
