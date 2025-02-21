@@ -63,9 +63,6 @@ const modelPedido = {
                         WHERE estado = \'pendiente\' AND vp.id = $1;
                         `, [pedidos_cr.id]);
 
-
-                        
-
                 // PEDIDOS SOCKET
                 // console.log('nuevoPedido Emitido');
                 // ENVIANDO EL PEDIDO A LA COLA
