@@ -67,9 +67,7 @@ const modelPedido = {
         "http://147.182.251.164:8082/apigw/v1/pedido",
         {
           cliente_id: cliente_micro.id,
-          subtotal: pedido.subtotal,
           descuento: pedido.descuento,
-          total: pedido.total,
           fecha: pedido.fecha,
           tipo: pedido.tipo,
           estado: pedido.estado,
