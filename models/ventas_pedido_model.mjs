@@ -131,6 +131,11 @@ const modelPedido = {
         /*console.log("pedidos cr");
                 console.log(pedidos_cr);
                 console.log(pedidos_cr.id);*/
+        const cliente = await db_pool.one(
+          `SELECT * FROM ventas.cliente
+                    WHERE id=$1`,
+          [pedido.cliente_id]
+        );
 
         const pedidoss = await db_pool.one(
           `SELECT vp.id, vp.subtotal, vp.descuento, vp.total, vp.ruta_id, vp.fecha, vp.estado, vp.tipo, vp.observacion,
