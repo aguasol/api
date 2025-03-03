@@ -10,27 +10,7 @@ const modelUbicacion = {
         try {
             const ubicaciones = await db_pool.one('INSERT INTO relaciones.ubicacion(latitud,longitud,direccion,cliente_id,cliente_nr_id,distrito,zona_trabajo_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
             [ubicacion.latitud,ubicacion.longitud,ubicacion.direccion,ubicacion.cliente_id,ubicacion.cliente_nr_id,ubicacion.distrito,ubicacion.zona_trabajo_id])
-            if (channel) {
-                const message = {
-                    id: ubicaciones.id,
-                    data: ubicaciones,
-                    timestamp: new Date().toISOString()
-                };
-
-                // Publish to fanout exchange for both queues
-                channel.publish(
-                    EXCHANGE_NAME,
-                    '',
-                    Buffer.from(JSON.stringify(message)),
-                    { persistent: true }
-                );
-
-                // Emit to connected clients immediately
-                io.emit('nuevoPedido', {
-                    data: ubicaciones,
-                    messageId: Date.now().toString()
-                });
-            }
+            
 
             return ubicaciones;
         } catch (error) {
@@ -99,34 +79,7 @@ const modelUbicacion = {
             throw new Error(`Error en la eliminacion de ubicacion: ${error.message}`)
         }
     },
-    handlePedidoAceptado: async (pedidoId, conductorId) => {
-        try {
-            // 1. Eliminar de ambas colas
-            if (channel) {
-                // Eliminar de la cola principal
-                await deletePedidoFromQueue(pedidoId, MAIN_QUEUE);
-                // Eliminar de la cola de backup
-                await deletePedidoFromQueue(pedidoId, BACKUP_QUEUE);
-            }
-
-            // 2. Notificar a todos los clientes conectados
-            io.emit('pedidoTomado', {
-                pedidoId: pedidoId,
-                conductorId: conductorId,
-                success: true
-            });
-
-            return { success: true };
-        } catch (error) {
-            console.error('Error al manejar pedido aceptado:', error);
-            // Notificar error a los clientes
-            io.emit('pedidoTomadoError', {
-                pedidoId: pedidoId,
-                error: error.message
-            });
-            throw error;
-        }
-    }
+   
 };
 
 
