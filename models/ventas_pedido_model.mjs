@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { db_pool } from "../config.mjs";
+import { db_pool,db_auth,db_cli,db_ped,db_ubi } from "../config.mjs";
 import { io } from "../index.mjs";
 import axios from "axios";
 
