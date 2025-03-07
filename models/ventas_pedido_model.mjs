@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { db_pool,db_auth,db_cli,db_ped,db_ubi } from "../config.mjs";
+import { db_pool, db_auth, db_cli, db_ped, db_ubi } from "../config.mjs";
 import { io } from "../index.mjs";
 import axios from "axios";
 
@@ -151,7 +151,7 @@ const modelPedido = {
         // ENVIANDO EL PEDIDO A LA COLA
 
         io.emit("nuevoPedido", pedidoss);
-      /*  setTimeout(async () => {
+        /*  setTimeout(async () => {
           await modelPedido.consultarDetallesConReintento(
             pedidoss,
             2,
@@ -213,6 +213,17 @@ WHERE (estado = 'pendiente' or estado = 'pagado') AND vp.id = $1;`,
         `UPDATE ventas.pedido SET 
                 estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
         [motivo.motivoped, pedidoId]
+      );
+      await axios.put(
+        `http://147.182.251.164:8082/apigw/v1/pedido_anulado/${result.id}`,
+        {
+          observacion: "Anulado cliente",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       io.emit("pedidoanulado", result);
