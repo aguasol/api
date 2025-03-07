@@ -149,14 +149,14 @@ const modelPedido = {
         // ENVIANDO EL PEDIDO A LA COLA
 
         io.emit("nuevoPedido", pedidoss);
-        setTimeout(async () => {
+        /*setTimeout(async () => {
           await modelPedido.consultarDetallesConReintento(
             pedidoss,
             2,
             cliente,
             pedidos_cr
           ); // 2000 ms = 2 segundos de retraso
-        }, 30000);
+        }, 30000);*/
         //await sendPedidoRabbit(pedidos_cr)
         return pedidoss;
 
