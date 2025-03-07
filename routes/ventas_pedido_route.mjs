@@ -1,4 +1,4 @@
-import { getAllPedidosDesktopEntregados,getAllPedidosDesktopEntregadosMes,getAllPedidosDesktopEntregadosDia, getAllPedidosPendientesTotales,createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash,getAllEntregados,getAllPendientes, getpedidosinformes, getAllCountEntregados,getAllCountProcesos,getAllCountPendientes,getAllPedidosDesktopTotales} from '../controllers/ventas_pedido_controller.mjs';
+import {anularPedidoClienteController, getAllPedidosDesktopEntregados,getAllPedidosDesktopEntregadosMes,getAllPedidosDesktopEntregadosDia, getAllPedidosPendientesTotales,createPedidos,getPedidosDesktop,updateEstadoRutaCancelados,updatePedidos, getLastPedidos,getTotalEntregados,updateEstadoRutas,getPedidosNews,getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, getPedidoEmpleados,getAllPedidosDesktop, updateEstadoFlash,getAllEntregados,getAllPendientes, getpedidosinformes, getAllCountEntregados,getAllCountProcesos,getAllCountPendientes,getAllPedidosDesktopTotales} from '../controllers/ventas_pedido_controller.mjs';
 
 import express from 'express';
 
@@ -19,6 +19,7 @@ routerVentasPedido.delete('/revertirpedidocan/:idpedido',updateEstadoRutaCancela
 routerVentasPedido.put('/pedidoModificado/:pedidoID',updatePedidos)
 routerVentasPedido.get('/pedidoDesktop/:empleadoid',getPedidosDesktop)
 routerVentasPedido.put('/estadoflash/:pedidoID',updateEstadoFlash)
+routerVentasPedido.put('/anular_pedido_cliente/:idpedido',anularPedidoClienteController)//MICROSERVICIOS ANULAR PEDIDO
 // cambios pato
 routerVentasPedido.get('/pedidosDesktop',getAllPedidosDesktop)
 routerVentasPedido.post('/globalinformefecha',getpedidosinformes)

@@ -151,7 +151,7 @@ const modelPedido = {
         // ENVIANDO EL PEDIDO A LA COLA
 
         io.emit("nuevoPedido", pedidoss);
-       /* setTimeout(async () => {
+      /*  setTimeout(async () => {
           await modelPedido.consultarDetallesConReintento(
             pedidoss,
             2,
@@ -206,6 +206,23 @@ WHERE (estado = 'pendiente' or estado = 'pagado') AND vp.id = $1;`,
       throw new Error(`Error query create:${e}`);
     }
   },
+  // UPDATE ANULADO CLIENTE MICROSERVICIO
+  anularPedidoCliente: async (pedidoId, motivo) => {
+    try {
+      const result = await db_pool.oneOrNone(
+        `UPDATE ventas.pedido SET 
+                estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
+        [motivo.motivoped, pedidoId]
+      );
+
+      io.emit("pedidoanulado", result);
+
+      return result;
+    } catch (error) {
+      throw new Error(`Error query update:${error.message}`);
+    }
+  },
+
   getLastPedido: async (id) => {
     try {
       const lastPedido = await db_pool.oneOrNone(

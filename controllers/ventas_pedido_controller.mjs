@@ -12,6 +12,19 @@ export const createPedidos = async (req, res) => {
 
     }
 }
+//ANULAR PEDIDO CLIENTE MICROSERVICIO
+export const anularPedidoClienteController = async (req, res) => {
+    try {
+        const { idpedido } = req.params
+        const pedidoid = parseInt(idpedido, 10)
+        const observacion = req.body
+        const result = await modelPedido.anularPedidoCliente(pedidoid, observacion)
+        res.status(200).json(result)
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+}
 
 export const getLastPedidos = async (req, res) => {
     try {
