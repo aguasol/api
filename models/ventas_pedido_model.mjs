@@ -60,8 +60,7 @@ const modelPedido = {
       );
       console.log("last ubi micro****", lastUbiMicro.id);
 
-      const token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoyLCJyb2xfaWQiOjQsIm5pY2tuYW1lIjoibHVjaGluIiwiY29udHJhc2VuYSI6IiQyYiQxMCQwRTZrN2RSWG5KV3BTV0UudlNNUUVlcHYyajdIaWk1NHFTcDRucXBRUXJITWZOUnc4TkpyQyIsImVtYWlsIjpudWxsLCJ0ZWxlZm9ubyI6Ijk2NDI2OTQ5NCJ9LCJpYXQiOjE3NDA4NjYyMjZ9.a5dPjdwwipBvSFYQd8mp9N0YoBqQlaH_Syio2D_MfKY";
+      
 
       const resultado = await axios.post(
         "http://147.182.251.164:8082/apigw/v1/pedido",
@@ -78,7 +77,6 @@ const modelPedido = {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -151,14 +149,14 @@ const modelPedido = {
         // ENVIANDO EL PEDIDO A LA COLA
 
         io.emit("nuevoPedido", pedidoss);
-        /*  setTimeout(async () => {
+        setTimeout(async () => {
           await modelPedido.consultarDetallesConReintento(
             pedidoss,
             2,
             cliente,
             pedidos_cr
           ); // 2000 ms = 2 segundos de retraso
-        }, 30000);*/
+        }, 30000);
         //await sendPedidoRabbit(pedidos_cr)
         return pedidoss;
 
@@ -214,17 +212,20 @@ WHERE (estado = 'pendiente' or estado = 'pagado') AND vp.id = $1;`,
                 estado = 'anulado',observacion = $1 WHERE id = $2 RETURNING *`,
         [motivo.motivoped, pedidoId]
       );
-      await axios.put(
-        `http://147.182.251.164:8082/apigw/v1/pedido_anulado/${result.id}`,
+      /*const busquedaAguaSol = await db_pool.one(`SELECT cliente_id FROM ventas.pedido WHERE id = $1`,[pedidoId])
+
+      const busquedaMicroservicio = await db_ped.one(`SELECT id FROM public.pedido WHERE cliente_id = $1`,[busquedaAguaSol.cliente_id])
+
+      await axios.put(`http://147.182.251.164:8082/apigw/v1/pedido_anulado/${busquedaMicroservicio.id}`,
         {
-          observacion: "Anulado cliente",
+          observacion:"Anulado por cliente"
         },
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers:{
+            "Content-Type":"application/json"
+          }
         }
-      );
+      )*/
 
       io.emit("pedidoanulado", result);
 
