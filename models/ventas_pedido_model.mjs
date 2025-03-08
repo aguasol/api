@@ -4,6 +4,7 @@ import { io } from "../index.mjs";
 import axios from "axios";
 
 const modelPedido = {
+  
   consultarDetallesConReintento: async (
     pedido,
     intentos = 0,
@@ -15,7 +16,7 @@ const modelPedido = {
         pedido.id
       }...`
     );
-
+ 
     const detalles = await db_pool.any(
       `SELECT producto_id, cantidad, promocion_id FROM relaciones.detalle_pedido WHERE pedido_id=$1`,
       [pedido.id]
@@ -26,77 +27,114 @@ const modelPedido = {
         `✅ Pedido ${pedido.id} tiene detalles disponibles:`,
         detalles
       );
-      const cliente_micro = await db_cli.one(
-        `SELECT id FROM public.cliente WHERE
-                usuario_id = $1`,
-        [cliente.usuario_id]
-      );
-      console.log("cliente micro****", cliente_micro.id);
-      const get_ubicacion = await db_pool.one(
-        `SELECT * FROM relaciones.ubicacion
-                WHERE id=$1`,
-        [pedidos_cr.ubicacion_id]
-      );
-      console.log("get ubicacion ****", get_ubicacion.id);
-
-      const ubi_micro_insert = await db_ubi.one(
-        `INSERT INTO public.ubicacion
-                (distrito, direccion, latitud, longitud, cliente_id) VALUES 
-                ($1,$2,$3,$4,$5) RETURNING *`,
-        [
-          get_ubicacion.distrito,
-          get_ubicacion.direccion,
-          get_ubicacion.latitud,
-          get_ubicacion.longitud,
-          cliente_micro.id,
-        ]
-      );
-      console.log("ubi micro****", ubi_micro_insert.id);
-
-      const lastUbiMicro = await db_ubi.one(
-        `SELECT id FROM public.ubicacion
-                    WHERE cliente_id = $1 ORDER BY id DESC LIMIT 1`,
-        [ubi_micro_insert.cliente_id]
-      );
-      console.log("last ubi micro****", lastUbiMicro.id);
-
       
-
-      const resultado = await axios.post(
-        "http://147.182.251.164:8082/apigw/v1/pedido",
-        {
-          cliente_id: cliente_micro.id,
-          descuento: pedido.descuento,
-          fecha: pedido.fecha,
-          tipo: pedido.tipo,
-          estado: pedido.estado,
-          observacion: pedido.observacion,
-          tipo_pago: pedido.tipo_pago,
-          ubicacion_id: lastUbiMicro.id,
-          detalles: detalles,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      // Intentar encontrar el cliente en el microservicio
+      let cliente_micro_id;
+      
+      try {
+        // Buscar primero si el cliente ya existe
+        const cliente_existente = await db_cli.oneOrNone(
+          `SELECT id FROM public.cliente WHERE usuario_id = $1`,
+          [cliente.usuario_id]
+        );
+        
+        if (cliente_existente) {
+          // Si el cliente existe, usar su ID
+          cliente_micro_id = cliente_existente.id;
+          console.log("Cliente existente encontrado con ID:", cliente_micro_id);
+        } else {
+          // Si el cliente no existe, insertarlo
+          console.log("Cliente no encontrado, procediendo a insertarlo...");
+          const nuevo_cliente = await db_cli.one(
+            'INSERT INTO public.cliente (usuario_id, nombre, apellidos, fecha_nacimiento, sexo, dni, codigo, calificacion, suscripcion, ruc, fecha_creacion_cuenta, quiereretirar, medio_retiro, banco_retiro, numero_cuenta) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id',
+            [
+              cliente.usuario_id, 
+              cliente.nombre, 
+              cliente.apellidos, 
+              cliente.fecha_nacimiento, 
+              cliente.sexo, 
+              cliente.dni, 
+              cliente.codigo,
+              cliente.calificacion,
+              cliente.suscripcion, 
+              cliente.ruc,
+              cliente.fecha_creacion_cuenta,
+              cliente.quiereretirar,
+              cliente.medio_retiro, 
+              cliente.banco_retiro, 
+              cliente.numero_cuenta
+            ]
+          );
+          cliente_micro_id = nuevo_cliente.id;
+          console.log("Nuevo cliente insertado con ID:", cliente_micro_id);
         }
-      );
-
-      console.log(resultado.status);
-      console.log(resultado.data);
-      console.log(resultado.error);
+        
+        // Continuar con la lógica de ubicación (común para ambos casos)
+        // Buscar ubicación en el monolito
+        const get_ubicacion = await db_pool.one(
+          `SELECT * FROM relaciones.ubicacion WHERE id=$1`,
+          [pedidos_cr.ubicacion_id]
+        );
+        console.log("Ubicación encontrada en monolito con ID:", get_ubicacion.id);
+        
+        // Insertar ubicación en el microservicio
+        const ubi_micro_insert = await db_ubi.one(
+          `INSERT INTO public.ubicacion
+          (distrito, direccion, latitud, longitud, cliente_id) VALUES 
+          ($1, $2, $3, $4, $5) RETURNING *`,
+          [
+            get_ubicacion.distrito,
+            get_ubicacion.direccion,
+            get_ubicacion.latitud,
+            get_ubicacion.longitud,
+            cliente_micro_id
+          ]
+        );
+        console.log("Ubicación insertada en microservicio con ID:", ubi_micro_insert.id);
+        
+        // Obtener la última ubicación insertada
+        const lastUbiMicro = await db_ubi.one(
+          `SELECT id FROM public.ubicacion 
+          WHERE cliente_id = $1 ORDER BY id DESC LIMIT 1`,
+          [cliente_micro_id]
+        );
+        console.log("Última ubicación del cliente:", lastUbiMicro.id);
+        
+        // Realizar la petición POST al microservicio de pedidos
+        const resultado = await axios.post(
+          "http://147.182.251.164:8082/apigw/v1/pedido",
+          {
+            cliente_id: cliente_micro_id,
+            descuento: pedido.descuento,
+            fecha: pedido.fecha,
+            tipo: pedido.tipo,
+            estado: pedido.estado,
+            observacion: pedido.observacion,
+            tipo_pago: pedido.tipo_pago,
+            ubicacion_id: lastUbiMicro.id,
+            detalles: detalles,
+          }
+        );
+        
+        console.log("Resultado de la creación del pedido:");
+        console.log("Status:", resultado.status);
+        console.log("Data:", resultado.data);
+        if (resultado.error) console.log("Error:", resultado.error);
+        
+      } catch (error) {
+        console.error("Error en el proceso:", error);
+      }
+      
       return;
     }
 
     if (intentos < 3) {
-      //console.log(`⚠️ No hay detalles aún para el pedido ${pedidoId}. Reintentando en ${INTERVALO_ESPERA / 1000} segundos...`);
       console.log("NO HAY DETALLE PEDIDO --<<<");
       setTimeout(() => {
-        modelPedido.consultarDetallesConReintento(pedido, intentos + 1);
+        modelPedido.consultarDetallesConReintento(pedido, intentos + 1, cliente, pedidos_cr);
       }, 15000);
     } else {
-      console.log("NO TIENE DETALLES");
-      //console.log(`❌ Pedido ${pedidoId} no tiene detalles después de ${MAX_INTENTOS + 1} intentos.`);
+      console.log("NO TIENE DETALLES DESPUÉS DE MÁXIMOS INTENTOS");
     }
   },
 
@@ -149,14 +187,14 @@ const modelPedido = {
         // ENVIANDO EL PEDIDO A LA COLA
 
         io.emit("nuevoPedido", pedidoss);
-        /*setTimeout(async () => {
+        setTimeout(async () => {
           await modelPedido.consultarDetallesConReintento(
             pedidoss,
             2,
             cliente,
             pedidos_cr
           ); // 2000 ms = 2 segundos de retraso
-        }, 30000);*/
+        }, 31000);
         //await sendPedidoRabbit(pedidos_cr)
         return pedidoss;
 
